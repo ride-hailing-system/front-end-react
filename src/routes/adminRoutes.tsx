@@ -1,16 +1,8 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import { Route, Routes as MainRoutes } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute";
 import AdminLayout from "../pages/layouts";
-import Dashboard from "../pages/dashboard";
-import Users from "../pages/users";
-import Drivers from "../pages/drivers";
-import Riders from "../pages/riders";
-import Rides from "../pages/rides";
-import Vehicles from "../pages/vehicles";
-import Setting from "../pages/setting";
-import Notifications from "../pages/notifications";
-import ChangePassword from "../pages/auth/changePassword";
+import SuspensePage from "../pages/layouts/suspensePage";
 
 // admin Routes constants
 export const ADMIN_DASHBOARD = "/dashboard";
@@ -23,71 +15,109 @@ export const ADMIN_SETTING = "/setting";
 export const ADMIN_NOTIFICATIONS = "/notifications";
 export const ADMIN_CHANGE_PASSWORD = "/change-password";
 
-const Routes: React.FC = () => (
-  <AdminLayout>
-    <MainRoutes>
-      <Route
-        path={ADMIN_DASHBOARD}
-        element={
-          <ProtectedRoute extraProps={{ role: "admin" }} element={Dashboard} />
-        }
-      />
-      <Route
-        path={ADMIN_USERS}
-        element={
-          <ProtectedRoute extraProps={{ role: "admin" }} element={Users} />
-        }
-      />
-      <Route
-        path={ADMIN_DRIVERS}
-        element={
-          <ProtectedRoute extraProps={{ role: "admin" }} element={Drivers} />
-        }
-      />
-      <Route
-        path={ADMIN_RIDERS}
-        element={
-          <ProtectedRoute extraProps={{ role: "admin" }} element={Riders} />
-        }
-      />
-      <Route
-        path={ADMIN_RIDES}
-        element={
-          <ProtectedRoute extraProps={{ role: "admin" }} element={Rides} />
-        }
-      />
-      <Route
-        path={ADMIN_VEHICLES}
-        element={
-          <ProtectedRoute extraProps={{ role: "admin" }} element={Vehicles} />
-        }
-      />
-      <Route
-        path={ADMIN_SETTING}
-        element={
-          <ProtectedRoute extraProps={{ role: "admin" }} element={Setting} />
-        }
-      />
-      <Route
-        path={ADMIN_NOTIFICATIONS}
-        element={
-          <ProtectedRoute
-            extraProps={{ role: "admin" }}
-            element={Notifications}
+const Routes: React.FC = () => {
+  const Dashboard = lazy(() => import('../pages/dashboard'));
+  const Users = lazy(() => import('../pages/users'));
+  const Drivers = lazy(() => import('../pages/drivers'));
+  const Riders = lazy(() => import('../pages/riders'));
+  const Rides = lazy(() => import('../pages/rides'));
+  const Vehicles = lazy(() => import('../pages/vehicles'));
+  const Setting = lazy(() => import('../pages/setting'));
+  const Notifications = lazy(() => import('../pages/notifications'));
+  const ChangePassword = lazy(() => import('../pages/auth/changePassword'));
+  const PageNotFound = lazy(() => import('../pages/PageNotFound')); 
+
+  return (
+
+    <AdminLayout>
+      <Suspense fallback={<SuspensePage />}>
+        <MainRoutes>
+          <Route
+            path={ADMIN_DASHBOARD}
+            element={
+              <ProtectedRoute
+                extraProps={{ role: "admin" }}
+                element={Dashboard}
+              />
+            }
           />
-        }
-      />
-      <Route
-        path={ADMIN_CHANGE_PASSWORD}
-        element={
-          <ProtectedRoute
-            extraProps={{ role: "admin" }}
-            element={ChangePassword}
+          <Route
+            path={ADMIN_USERS}
+            element={
+              <ProtectedRoute extraProps={{ role: "admin" }} element={Users} />
+            }
           />
-        }
-      />
-    </MainRoutes>
-  </AdminLayout>
-);
+          <Route
+            path={ADMIN_DRIVERS}
+            element={
+              <ProtectedRoute
+                extraProps={{ role: "admin" }}
+                element={Drivers}
+              />
+            }
+          />
+          <Route
+            path={ADMIN_RIDERS}
+            element={
+              <ProtectedRoute extraProps={{ role: "admin" }} element={Riders} />
+            }
+          />
+          <Route
+            path={ADMIN_RIDES}
+            element={
+              <ProtectedRoute extraProps={{ role: "admin" }} element={Rides} />
+            }
+          />
+          <Route
+            path={ADMIN_VEHICLES}
+            element={
+              <ProtectedRoute
+                extraProps={{ role: "admin" }}
+                element={Vehicles}
+              />
+            }
+          />
+          <Route
+            path={ADMIN_SETTING}
+            element={
+              <ProtectedRoute
+                extraProps={{ role: "admin" }}
+                element={Setting}
+              />
+            }
+          />
+          <Route
+            path={ADMIN_NOTIFICATIONS}
+            element={
+              <ProtectedRoute
+                extraProps={{ role: "admin" }}
+                element={Notifications}
+              />
+            }
+          />
+          <Route
+            path={ADMIN_CHANGE_PASSWORD}
+            element={
+              <ProtectedRoute
+                extraProps={{ role: "admin" }}
+                element={ChangePassword}
+              />
+            }
+          />
+          <Route
+            path={"/*"}
+            element={
+              <ProtectedRoute
+                extraProps={{ role: "admin" }}
+                element={PageNotFound}
+              />
+            }
+          />
+        </MainRoutes>
+      </Suspense>
+    </AdminLayout>
+  )
+  
+};
 
 export default Routes;
