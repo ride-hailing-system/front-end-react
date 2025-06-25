@@ -1,4 +1,5 @@
 import { Button } from "antd";
+import { Icon } from "@iconify/react";
 
 export const AddButton = ({
   title,
@@ -9,9 +10,11 @@ export const AddButton = ({
 }) => {
   return (
     <Button
-      className='!text-white !bg-primary h-10'
-      onClick={() => onClick}
+      className='flex self-center justify-center'
+      onClick={() => onClick()}
       style={{ marginLeft: 16 }}
+      type='primary'
+      icon={<Icon icon='gg:add' width={30} height={30} />}
     >
       {title}
     </Button>
