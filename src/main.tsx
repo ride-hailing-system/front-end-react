@@ -12,12 +12,12 @@ createRoot(document.getElementById("root")!).render(
     <ConfigProvider
       theme={{
         token: {
-          colorPrimary: "#77DD77",
-          colorPrimaryActive: "#77DD77",
-          colorPrimaryTextActive: "#77DD77",
-          colorPrimaryTextHover: "#77DD77",
-          colorLink: "#77DD77",
-          colorFillSecondary: "#014737",
+          // colorPrimary: "#77DD77",
+          // colorPrimaryActive: "#77DD77",
+          // colorPrimaryTextActive: "#77DD77",
+          // colorPrimaryTextHover: "#77DD77",
+          // colorLink: "#77DD77",
+          // colorFillSecondary: "#014737",
         },
       }}
     >

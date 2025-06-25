@@ -12,6 +12,7 @@ type MenuItem = {
   icon: JSX.Element;
   label: string;
   path: string;
+  role?: string | undefined;
 };
 
 const Sidebar = ({ activeKey }: SidebarProps) => {
@@ -29,12 +30,14 @@ const Sidebar = ({ activeKey }: SidebarProps) => {
       icon: <Icon icon='mdi:users' width={30} height={30} />,
       label: "System Users",
       path: "/admin/users",
+      role: "user",
     },
     {
       key: "3",
       icon: <Icon icon='healthicons:truck-driver' width={30} height={30} />,
       label: "Drivers",
       path: "/admin/drivers",
+      role: "driver",
     },
     {
       key: "4",
@@ -53,6 +56,7 @@ const Sidebar = ({ activeKey }: SidebarProps) => {
       icon: <Icon icon='raphael:users' width={30} height={30} />,
       label: "Riders",
       path: "/admin/riders",
+      role: "rider",
     },
     {
       key: "7",
@@ -79,7 +83,10 @@ const Sidebar = ({ activeKey }: SidebarProps) => {
           {menuItems.slice(0, -1).map((item) => (
             <li key={item.key}>
               <Link
-                to={item.path}
+                to={{
+                  pathname: item.path,
+                  search: item.role ? `?role=${item.role}` : undefined,
+                }}
                 className={`flex text-lg items-center px-4 py-2 rounded-md text-gray-500 ${
                   activeKey === item.key
                     ? "bg-blue-400 font-semibold text-white"
