@@ -37,47 +37,48 @@ const Index: React.FC<LayoutProps> = ({ children }) => {
   const getPageContent = () => {
     if (location.pathname.includes("dashboard")) {
       return {
-      pageTitle: "Welcome, " + firstName,
-      pageTitleDescription: "Overview of your account and recent activities",
+        pageTitle: "Welcome, " + firstName,
+        pageTitleDescription: "Overview of your account and recent activities",
       };
     }
     if (location.pathname.includes("users")) {
       return {
-      pageTitle: "Users",
-      pageTitleDescription: "Manage and view all registered users in the system",
+        pageTitle: "Users",
+        pageTitleDescription:
+          "Manage and view all registered users in the system",
       };
     }
     if (location.pathname.includes("drivers")) {
       return {
-      pageTitle: "Drivers",
-      pageTitleDescription: "Access details of all registered drivers",
+        pageTitle: "Drivers",
+        pageTitleDescription: "Access details of all registered drivers",
       };
     }
     if (location.pathname.includes("riders")) {
       return {
-      pageTitle: "Riders",
-      pageTitleDescription: "View and manage registered riders",
+        pageTitle: "Riders",
+        pageTitleDescription: "View and manage registered riders",
       };
     }
     if (location.pathname.includes("rides")) {
       return {
-      pageTitle: "Rides",
-      pageTitleDescription: "Browse through the history of completed rides",
+        pageTitle: "Rides",
+        pageTitleDescription: "Browse through the history of completed rides",
       };
     }
     if (location.pathname.includes("vehicles")) {
       return {
-      pageTitle: "Vehicles",
-      pageTitleDescription: "Explore the list of vehicles in the system",
+        pageTitle: "Vehicles",
+        pageTitleDescription: "Explore the list of vehicles in the system",
       };
     }
     if (location.pathname.includes("setting")) {
       return {
-      pageTitle: "Settings",
-      pageTitleDescription: "Configure application preferences and settings",
+        pageTitle: "Settings",
+        pageTitleDescription: "Configure application preferences and settings",
       };
     }
-    
+
     return {
       pageTitle: "",
       pageTitleDescription: "",
@@ -96,14 +97,13 @@ const Index: React.FC<LayoutProps> = ({ children }) => {
 
         <main
           className='flex-1 overflow-auto custom-scrollbar bg-white rounded-md
-     p-4 flex justify-between items-center m-4'
+     p-4 m-4'
         >
           {children}
         </main>
       </div>
     </div>
   );
-
 };
 
 export default Index;

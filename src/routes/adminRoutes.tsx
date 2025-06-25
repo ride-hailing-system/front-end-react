@@ -17,7 +17,7 @@ export const ADMIN_CHANGE_PASSWORD = "/change-password";
 
 const Routes: React.FC = () => {
   const Dashboard = lazy(() => import('../pages/dashboard'));
-  const Users = lazy(() => import('../pages/users'));
+  const Users = lazy(() => import('../pages/users/list'));
   const Drivers = lazy(() => import('../pages/drivers'));
   const Riders = lazy(() => import('../pages/riders'));
   const Rides = lazy(() => import('../pages/rides'));
