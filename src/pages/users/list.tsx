@@ -1,4 +1,4 @@
-import { Button, Form } from "antd";
+import { Avatar, Button, Form } from "antd";
 import { useEffect, useState } from "react";
 import { ApolloErrorFormatter } from "../../graphql/apolloErrorFormatter";
 import { useQuery } from "@apollo/client";
@@ -7,6 +7,8 @@ import { LocalSearch } from "../../utils/localSearch";
 import { Table } from "../../components/table";
 import { GET_USERS } from "../../graphql/queries/user";
 import EntryForm from "./entryForm";
+import { UserOutlined } from "@ant-design/icons";
+import { useSearchParams } from "react-router-dom";
 
 const List = () => {
   const [openDrawer, setOpenDrawer] = useState(false);
@@ -27,6 +29,8 @@ const List = () => {
         const result = LocalSearch({ searchValue }, data?.users, [
           "firstName",
           "lastName",
+          "email",
+          "phoneNumber",
         ]);
         setUsers(result);
       } else {
@@ -37,22 +41,40 @@ const List = () => {
 
   const columns: any[] = [
     {
-      title: "First name",
-      dataIndex: "firstName",
-      key: "firstName",
+      title: "Photo",
+      dataIndex: "photoUrl",
+      key: "photoUrl",
+      render: (_: string, record: any) => (
+        <div className='flex items-center'>
+          {record?.photoUrl ? (
+            <Avatar
+              src={record?.photoUrl}
+              size={50}
+              style={{ marginRight: 8 }}
+            />
+          ) : (
+            <Avatar
+              icon={<UserOutlined />}
+              size={50}
+              style={{ marginRight: 8 }}
+            />
+          )}
+        </div>
+      ),
     },
     {
-      title: "Last name",
-      dataIndex: "lastName",
-      key: "lastName",
+      title: "Full name",
+      dataIndex: "fullName",
+      key: "fullName",
+      render: (_: string, record: any) => (
+        <div className='flex items-center'>
+          <Avatar icon={<UserOutlined />} size={50} />
+          <span className='ml-3 text-lg text-nowrap font-bold'>{`${record.firstName} ${record.lastName}`}</span>
+        </div>
+      ),
     },
     {
-      title: "Role",
-      dataIndex: "role",
-      key: "role",
-    },
-    {
-      title: "Phone Number",
+      title: "Phone number",
       dataIndex: "phoneNumber",
       key: "phoneNumber",
     },
@@ -62,7 +84,7 @@ const List = () => {
       key: "email",
     },
     {
-      title: "Action",
+      title: "More",
       key: "action",
       render: (record: any) => (
         <>
@@ -81,6 +103,33 @@ const List = () => {
   ];
 
   const [form] = Form.useForm();
+  const [searchParams] = useSearchParams();
+  const role: "user" | "driver" | "rider" | null =
+    (searchParams.get("role") as "user" | "driver" | "rider") || null;
+
+  useEffect(() => {
+    if (role) {
+      console.log(role);
+    }
+  }, [role]);
+
+  const lableInfos = {
+    user: {
+      addButtonTitle: "Add new User",
+      placeholderText:
+        "Search by user information (first name, last name, email & phone number)",
+    },
+    driver: {
+      addButtonTitle: "Add new Driver",
+      placeholderText:
+        "Search by driver information (first name, last name, email & phone number)",
+    },
+    rider: {
+      addButtonTitle: "Add new Rider",
+      placeholderText:
+        "Search by rider information (first name, last name, email & phone number)",
+    },
+  };
 
   return (
     <>
@@ -92,11 +141,12 @@ const List = () => {
         onSearchInputChange={(value: string) => {
           setSearchValue(value);
         }}
-        placeholderText='Search by user information (first name, last name)'
+        placeholderText={lableInfos[role ?? "user"]?.placeholderText}
         onAddButtonClicked={() => {
           setOpenDrawer(true);
         }}
-        addButtonTitle='Add new User'
+        addButtonTitle={lableInfos[role ?? "user"]?.addButtonTitle}
+        showAddButton={role === "user"}
       />
       {openDrawer && (
         <EntryForm
@@ -112,6 +162,9 @@ const List = () => {
             setSelectedUser(null);
           }}
           form={form}
+          role={
+            role ? (role.slice(0, -1) as "user" | "driver" | "rider") : null
+          }
         />
       )}
     </>

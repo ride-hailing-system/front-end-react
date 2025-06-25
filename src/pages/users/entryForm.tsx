@@ -14,11 +14,13 @@ const EntryForm = ({
   onClose,
   onComplete,
   form,
+  role,
 }: {
   data: any;
   onClose: () => void;
   onComplete: () => void;
   form: any;
+  role: "user" | "driver" | "rider" | null;
 }) => {
   const { randomUUID } = new ShortUniqueId({
     length: 4,
@@ -113,7 +115,7 @@ const EntryForm = ({
 
   return (
     <Drawer
-      title={data ? <ResetButton /> : "New User Registration"}
+      title={data ? <ResetButton /> : `New ${role} Registration`}
       open
       onClose={() => {
         onClose();
@@ -131,7 +133,7 @@ const EntryForm = ({
           <Input hidden />
         </Form.Item>
         <Form.Item name='role' hidden>
-          <Input hidden value={"user"} />
+          <Input hidden value={role || undefined} />
         </Form.Item>
         <Form.Item
           label='First Name'

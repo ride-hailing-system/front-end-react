@@ -16,19 +16,16 @@ export const ADMIN_NOTIFICATIONS = "/notifications";
 export const ADMIN_CHANGE_PASSWORD = "/change-password";
 
 const Routes: React.FC = () => {
-  const Dashboard = lazy(() => import('../pages/dashboard'));
-  const Users = lazy(() => import('../pages/users/list'));
-  const Drivers = lazy(() => import('../pages/drivers'));
-  const Riders = lazy(() => import('../pages/riders'));
-  const Rides = lazy(() => import('../pages/rides'));
-  const Vehicles = lazy(() => import('../pages/vehicles'));
-  const Setting = lazy(() => import('../pages/setting'));
-  const Notifications = lazy(() => import('../pages/notifications'));
-  const ChangePassword = lazy(() => import('../pages/auth/changePassword'));
-  const PageNotFound = lazy(() => import('../pages/PageNotFound')); 
+  const Dashboard = lazy(() => import("../pages/dashboard"));
+  const Users = lazy(() => import("../pages/users/list"));
+  const Rides = lazy(() => import("../pages/rides"));
+  const Vehicles = lazy(() => import("../pages/vehicles"));
+  const Setting = lazy(() => import("../pages/setting"));
+  const Notifications = lazy(() => import("../pages/notifications"));
+  const ChangePassword = lazy(() => import("../pages/auth/changePassword"));
+  const PageNotFound = lazy(() => import("../pages/PageNotFound"));
 
   return (
-
     <AdminLayout>
       <Suspense fallback={<SuspensePage />}>
         <MainRoutes>
@@ -50,16 +47,13 @@ const Routes: React.FC = () => {
           <Route
             path={ADMIN_DRIVERS}
             element={
-              <ProtectedRoute
-                extraProps={{ role: "admin" }}
-                element={Drivers}
-              />
+              <ProtectedRoute extraProps={{ role: "admin" }} element={Users} />
             }
           />
           <Route
             path={ADMIN_RIDERS}
             element={
-              <ProtectedRoute extraProps={{ role: "admin" }} element={Riders} />
+              <ProtectedRoute extraProps={{ role: "admin" }} element={Users} />
             }
           />
           <Route
@@ -116,8 +110,7 @@ const Routes: React.FC = () => {
         </MainRoutes>
       </Suspense>
     </AdminLayout>
-  )
-  
+  );
 };
 
 export default Routes;
