@@ -10,6 +10,7 @@ export const Table = ({
   onAddButtonClicked,
   addButtonTitle,
   loading,
+  showAddButton = true
 }: {
   data: any[];
   columns: {
@@ -23,6 +24,7 @@ export const Table = ({
   onAddButtonClicked: () => void;
   addButtonTitle: string;
   loading: boolean;
+  showAddButton: boolean;
 }) => {
   return (
     <>
@@ -35,6 +37,7 @@ export const Table = ({
           onAddButtonClicked();
         }}
         addButtonTitle={addButtonTitle}
+        showAddButton={showAddButton}
       />
       <MainTable
         dataSource={data}

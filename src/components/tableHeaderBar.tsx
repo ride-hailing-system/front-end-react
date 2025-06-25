@@ -9,12 +9,14 @@ const TableHeaderBar = ({
   value,
   onAddButtonClicked,
   addButtonTitle,
+  showAddButton,
 }: {
   onSearchInputChange: (value: string) => void;
   placeholder: string;
   value?: string;
   onAddButtonClicked: () => void;
   addButtonTitle: string;
+  showAddButton: boolean;
 }) => {
   const handleEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter" && event.currentTarget.value) {
@@ -47,7 +49,7 @@ const TableHeaderBar = ({
         onChange={handleChange}
         value={value}
       />
-      <AddButton onClick={() => onAddButtonClicked()} title={addButtonTitle} />
+      {showAddButton && <AddButton onClick={() => onAddButtonClicked()} title={addButtonTitle} />}
     </div>
   );
 };
