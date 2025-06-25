@@ -1,4 +1,4 @@
-import { Button, Drawer, Form, Input, Modal, Select } from "antd";
+import { Button, Form, Input, Modal } from "antd";
 import ShortUniqueId from "short-unique-id";
 import { ApolloErrorFormatter } from "../../graphql/apolloErrorFormatter";
 import toast from "react-hot-toast";
@@ -7,6 +7,7 @@ import { useMutation } from "@apollo/client";
 import { GET_USERS } from "../../graphql/queries/user";
 import { ExclamationCircleFilled } from "@ant-design/icons";
 import { CREATE_USER, UPDATE_USER } from "../../graphql/mutations/user";
+import Drawer from "../../components/drawer";
 
 const EntryForm = ({
   data,
@@ -117,21 +118,8 @@ const EntryForm = ({
       onClose={() => {
         onClose();
       }}
-      footer={
-        <Button
-          htmlType='button'
-          className='h-10 w-full'
-          type='primary'
-          onClick={() => {
-            mainForm.submit();
-          }}
-          loading={form.getFieldValue("loading") ? true : false}
-        >
-          {data ? "Save Changes" : "Create"}
-        </Button>
-      }
-      maskClosable={false}
-      width={400}
+      isEdit={data ? true : false}
+      form={mainForm}
     >
       <Form
         layout='vertical'
