@@ -1,7 +1,7 @@
 import { Avatar, Button, Form } from "antd";
 import { useEffect, useState } from "react";
 import { ApolloErrorFormatter } from "../../graphql/apolloErrorFormatter";
-import { useLazyQuery, useQuery } from "@apollo/client";
+import { useLazyQuery } from "@apollo/client";
 import toast from "react-hot-toast";
 import { LocalSearch } from "../../utils/localSearch";
 import { Table } from "../../components/table";
@@ -9,6 +9,7 @@ import { GET_USERS } from "../../graphql/queries/user";
 import EntryForm from "./entryForm";
 import { UserOutlined } from "@ant-design/icons";
 import { useSearchParams } from "react-router-dom";
+import UserProfile from "../../components/userProfile";
 
 const List = () => {
   const [users, setUsers] = useState<any[]>([]);
@@ -59,40 +60,19 @@ const List = () => {
 
   const columns: any[] = [
     {
-      title: "Photo",
-      dataIndex: "photoUrl",
-      key: "photoUrl",
+      title: "User",
+      dataIndex: "user",
+      key: "user",
       render: (_: string, record: any) => (
-        <div className='flex items-center'>
-          {record?.photoUrl ? (
-            <Avatar
-              src={record?.photoUrl}
-              size={50}
-              style={{ marginRight: 8 }}
-            />
-          ) : (
-            <Avatar
-              icon={<UserOutlined />}
-              size={50}
-              style={{ marginRight: 8 }}
-            />
-          )}
-        </div>
+        <UserProfile
+          firstName={record?.firstName}
+          lastName={record?.lastName}
+          photoUrl={record?.photoUrl}
+        />
       ),
     },
     {
-      title: "Full name",
-      dataIndex: "fullName",
-      key: "fullName",
-      render: (_: string, record: any) => (
-        <div className='flex items-center'>
-          <Avatar icon={<UserOutlined />} size={50} />
-          <span className='ml-3 text-lg text-nowrap font-bold'>{`${record.firstName} ${record.lastName}`}</span>
-        </div>
-      ),
-    },
-    {
-      title: "Phone number",
+      title: "Phone #",
       dataIndex: "phoneNumber",
       key: "phoneNumber",
     },

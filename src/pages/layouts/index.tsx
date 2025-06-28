@@ -28,10 +28,10 @@ const Index: React.FC<LayoutProps> = ({ children }) => {
     if (location.pathname.includes("dashboard")) return "1";
     if (location.pathname.includes("users")) return "2";
     if (location.pathname.includes("drivers")) return "3";
-    if (location.pathname.includes("riders")) return "4";
+    if (location.pathname.includes("vehicles")) return "4";
     if (location.pathname.includes("rides")) return "5";
-    if (location.pathname.includes("vehicles")) return "7";
-    if (location.pathname.includes("setting")) return "8";
+    if (location.pathname.includes("riders")) return "6";
+    if (location.pathname.includes("setting")) return "7";
   };
 
   const getPageContent = () => {
