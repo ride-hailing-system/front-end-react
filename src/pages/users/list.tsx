@@ -1,7 +1,7 @@
 import { Avatar, Button, Form } from "antd";
 import { useEffect, useState } from "react";
 import { ApolloErrorFormatter } from "../../graphql/apolloErrorFormatter";
-import { useQuery } from "@apollo/client";
+import { useLazyQuery, useQuery } from "@apollo/client";
 import toast from "react-hot-toast";
 import { LocalSearch } from "../../utils/localSearch";
 import { Table } from "../../components/table";
@@ -11,22 +11,40 @@ import { UserOutlined } from "@ant-design/icons";
 import { useSearchParams } from "react-router-dom";
 
 const List = () => {
-  const [openDrawer, setOpenDrawer] = useState(false);
-  const [selectedUser, setSelectedUser] = useState<any>(null);
   const [users, setUsers] = useState<any[]>([]);
+  const [selectedUser, setSelectedUser] = useState<any>(null);
   const [searchValue, setSearchValue] = useState("");
+  const [openDrawer, setOpenDrawer] = useState(false);
 
-  const { data, loading } = useQuery(GET_USERS, {
+  const [form] = Form.useForm();
+  const [searchParams] = useSearchParams();
+  const role: "user" | "driver" | "rider" | null =
+    (searchParams.get("role") as "user" | "driver" | "rider") || null;
+
+  const [getUsers, { loading }] = useLazyQuery(GET_USERS, {
+    fetchPolicy: "network-only",
+    onCompleted: (value: any) => {
+      setUsers(value?.users || []);
+    },
     onError: (error: any) => {
       toast.error(ApolloErrorFormatter(error, true).toString());
     },
-    fetchPolicy: "network-only",
   });
 
   useEffect(() => {
-    if (data?.users) {
+    if (role) {
+      getUsers({
+        variables: {
+          role,
+        },
+      });
+    }
+  }, [role]);
+
+  useEffect(() => {
+    if (users) {
       if (searchValue) {
-        const result = LocalSearch({ searchValue }, data?.users, [
+        const result = LocalSearch({ searchValue }, users, [
           "firstName",
           "lastName",
           "email",
@@ -34,10 +52,10 @@ const List = () => {
         ]);
         setUsers(result);
       } else {
-        setUsers(data?.users);
+        setUsers(users);
       }
     }
-  }, [searchValue, data]);
+  }, [searchValue, users]);
 
   const columns: any[] = [
     {
@@ -101,17 +119,6 @@ const List = () => {
       ),
     },
   ];
-
-  const [form] = Form.useForm();
-  const [searchParams] = useSearchParams();
-  const role: "user" | "driver" | "rider" | null =
-    (searchParams.get("role") as "user" | "driver" | "rider") || null;
-
-  useEffect(() => {
-    if (role) {
-      console.log(role);
-    }
-  }, [role]);
 
   const lableInfos = {
     user: {
