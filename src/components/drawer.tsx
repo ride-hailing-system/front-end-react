@@ -10,9 +10,9 @@ const Drawer = ({
   width = 400,
 }: {
   title: string | React.ReactNode;
-  isEdit: boolean;
+  isEdit?: boolean;
   onClose: () => void;
-  form: any;
+  form?: any;
   children: React.ReactNode;
   open: boolean;
   width?: number;

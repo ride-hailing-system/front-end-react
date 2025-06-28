@@ -10,7 +10,7 @@ export const Table = ({
   onAddButtonClicked,
   addButtonTitle,
   loading,
-  showAddButton = true
+  showAddButton = true,
 }: {
   data: any[];
   columns: {
@@ -18,11 +18,11 @@ export const Table = ({
     dataIndex: string;
     key: string;
   }[];
-  rowKey: string;
+  rowKey?: string;
   placeholderText: string;
   onSearchInputChange: (value: string) => void;
-  onAddButtonClicked: () => void;
-  addButtonTitle: string;
+  onAddButtonClicked?: () => void;
+  addButtonTitle?: string;
   loading: boolean;
   showAddButton: boolean;
 }) => {
@@ -34,9 +34,9 @@ export const Table = ({
         }}
         placeholder={placeholderText}
         onAddButtonClicked={() => {
-          onAddButtonClicked();
+          onAddButtonClicked && onAddButtonClicked();
         }}
-        addButtonTitle={addButtonTitle}
+        addButtonTitle={addButtonTitle ? addButtonTitle : ""}
         showAddButton={showAddButton}
       />
       <MainTable
