@@ -8,6 +8,8 @@ const Drawer = ({
   children,
   open,
   width = 400,
+  buttonTitle,
+  buttonDanger = false,
 }: {
   title: string | React.ReactNode;
   isEdit?: boolean;
@@ -16,6 +18,8 @@ const Drawer = ({
   children: React.ReactNode;
   open: boolean;
   width?: number;
+  buttonTitle?: string;
+  buttonDanger?: boolean;
 }) => {
   return (
     <MainDrawer
@@ -32,9 +36,11 @@ const Drawer = ({
           onClick={() => {
             form.submit();
           }}
-          loading={form.getFieldValue("loading") ? true : false}
+          loading={form && form.getFieldValue("loading") ? true : false}
+          size='large'
+          danger={buttonDanger}
         >
-          {isEdit ? "Save Changes" : "Create"}
+          {buttonTitle ? buttonTitle : isEdit ? "Save Changes" : "Create"}
         </Button>
       }
       maskClosable={false}
