@@ -5,7 +5,7 @@ import SuspensePage from "../pages/layouts/suspensePage";
 
 const AppRoutes: React.FC = () => {
   const Login = lazy(() => import("../pages/auth/login"));
-  const PasswordReset = lazy(() => import("../pages/auth/passwordReset"));
+  const PasswordReset = lazy(() => import("../pages/auth/forgetpassword"));
   const PageNotFound = lazy(() => import("../pages/PageNotFound"));
 
   return (
@@ -14,7 +14,7 @@ const AppRoutes: React.FC = () => {
         <Routes>
           <Route path='/' element={<Login />} />
           <Route path='/login' element={<Login />} />
-          <Route path='/password-reset' element={<PasswordReset />} />
+          <Route path='/forgot-password' element={<PasswordReset />} />
           <Route path='/admin/*' element={<AdminRoutes />} />
           <Route path='*' element={<PageNotFound />} />
         </Routes>

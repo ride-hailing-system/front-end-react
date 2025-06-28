@@ -1,0 +1,33 @@
+import { gql } from '@apollo/client';
+
+export const LOGIN_USER = gql`
+  query Login($email: String!, $password: String!) {
+    login(email: $email, password: $password) {
+      _id
+      firstName
+      lastName
+      phoneNumber
+      email
+      role
+      status
+      token
+    }
+  }
+`;
+
+export const FORGET_PASSWORD = gql`
+  query ForgetPassword($email: String!) {
+    forgetPassword(email: $email) {
+      message
+    }
+  }
+`;
+
+export const GET_CURRENT_DATE = gql`
+  query getCurrentDate {
+    getCurrentDate {
+      text
+      value
+    }
+  }
+`;
