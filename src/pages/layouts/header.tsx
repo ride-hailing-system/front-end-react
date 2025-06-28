@@ -5,9 +5,10 @@ import { Link, useNavigate } from "react-router-dom";
 type HeaderProps = {
   pageTitle?: string;
   pageTitleDescription?: string;
+  bgColor?: string;
 };
 
-const Header = ({ pageTitle, pageTitleDescription }: HeaderProps) => {
+const Header = ({ pageTitle, pageTitleDescription, bgColor }: HeaderProps) => {
   const navigate = useNavigate();
   const [showDropdown, setShowDropdown] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
@@ -41,14 +42,13 @@ const Header = ({ pageTitle, pageTitleDescription }: HeaderProps) => {
 
   return (
     <header
-      className='
-     flex justify-between items-center m-4'
+      className={`flex justify-between items-center m-4 ${bgColor} p-5 rounded-md`}
     >
       <div className='flex flex-col'>
-        <div className='text-xl  text-gray-500 font-semibold text-left'>
+        <div className='text-xl  text-white font-semibold text-left'>
           {pageTitle}
         </div>
-        <div className='text-lg text-gray-500 font-light'>
+        <div className='text-lg text-white font-light'>
           {pageTitleDescription}
         </div>
       </div>
@@ -56,11 +56,11 @@ const Header = ({ pageTitle, pageTitleDescription }: HeaderProps) => {
         {/* Notification Bell */}
         <div className='relative' ref={notificationRef}>
           <button
-            className='relative text-gray-600 hover:text-primary transition-colors duration-200 cursor-pointer'
+            className='relative text-white hover:text-primary transition-colors duration-200 cursor-pointer'
             onClick={() => setShowNotifications(!showNotifications)}
           >
             <Icon icon='mdi:bell-outline' width={30} height={30} />
-            <span className='absolute top-0 right-0 h-2 w-2 bg-red-500 rounded-full'></span>
+            <span className='absolute top-0 right-0 h-2 w-2 bg-white rounded-full'></span>
           </button>
 
           {/* Notification Dropdown */}
@@ -97,7 +97,7 @@ const Header = ({ pageTitle, pageTitleDescription }: HeaderProps) => {
             className='flex items-center space-x-3 focus:outline-none cursor-pointer'
             onClick={() => setShowDropdown(!showDropdown)}
           >
-            <div className='flex items-center justify-center text-gray-600'>
+            <div className='flex items-center justify-center text-white'>
               <Icon icon='ei:user' width={40} height={40} />
             </div>
           </button>
