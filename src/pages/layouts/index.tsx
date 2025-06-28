@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Header from "./header";
-import Sidebar from "./sidebar";
+import Sidebar, { type MenuItem } from "./sidebar";
 import { useLocation } from "react-router-dom";
 
 interface LayoutProps {
@@ -10,11 +10,15 @@ interface LayoutProps {
   pageTitleDescription?: string;
   loading?: boolean;
   error?: string;
+  bgColor?: string;
 }
 
 const Index: React.FC<LayoutProps> = ({ children }) => {
   const location = useLocation();
   const [firstName, setFirstName] = useState("");
+  const [selectedMenuItem, setSelectedMenuItem] = useState<MenuItem | null>(
+    null
+  );
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user") || "{}");
@@ -85,14 +89,19 @@ const Index: React.FC<LayoutProps> = ({ children }) => {
     };
   };
 
+  const handleSelect = (item: MenuItem): void => {
+    setSelectedMenuItem(item);
+  };
+
   return (
     <div className='flex h-screen bg-gray-50'>
-      <Sidebar activeKey={getActiveKey()} />
+      <Sidebar activeKey={getActiveKey()} onSelect={handleSelect} />
 
       <div className='flex-1 flex flex-col ml-64 relative'>
         <Header
           pageTitle={getPageContent().pageTitle}
           pageTitleDescription={getPageContent().pageTitleDescription}
+          bgColor={selectedMenuItem?.bgColor ?? "bg-blue-400"}
         />
 
         <main
