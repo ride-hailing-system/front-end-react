@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { use, useState } from "react";
 import Header from "./header";
 import Sidebar, { type MenuItem } from "./sidebar";
 import { useLocation } from "react-router-dom";
+import { UserContext } from "../../context/userContext";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -15,18 +16,11 @@ interface LayoutProps {
 
 const Index: React.FC<LayoutProps> = ({ children }) => {
   const location = useLocation();
-  const [firstName, setFirstName] = useState("");
+  const { userData } = use(UserContext);
+
   const [selectedMenuItem, setSelectedMenuItem] = useState<MenuItem | null>(
     null
   );
-
-  useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("user") || "{}");
-
-    if (user && user.firstName) {
-      setFirstName(user.firstName);
-    }
-  }, []);
 
   const getActiveKey = () => {
     if (location.pathname.includes("dashboard")) return "1";
@@ -41,7 +35,7 @@ const Index: React.FC<LayoutProps> = ({ children }) => {
   const getPageContent = () => {
     if (location.pathname.includes("dashboard")) {
       return {
-        pageTitle: "Welcome, " + firstName,
+        pageTitle: "Welcome, " + userData?.firstName,
         pageTitleDescription: "Overview of your account and recent activities",
       };
     }
