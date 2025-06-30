@@ -1,9 +1,10 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, use } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Drawer from "../../components/drawer";
 import ChangePassword from "../auth/changePassword";
 import { Form } from "antd";
+import { UserContext } from "../../context/userContext";
 
 type HeaderProps = {
   pageTitle?: string;
@@ -18,6 +19,8 @@ const Header = ({ pageTitle, pageTitleDescription, bgColor }: HeaderProps) => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const notificationRef = useRef<HTMLDivElement>(null);
   const [openDrawer, setOpenDrawer] = useState(false);
+
+  const { userData } = use(UserContext);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -40,7 +43,7 @@ const Header = ({ pageTitle, pageTitleDescription, bgColor }: HeaderProps) => {
   }, []);
 
   const handleLogout = () => {
-    if (confirm("are yu sure want to logout ?")) {
+    if (confirm("are you sure you want to logout?")) {
       localStorage.removeItem("user");
       navigate("/login");
     }
@@ -118,7 +121,7 @@ const Header = ({ pageTitle, pageTitleDescription, bgColor }: HeaderProps) => {
                   <p className='text-sm font-medium text-gray-800'>
                     My Account
                   </p>
-                  <p className='text-xs text-gray-500 mt-1'>Administrator</p>
+                  <p className='text-xs text-gray-500 mt-1'>{userData?.role}</p>
                 </div>
 
                 <button

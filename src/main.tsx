@@ -6,6 +6,7 @@ import { client } from "./graphql/client";
 import App from "./App.tsx";
 import { ConfigProvider } from "antd";
 import { ApolloProvider } from "@apollo/client";
+import { UserProvider } from "./context/userContext.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -22,7 +23,9 @@ createRoot(document.getElementById("root")!).render(
       }}
     >
       <ApolloProvider client={client}>
-        <App />
+        <UserProvider>
+          <App />
+        </UserProvider>
       </ApolloProvider>
     </ConfigProvider>
   </StrictMode>
