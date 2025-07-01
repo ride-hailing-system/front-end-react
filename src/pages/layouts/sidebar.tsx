@@ -17,63 +17,63 @@ type SidebarProps = {
   onSelect: (item: MenuItem) => void;
 };
 
+export const menuItems: MenuItem[] = [
+  {
+    key: "1",
+    icon: <Icon icon='material-symbols:dashboard' width={30} height={30} />,
+    label: "Dashboard",
+    path: "/admin/dashboard",
+    bgColor: "bg-blue-400",
+  },
+  {
+    key: "2",
+    icon: <Icon icon='mdi:users' width={30} height={30} />,
+    label: "System Users",
+    path: "/admin/users",
+    role: "user",
+    bgColor: "bg-purple-400",
+  },
+  {
+    key: "3",
+    icon: <Icon icon='healthicons:truck-driver' width={30} height={30} />,
+    label: "Drivers",
+    path: "/admin/drivers",
+    role: "driver",
+    bgColor: "bg-green-400",
+  },
+  {
+    key: "4",
+    icon: <Icon icon='mdi:car' width={30} height={30} />,
+    label: "Vehicles",
+    path: "/admin/vehicles",
+    bgColor: "bg-gray-400",
+  },
+  {
+    key: "5",
+    icon: <Icon icon='icon-park-solid:transaction' width={30} height={30} />,
+    label: "Rides",
+    path: "/admin/rides",
+    bgColor: "bg-yellow-400",
+  },
+  {
+    key: "6",
+    icon: <Icon icon='raphael:users' width={30} height={30} />,
+    label: "Riders",
+    path: "/admin/riders",
+    role: "rider",
+    bgColor: "bg-pink-400",
+  },
+  {
+    key: "7",
+    icon: <Icon icon='ant-design:setting-filled' width={30} height={30} />,
+    label: "Setting",
+    path: "/admin/setting",
+    bgColor: "bg-gray-400",
+  },
+];
+
 const Sidebar = ({ activeKey, onSelect }: SidebarProps) => {
   const [collapsed, setCollapsed] = useState(false);
-
-  const menuItems: MenuItem[] = [
-    {
-      key: "1",
-      icon: <Icon icon='material-symbols:dashboard' width={30} height={30} />,
-      label: "Dashboard",
-      path: "/admin/dashboard",
-      bgColor: "bg-blue-400",
-    },
-    {
-      key: "2",
-      icon: <Icon icon='mdi:users' width={30} height={30} />,
-      label: "System Users",
-      path: "/admin/users",
-      role: "user",
-      bgColor: "bg-purple-400",
-    },
-    {
-      key: "3",
-      icon: <Icon icon='healthicons:truck-driver' width={30} height={30} />,
-      label: "Drivers",
-      path: "/admin/drivers",
-      role: "driver",
-      bgColor: "bg-green-400",
-    },
-    {
-      key: "4",
-      icon: <Icon icon='mdi:car' width={30} height={30} />,
-      label: "Vehicles",
-      path: "/admin/vehicles",
-      bgColor: "bg-gray-400",
-    },
-    {
-      key: "5",
-      icon: <Icon icon='icon-park-solid:transaction' width={30} height={30} />,
-      label: "Rides",
-      path: "/admin/rides",
-      bgColor: "bg-yellow-400",
-    },
-    {
-      key: "6",
-      icon: <Icon icon='raphael:users' width={30} height={30} />,
-      label: "Riders",
-      path: "/admin/riders",
-      role: "rider",
-      bgColor: "bg-pink-400",
-    },
-    {
-      key: "7",
-      icon: <Icon icon='ant-design:setting-filled' width={30} height={30} />,
-      label: "Setting",
-      path: "/admin/setting",
-      bgColor: "bg-gray-400",
-    },
-  ];
 
   return (
     <aside
