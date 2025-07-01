@@ -122,7 +122,7 @@ const Index: React.FC<LayoutProps> = ({ children }) => {
         <Header
           pageTitle={getPageContent().pageTitle}
           pageTitleDescription={getPageContent().pageTitleDescription}
-          bgColor={selectedMenuItem?.bgColor ?? "bg-blue-400"}
+          bgColor={selectedMenuItem?.bgColor ?? ""}
         />
 
         <main
