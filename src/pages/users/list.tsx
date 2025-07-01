@@ -1,4 +1,4 @@
-import { Avatar, Button, Form } from "antd";
+import { Button, Form } from "antd";
 import { useEffect, useState } from "react";
 import { ApolloErrorFormatter } from "../../graphql/apolloErrorFormatter";
 import { useLazyQuery } from "@apollo/client";
@@ -7,7 +7,6 @@ import { LocalSearch } from "../../utils/localSearch";
 import { Table } from "../../components/table";
 import { GET_USERS } from "../../graphql/queries/user";
 import EntryForm from "./entryForm";
-import { UserOutlined } from "@ant-design/icons";
 import { useSearchParams } from "react-router-dom";
 import UserProfile from "../../components/userProfile";
 

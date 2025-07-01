@@ -1,6 +1,6 @@
 import { Button, Drawer as MainDrawer } from "antd";
 
-const Drawer = ({
+export const Drawer = ({
   title,
   isEdit,
   onClose,
@@ -51,4 +51,3 @@ const Drawer = ({
   );
 };
 
-export default Drawer;

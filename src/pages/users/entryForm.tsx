@@ -7,7 +7,7 @@ import { useMutation } from "@apollo/client";
 import { GET_USERS } from "../../graphql/queries/user";
 import { ExclamationCircleFilled } from "@ant-design/icons";
 import { CREATE_USER, UPDATE_USER } from "../../graphql/mutations/user";
-import Drawer from "../../components/drawer";
+import {Drawer} from "../../components/drawer";
 
 const EntryForm = ({
   data,

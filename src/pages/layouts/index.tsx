@@ -1,7 +1,7 @@
-import { use, useState } from "react";
+import { use, useEffect, useState } from "react";
 import Header from "./header";
-import Sidebar, { type MenuItem } from "./sidebar";
-import { useLocation } from "react-router-dom";
+import Sidebar, { menuItems as SideBarMenus, type MenuItem } from "./sidebar";
+import { useLocation, useParams } from "react-router-dom";
 import { UserContext } from "../../context/userContext";
 
 interface LayoutProps {
@@ -16,6 +16,7 @@ interface LayoutProps {
 
 const Index: React.FC<LayoutProps> = ({ children }) => {
   const location = useLocation();
+  const { "*": urlParams } = useParams();
   const { userData } = use(UserContext);
 
   const [selectedMenuItem, setSelectedMenuItem] = useState<MenuItem | null>(
@@ -82,6 +83,32 @@ const Index: React.FC<LayoutProps> = ({ children }) => {
       pageTitleDescription: "",
     };
   };
+
+  useEffect(() => {
+    switch (urlParams) {
+      case "dashboard":
+        setSelectedMenuItem(SideBarMenus[0]);
+        break;
+      case "users":
+        setSelectedMenuItem(SideBarMenus[1]);
+        break;
+      case "drivers":
+        setSelectedMenuItem(SideBarMenus[2]);
+        break;
+      case "riders":
+        setSelectedMenuItem(SideBarMenus[5]);
+        break;
+      case "vehicles":
+        setSelectedMenuItem(SideBarMenus[3]);
+        break;
+      case "rides":
+        setSelectedMenuItem(SideBarMenus[4]);
+        break;
+      case "setting":
+        setSelectedMenuItem(SideBarMenus[6]);
+        break;
+    }
+  }, [urlParams]);
 
   const handleSelect = (item: MenuItem): void => {
     setSelectedMenuItem(item);

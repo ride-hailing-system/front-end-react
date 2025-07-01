@@ -7,7 +7,7 @@ import { LocalSearch } from "../utils/localSearch";
 import { Table } from "../components/table";
 import { UserOutlined } from "@ant-design/icons";
 import { GET_VEHICLES } from "../graphql/queries/vehicle";
-import Drawer from "../components/drawer";
+import {Drawer} from "../components/drawer";
 import UserProfile from "../components/userProfile";
 
 const Vehicles = () => {
