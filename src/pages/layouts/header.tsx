@@ -1,7 +1,7 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useState, useRef, useEffect, use } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Drawer from "../../components/drawer";
+import { Drawer } from "../../components/drawer";
 import ChangePassword from "../auth/changePassword";
 import { Form } from "antd";
 import { UserContext } from "../../context/userContext";
