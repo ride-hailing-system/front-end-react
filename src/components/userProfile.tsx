@@ -13,11 +13,11 @@ const UserProfile = ({
   return (
     <div className='flex items-center'>
       {photoUrl ? (
-        <Avatar src={photoUrl} size={50} style={{ marginRight: 8 }} />
+        <Avatar src={photoUrl} size={40} style={{ marginRight: 8 }} />
       ) : (
-        <Avatar icon={<UserOutlined />} size={50} style={{ marginRight: 8 }} />
+        <Avatar icon={<UserOutlined />} size={40} style={{ marginRight: 8 }} />
       )}
-      <span className='ml-3 text-lg text-nowrap font-bold'>{`${firstName} ${lastName}`}</span>
+      <span className='ml-3 text-nowrap'>{`${firstName} ${lastName}`}</span>
     </div>
   );
 };

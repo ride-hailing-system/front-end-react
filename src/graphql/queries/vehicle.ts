@@ -1,6 +1,7 @@
 import { gql } from '@apollo/client';
 
 export const VEHICLE_FIELDS = `
+  _id
   vehicleType
   plateNumber
   vehicleModel
@@ -19,16 +20,16 @@ export const VEHICLE_FIELDS = `
   }`;
 
 export const GET_VEHICLE_BY_ID = gql`
-  query GetUserById($userId: String!) {
-    vehicle(userId: $userId) {
+  query getVehicleById($_id: String!) {
+    getVehicleById(_id: $_id) {
       ${VEHICLE_FIELDS}
     }
   }
 `;
 
 export const GET_VEHICLES = gql`
-  query GetAllUsers {
-    vehicles {
+  query getAllVehicles {
+    getAllVehicles {
       ${VEHICLE_FIELDS}
     }
   }
