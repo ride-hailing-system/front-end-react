@@ -24,7 +24,7 @@ const List = () => {
   const [getUsers, { loading }] = useLazyQuery(GET_USERS, {
     fetchPolicy: "network-only",
     onCompleted: (value: any) => {
-      setUsers(value?.users || []);
+      setUsers(value?.getAllUsers || []);
     },
     onError: (error: any) => {
       toast.error(ApolloErrorFormatter(error, true).toString());

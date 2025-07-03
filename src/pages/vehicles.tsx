@@ -19,7 +19,7 @@ const Vehicles = () => {
   const [getVehicles, { loading }] = useLazyQuery(GET_VEHICLES, {
     fetchPolicy: "network-only",
     onCompleted: (value: any) => {
-      setVehicles(value?.vehicles || []);
+      setVehicles(value?.getAllVehicles || []);
     },
     onError: (error: any) => {
       toast.error(ApolloErrorFormatter(error, true).toString());
@@ -72,7 +72,7 @@ const Vehicles = () => {
       render: (_: string, record: any) => (
         <div className='flex items-center'>
           <Avatar icon={<UserOutlined />} size={50} />
-          <span className='ml-3 text-lg text-nowrap font-bold'>{`
+          <span className='ml-3 text-nowrap font-bold'>{`
           ${record?.vehicleType},${record?.size} - ${record?.vehicleModel} - ${record?.color}
           `}</span>
         </div>

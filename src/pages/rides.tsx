@@ -5,7 +5,7 @@ import { useLazyQuery } from "@apollo/client";
 import toast from "react-hot-toast";
 import { LocalSearch } from "../utils/localSearch";
 import { Table } from "../components/table";
-import {Drawer} from "../components/drawer";
+import { Drawer } from "../components/drawer";
 import UserProfile from "../components/userProfile";
 import { GET_RIDES } from "../graphql/queries/ride";
 
@@ -18,7 +18,7 @@ const Rides = () => {
   const [getRides, { loading }] = useLazyQuery(GET_RIDES, {
     fetchPolicy: "network-only",
     onCompleted: (value: any) => {
-      setRides(value?.rides || []);
+      setRides(value?.getAllRides || []);
     },
     onError: (error: any) => {
       toast.error(ApolloErrorFormatter(error, true).toString());
