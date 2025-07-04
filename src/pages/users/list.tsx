@@ -91,8 +91,9 @@ const List = () => {
               setSelectedUser(record);
               setOpenDrawer(true);
             }}
+            type='link'
           >
-            Edit
+            {role === "user" ? "Edit" : "Show details"}
           </Button>
         </>
       ),
@@ -122,7 +123,7 @@ const List = () => {
       <Table
         data={users}
         columns={columns}
-        rowKey='id'
+        rowKey='_id'
         loading={loading}
         onSearchInputChange={(value: string) => {
           setSearchValue(value);
@@ -148,9 +149,7 @@ const List = () => {
             setSelectedUser(null);
           }}
           form={form}
-          role={
-            role ? (role.slice(0, -1) as "user" | "driver" | "rider") : null
-          }
+          role={role}
         />
       )}
     </>

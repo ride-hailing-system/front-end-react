@@ -1,13 +1,12 @@
-import { Avatar, Button } from "antd";
+import { Button } from "antd";
 import { useEffect, useState } from "react";
 import { ApolloErrorFormatter } from "../graphql/apolloErrorFormatter";
 import { useLazyQuery } from "@apollo/client";
 import toast from "react-hot-toast";
 import { LocalSearch } from "../utils/localSearch";
 import { Table } from "../components/table";
-import { UserOutlined } from "@ant-design/icons";
 import { GET_VEHICLES } from "../graphql/queries/vehicle";
-import {Drawer} from "../components/drawer";
+import { Drawer } from "../components/drawer";
 import UserProfile from "../components/userProfile";
 
 const Vehicles = () => {
@@ -71,7 +70,6 @@ const Vehicles = () => {
       key: "description",
       render: (_: string, record: any) => (
         <div className='flex items-center'>
-          <Avatar icon={<UserOutlined />} size={50} />
           <span className='ml-3 text-nowrap font-bold'>{`
           ${record?.vehicleType},${record?.size} - ${record?.vehicleModel} - ${record?.color}
           `}</span>
@@ -89,8 +87,9 @@ const Vehicles = () => {
               setSelectedVehicle(record);
               setOpenDrawer(true);
             }}
+            type='link'
           >
-            View detail
+            Show details
           </Button>
         </>
       ),

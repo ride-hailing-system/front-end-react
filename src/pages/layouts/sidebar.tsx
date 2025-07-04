@@ -98,7 +98,7 @@ const Sidebar = ({ activeKey, onSelect }: SidebarProps) => {
                 }}
                 className={`flex text-lg items-center px-4 py-2 rounded-md text-gray-500 ${
                   activeKey === item.key
-                    ? `font-semibold text-white ${item.bgColor}`
+                    ? `font-semibold text-white bg-gray-600`
                     : "hover:bg-gray-100 hover:font-bold"
                 }`}
                 onClick={() => {
@@ -121,9 +121,7 @@ const Sidebar = ({ activeKey, onSelect }: SidebarProps) => {
               to={menuItems[menuItems.length - 1].path}
               className={`flex text-lg items-center px-4 py-2 rounded-lg transition-all duration-200 text-gray-600 ${
                 activeKey === menuItems[menuItems.length - 1].key
-                  ? `font-semibold text-white ${
-                      menuItems[menuItems.length - 1].bgColor
-                    }`
+                  ? `font-semibold text-white bg-gray-600`
                   : "hover:bg-gray-100 hover:font-bold"
               }`}
               onClick={() => {

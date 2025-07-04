@@ -7,7 +7,7 @@ import { useMutation } from "@apollo/client";
 import { GET_USERS } from "../../graphql/queries/user";
 import { ExclamationCircleFilled } from "@ant-design/icons";
 import { CREATE_USER, UPDATE_USER } from "../../graphql/mutations/user";
-import {Drawer} from "../../components/drawer";
+import { Drawer } from "../../components/drawer";
 
 const EntryForm = ({
   data,
@@ -30,6 +30,7 @@ const EntryForm = ({
   const { confirm } = Modal;
 
   const handlePasswordReset = () => {
+    console.log("Reset password clicked");
     confirm({
       title: "Are you sure you want to reset the password?",
       icon: <ExclamationCircleFilled />,
@@ -104,8 +105,14 @@ const EntryForm = ({
     return (
       <div className='flex justify-between items-center'>
         <span>Edit user</span>
-        <Button type='link' danger onClick={handlePasswordReset}>
-          reset password
+        <Button
+          type='primary'
+          danger
+          onClick={() => {
+            handlePasswordReset();
+          }}
+        >
+          Reset password
         </Button>
       </div>
     );
@@ -128,6 +135,7 @@ const EntryForm = ({
         onFinish={handleFinish}
         form={mainForm}
         requiredMark={false}
+        disabled={role === "user" ? false : true}
       >
         <Form.Item name='_id' hidden>
           <Input hidden />
@@ -174,7 +182,7 @@ const EntryForm = ({
             },
           ]}
         >
-          <Input size='large' type='number' />
+          <Input size='large' />
         </Form.Item>
 
         <Form.Item
