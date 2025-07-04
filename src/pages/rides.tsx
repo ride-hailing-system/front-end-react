@@ -1,4 +1,5 @@
 import { Button } from "antd";
+import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { ApolloErrorFormatter } from "../graphql/apolloErrorFormatter";
 import { useLazyQuery } from "@apollo/client";
@@ -8,6 +9,7 @@ import { Table } from "../components/table";
 import { Drawer } from "../components/drawer";
 import UserProfile from "../components/userProfile";
 import { GET_RIDES } from "../graphql/queries/ride";
+import RideStatus from "../components/rideStatus";
 
 const Rides = () => {
   const [rides, setRides] = useState<any[]>([]);
@@ -64,29 +66,48 @@ const Rides = () => {
       title: "Driver",
       dataIndex: "driver",
       key: "driver",
-      render: (_: string, record: any) => (
-        <UserProfile
-          firstName={record?.driverInfo?.firstName}
-          lastName={record?.driverInfo?.lastName}
-          photoUrl={record?.driverInfo?.photoUrl}
-        />
-      ),
+      render: (_: string, record: any) => {
+        if (!record?.driverInfo)
+          return (
+            <p className='flex items-center justify-center font-light border-solid border-gray-300 rounded-lg p-2'>
+              <span className='text-red-500'>No driver assigned</span>
+            </p>
+          );
+        return (
+          <UserProfile
+            firstName={record?.driverInfo?.firstName}
+            lastName={record?.driverInfo?.lastName}
+            photoUrl={record?.driverInfo?.photoUrl}
+          />
+        );
+      },
     },
 
     {
       title: "Estimated Fare",
       dataIndex: "fare",
       key: "fare",
+      render: (record: any) => {
+        return <p className='font-bold'>{`${record} ETB`}</p>;
+      },
     },
     {
       title: "Status",
       dataIndex: "status",
       key: "status",
+      render: (_: string, record: any) => {
+        return <RideStatus status={record?.status} />;
+      },
     },
     {
       title: "Requested At",
       dataIndex: "requestedAt",
       key: "requestedAt",
+      render: (record: any) => (
+        <p className=''>
+          {dayjs(record?.requestedAt).format("YYYY/MM/DD HH:mm")}
+        </p>
+      ),
     },
     {
       title: "More",
@@ -99,8 +120,9 @@ const Rides = () => {
               setSelectedRides(record);
               setOpenDrawer(true);
             }}
+            type='link'
           >
-            View detail
+            Show details
           </Button>
         </>
       ),
