@@ -54,7 +54,7 @@ const Header = ({ pageTitle, pageTitleDescription, bgColor }: HeaderProps) => {
   return (
     <>
       <header
-        className={`flex justify-between items-center m-4 ${bgColor} p-5 rounded-md`}
+        className={`flex justify-between items-center m-4 bg-gray-600 p-5 rounded-md`}
       >
         <div className='flex flex-col'>
           <div className='text-xl  text-white font-semibold text-left'>
