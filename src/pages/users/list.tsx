@@ -9,8 +9,88 @@ import { GET_USERS } from "../../graphql/queries/user";
 import EntryForm from "./entryForm";
 import { useSearchParams } from "react-router-dom";
 import UserProfile from "../../components/userProfile";
+import { Icon } from "@iconify/react/dist/iconify.js";
+
+import type { MenuProps } from "antd";
+import { Dropdown, Space } from "antd";
 
 const List = () => {
+  const items: MenuProps["items"] = [
+    {
+      label: (
+        <div className='flex items-center gap-2'>
+          <Icon
+            icon='basil:edit-outline'
+            width={20}
+            height={20}
+            className='text-blue-700'
+          />
+          <span className='text-blue-700'>Edit this user</span>
+        </div>
+      ),
+      onClick: () => {
+        toast.success("Edit action clicked");
+      },
+      key: "0",
+    },
+    {
+      label: (
+        <div className='flex items-center gap-2'>
+          <Icon
+            icon='mdi:account-off-outline'
+            width={25}
+            height={25}
+            className='text-red-700'
+          />
+          <span className='text-red-700'>Suspend this user</span>
+        </div>
+      ),
+      onClick: () => {
+        toast.success("Suspend action clicked");
+      },
+      key: "1",
+    },
+    {
+      label: (
+        <div className='flex items-center gap-2'>
+          <Icon
+            icon='mdi:delete-outline'
+            width={20}
+            height={20}
+            className='text-red-700'
+          />
+          <span className='text-red-700'>Delete this user</span>
+        </div>
+      ),
+      onClick: () => {
+        toast.success("Delete action clicked");
+      },
+      key: "2",
+    },
+    {
+      type: "divider",
+    },
+    {
+      label: (
+        <div>
+          <div className='flex items-center gap-2'>
+            <Icon
+              icon='mdi:information-outline'
+              width={20}
+              height={20}
+              className='text-gray-700'
+            />
+            <span className='text-gray-700 font-semibold'>View details</span>
+          </div>
+        </div>
+      ),
+      onClick: () => {
+        toast.success("View details action clicked");
+      },
+      key: "3",
+    },
+  ];
+
   const [users, setUsers] = useState<any[]>([]);
   const [selectedUser, setSelectedUser] = useState<any>(null);
   const [searchValue, setSearchValue] = useState("");
@@ -74,18 +154,52 @@ const List = () => {
       title: "Phone #",
       dataIndex: "phoneNumber",
       key: "phoneNumber",
+      render: (_: string, record: any) => (
+        <div className='flex items-center gap-2'>
+          <Icon
+            icon='mdi:phone'
+            width={25}
+            height={25}
+            className='text-gray-700'
+          />
+          <span className='text-sm'>{record?.phoneNumber}</span>
+        </div>
+      ),
     },
     {
       title: "Email",
       dataIndex: "email",
       key: "email",
+      render: (_: string, record: any) => (
+        <div className='flex items-center gap-2'>
+          <Icon
+            icon='mdi:email'
+            width={25}
+            height={25}
+            className='text-gray-700'
+          />
+          <span className='text-sm'>{record?.email}</span>
+        </div>
+      ),
     },
     {
       title: "More",
-      key: "action",
+      key: "more",
       render: (record: any) => (
         <>
-          <Button
+          <Dropdown menu={{ items }} trigger={["click"]}>
+            <a onClick={(e) => e.preventDefault()}>
+              <Space>
+                <Icon
+                  icon='mdi:dots-vertical-circle-outline'
+                  width={30}
+                  height={30}
+                  className='text-gray-700'
+                />
+              </Space>
+            </a>
+          </Dropdown>
+          {/* <Button
             className='mr-3'
             onClick={() => {
               setSelectedUser(record);
@@ -94,7 +208,7 @@ const List = () => {
             type='link'
           >
             {role === "user" ? "Edit" : "Show details"}
-          </Button>
+          </Button> */}
         </>
       ),
     },
