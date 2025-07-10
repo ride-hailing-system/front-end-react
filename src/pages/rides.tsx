@@ -142,7 +142,11 @@ const Rides = () => {
         placeholderText={
           "Search by ride information such as rider, driver,  status, and requested at."
         }
-        showAddButton={false}
+        showAddButton={true}
+        addButtonTitle='Start new Ride'
+        onAddButtonClicked={() => {
+          toast.error("This feature is not implemented yet.");
+        }}
       />
 
       {openDrawer && (
