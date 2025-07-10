@@ -70,7 +70,8 @@ const Index: React.FC<LayoutProps> = ({ children }) => {
     if (location.pathname.includes("rides")) {
       return {
         pageTitle: "Rides",
-        pageTitleDescription: "Browse through the history of completed rides",
+        pageTitleDescription:
+          "Browse through the history of all rides recorded",
       };
     }
     if (location.pathname.includes("vehicles")) {
