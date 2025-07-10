@@ -8,12 +8,15 @@ export const USER_FIELDS = `
   email
   phoneNumber
   photoUrl
+  status
+  suspendReason
+  additionalInfo
   createdAt
   updatedAt`;
 
 export const GET_USER_BY_ID = gql`
-  query GetUserById($userId: String!) {
-    user(userId: $userId) {
+  query getUserById($userId: String!) {
+    getUserById(userId: $userId) {
       ${USER_FIELDS}
     }
   }
