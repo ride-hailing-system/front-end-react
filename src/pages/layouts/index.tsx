@@ -27,6 +27,7 @@ const Index: React.FC<LayoutProps> = ({ children }) => {
     if (location.pathname.includes("dashboard")) return "1";
     if (location.pathname.includes("users")) return "2";
     if (location.pathname.includes("drivers")) return "3";
+    if (location.pathname.includes("driver-detail")) return "3";
     if (location.pathname.includes("vehicles")) return "4";
     if (location.pathname.includes("rides")) return "5";
     if (location.pathname.includes("riders")) return "6";
@@ -51,6 +52,13 @@ const Index: React.FC<LayoutProps> = ({ children }) => {
       return {
         pageTitle: "Drivers",
         pageTitleDescription: "Access details of all registered drivers",
+      };
+    }
+    if (location.pathname.includes("driver-detail")) {
+      return {
+        pageTitle: "Driver Information",
+        pageTitleDescription:
+          "View detailed profile and activity of the selected driver",
       };
     }
     if (location.pathname.includes("riders")) {
