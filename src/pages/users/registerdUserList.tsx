@@ -1,4 +1,4 @@
-import { Button, Form } from "antd";
+import { Form } from "antd";
 import { useEffect, useState } from "react";
 import { ApolloErrorFormatter } from "../../graphql/apolloErrorFormatter";
 import { useLazyQuery } from "@apollo/client";
@@ -6,91 +6,14 @@ import toast from "react-hot-toast";
 import { LocalSearch } from "../../utils/localSearch";
 import { Table } from "../../components/table";
 import { GET_USERS } from "../../graphql/queries/user";
-import EntryForm from "./entryForm";
+import RegisterNewUserForm from "./registerNewUserForm";
 import { useSearchParams } from "react-router-dom";
 import UserProfile from "../../components/userProfile";
 import { Icon } from "@iconify/react/dist/iconify.js";
 
-import type { MenuProps } from "antd";
-import { Dropdown, Space } from "antd";
+import { ActionMenus } from "./actionMenus";
 
 const List = () => {
-  const items: MenuProps["items"] = [
-    {
-      label: (
-        <div className='flex items-center gap-2'>
-          <Icon
-            icon='basil:edit-outline'
-            width={20}
-            height={20}
-            className='text-blue-700'
-          />
-          <span className='text-blue-700'>Edit this user</span>
-        </div>
-      ),
-      onClick: () => {
-        toast.success("Edit action clicked");
-      },
-      key: "0",
-    },
-    {
-      label: (
-        <div className='flex items-center gap-2'>
-          <Icon
-            icon='mdi:account-off-outline'
-            width={25}
-            height={25}
-            className='text-red-700'
-          />
-          <span className='text-red-700'>Suspend this user</span>
-        </div>
-      ),
-      onClick: () => {
-        toast.success("Suspend action clicked");
-      },
-      key: "1",
-    },
-    {
-      label: (
-        <div className='flex items-center gap-2'>
-          <Icon
-            icon='mdi:delete-outline'
-            width={20}
-            height={20}
-            className='text-red-700'
-          />
-          <span className='text-red-700'>Delete this user</span>
-        </div>
-      ),
-      onClick: () => {
-        toast.success("Delete action clicked");
-      },
-      key: "2",
-    },
-    {
-      type: "divider",
-    },
-    {
-      label: (
-        <div>
-          <div className='flex items-center gap-2'>
-            <Icon
-              icon='mdi:information-outline'
-              width={20}
-              height={20}
-              className='text-gray-700'
-            />
-            <span className='text-gray-700 font-semibold'>View details</span>
-          </div>
-        </div>
-      ),
-      onClick: () => {
-        toast.success("View details action clicked");
-      },
-      key: "3",
-    },
-  ];
-
   const [users, setUsers] = useState<any[]>([]);
   const [selectedUser, setSelectedUser] = useState<any>(null);
   const [searchValue, setSearchValue] = useState("");
@@ -187,28 +110,13 @@ const List = () => {
       key: "more",
       render: (record: any) => (
         <>
-          <Dropdown menu={{ items }} trigger={["click"]}>
-            <a onClick={(e) => e.preventDefault()}>
-              <Space>
-                <Icon
-                  icon='mdi:dots-vertical-circle-outline'
-                  width={30}
-                  height={30}
-                  className='text-gray-700'
-                />
-              </Space>
-            </a>
-          </Dropdown>
-          {/* <Button
-            className='mr-3'
-            onClick={() => {
+          <ActionMenus
+            record={record}
+            onEdit={() => {
               setSelectedUser(record);
               setOpenDrawer(true);
             }}
-            type='link'
-          >
-            {role === "user" ? "Edit" : "Show details"}
-          </Button> */}
+          />
         </>
       ),
     },
@@ -250,7 +158,7 @@ const List = () => {
         showAddButton={role === "user"}
       />
       {openDrawer && (
-        <EntryForm
+        <RegisterNewUserForm
           data={selectedUser}
           onClose={() => {
             setOpenDrawer(false);

@@ -9,7 +9,7 @@ import { ExclamationCircleFilled } from "@ant-design/icons";
 import { CREATE_USER, UPDATE_USER } from "../../graphql/mutations/user";
 import { Drawer } from "../../components/drawer";
 
-const EntryForm = ({
+const RegisterNewUserForm = ({
   data,
   onClose,
   onComplete,
@@ -30,7 +30,6 @@ const EntryForm = ({
   const { confirm } = Modal;
 
   const handlePasswordReset = () => {
-    console.log("Reset password clicked");
     confirm({
       title: "Are you sure you want to reset the password?",
       icon: <ExclamationCircleFilled />,
@@ -202,4 +201,4 @@ const EntryForm = ({
   );
 };
 
-export default EntryForm;
+export default RegisterNewUserForm;

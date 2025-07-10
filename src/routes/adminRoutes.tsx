@@ -14,16 +14,20 @@ export const ADMIN_VEHICLES = "/vehicles";
 export const ADMIN_SETTING = "/setting";
 export const ADMIN_NOTIFICATIONS = "/notifications";
 export const ADMIN_CHANGE_PASSWORD = "/change-password";
+export const ADMIN_DRIVER_DETAIL_PAGE = "/driver-detail/:userId";
 
 const Routes: React.FC = () => {
   const Dashboard = lazy(() => import("../pages/dashboard"));
-  const Users = lazy(() => import("../pages/users/list"));
+  const RegisterdUserList = lazy(
+    () => import("../pages/users/registerdUserList")
+  );
   const Rides = lazy(() => import("../pages/rides"));
   const Vehicles = lazy(() => import("../pages/vehicles"));
   const Setting = lazy(() => import("../pages/setting"));
   const Notifications = lazy(() => import("../pages/notifications"));
   const ChangePassword = lazy(() => import("../pages/auth/changePassword"));
   const PageNotFound = lazy(() => import("../pages/PageNotFound"));
+  const DriverDetailPage = lazy(() => import("../pages/users/driverDetails"));
 
   return (
     <AdminLayout>
@@ -41,19 +45,37 @@ const Routes: React.FC = () => {
           <Route
             path={ADMIN_USERS}
             element={
-              <ProtectedRoute extraProps={{ role: "admin" }} element={Users} />
+              <ProtectedRoute
+                extraProps={{ role: "admin" }}
+                element={RegisterdUserList}
+              />
+            }
+          />
+          <Route
+            path={ADMIN_DRIVER_DETAIL_PAGE}
+            element={
+              <ProtectedRoute
+                extraProps={{ role: "admin" }}
+                element={DriverDetailPage}
+              />
             }
           />
           <Route
             path={ADMIN_DRIVERS}
             element={
-              <ProtectedRoute extraProps={{ role: "admin" }} element={Users} />
+              <ProtectedRoute
+                extraProps={{ role: "admin" }}
+                element={RegisterdUserList}
+              />
             }
           />
           <Route
             path={ADMIN_RIDERS}
             element={
-              <ProtectedRoute extraProps={{ role: "admin" }} element={Users} />
+              <ProtectedRoute
+                extraProps={{ role: "admin" }}
+                element={RegisterdUserList}
+              />
             }
           />
           <Route
