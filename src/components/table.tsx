@@ -11,6 +11,7 @@ export const Table = ({
   addButtonTitle,
   loading,
   showAddButton = true,
+  showHeaderBar = true,
 }: {
   data: any[];
   columns: {
@@ -19,26 +20,29 @@ export const Table = ({
     key: string;
   }[];
   rowKey?: string;
-  placeholderText: string;
-  onSearchInputChange: (value: string) => void;
+  placeholderText?: string;
+  onSearchInputChange?: (value: string) => void;
   onAddButtonClicked?: () => void;
   addButtonTitle?: string;
   loading: boolean;
-  showAddButton: boolean;
+  showAddButton?: boolean;
+  showHeaderBar?: boolean;
 }) => {
   return (
     <>
-      <TableHeaderBar
-        onSearchInputChange={(value: string) => {
-          onSearchInputChange(value);
-        }}
-        placeholder={placeholderText}
-        onAddButtonClicked={() => {
-          onAddButtonClicked && onAddButtonClicked();
-        }}
-        addButtonTitle={addButtonTitle ? addButtonTitle : ""}
-        showAddButton={showAddButton}
-      />
+      {showHeaderBar && (
+        <TableHeaderBar
+          onSearchInputChange={(value: string) => {
+            onSearchInputChange && onSearchInputChange(value);
+          }}
+          placeholder={placeholderText ? placeholderText : ""}
+          onAddButtonClicked={() => {
+            onAddButtonClicked && onAddButtonClicked();
+          }}
+          addButtonTitle={addButtonTitle ? addButtonTitle : ""}
+          showAddButton={showAddButton}
+        />
+      )}
       <MainTable
         dataSource={data}
         columns={columns}
