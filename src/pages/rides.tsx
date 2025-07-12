@@ -13,6 +13,7 @@ import RideStatus from "../components/rideStatus";
 
 const Rides = () => {
   const [rides, setRides] = useState<any[]>([]);
+  const [ridesCopy, setRidesCopy] = useState<any[]>([]);
   const [selectedRides, setSelectedRides] = useState<any>(null);
   const [searchValue, setSearchValue] = useState("");
   const [openDrawer, setOpenDrawer] = useState(false);
@@ -21,6 +22,7 @@ const Rides = () => {
     fetchPolicy: "network-only",
     onCompleted: (value: any) => {
       setRides(value?.getAllRides || []);
+      setRidesCopy(value?.getAllRides || []);
     },
     onError: (error: any) => {
       toast.error(ApolloErrorFormatter(error, true).toString());
@@ -32,7 +34,7 @@ const Rides = () => {
   }, []);
 
   useEffect(() => {
-    if (rides) {
+    if (ridesCopy.length > 0) {
       if (searchValue) {
         const result = LocalSearch({ searchValue }, rides, [
           "riderInfo.firstName",
@@ -42,12 +44,13 @@ const Rides = () => {
           "status",
           "requestedAt",
         ]);
+
         setRides(result);
       } else {
-        setRides(rides);
+        setRides(ridesCopy);
       }
     }
-  }, [searchValue, rides]);
+  }, [searchValue, ridesCopy]);
 
   const columns: any[] = [
     {

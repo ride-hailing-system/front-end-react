@@ -15,6 +15,7 @@ import { ActionMenus } from "./actionMenus";
 
 const List = () => {
   const [users, setUsers] = useState<any[]>([]);
+  const [usersCopy, setUsersCopy] = useState<any[]>([]);
   const [selectedUser, setSelectedUser] = useState<any>(null);
   const [searchValue, setSearchValue] = useState("");
   const [openDrawer, setOpenDrawer] = useState(false);
@@ -28,6 +29,7 @@ const List = () => {
     fetchPolicy: "network-only",
     onCompleted: (value: any) => {
       setUsers(value?.getAllUsers || []);
+      setUsersCopy(value?.getAllUsers || []);
     },
     onError: (error: any) => {
       toast.error(ApolloErrorFormatter(error, true).toString());
@@ -45,7 +47,7 @@ const List = () => {
   }, [role]);
 
   useEffect(() => {
-    if (users) {
+    if (usersCopy.length > 0) {
       if (searchValue) {
         const result = LocalSearch({ searchValue }, users, [
           "firstName",
@@ -55,10 +57,10 @@ const List = () => {
         ]);
         setUsers(result);
       } else {
-        setUsers(users);
+        setUsers(usersCopy);
       }
     }
-  }, [searchValue, users]);
+  }, [searchValue, usersCopy]);
 
   const columns: any[] = [
     {
