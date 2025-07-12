@@ -11,6 +11,7 @@ import UserProfile from "../components/userProfile";
 
 const Vehicles = () => {
   const [vehicles, setVehicles] = useState<any[]>([]);
+  const [vehiclesCopy, setVehiclesCopy] = useState<any[]>([]);
   const [selectedVehicle, setSelectedVehicle] = useState<any>(null);
   const [searchValue, setSearchValue] = useState("");
   const [openDrawer, setOpenDrawer] = useState(false);
@@ -19,6 +20,7 @@ const Vehicles = () => {
     fetchPolicy: "network-only",
     onCompleted: (value: any) => {
       setVehicles(value?.getAllVehicles || []);
+      setVehiclesCopy(value?.getAllVehicles || []);
     },
     onError: (error: any) => {
       toast.error(ApolloErrorFormatter(error, true).toString());
@@ -30,7 +32,7 @@ const Vehicles = () => {
   }, []);
 
   useEffect(() => {
-    if (vehicles) {
+    if (vehiclesCopy.length > 0) {
       if (searchValue) {
         const result = LocalSearch({ searchValue }, vehicles, [
           "vehicleType",
@@ -41,10 +43,10 @@ const Vehicles = () => {
         ]);
         setVehicles(result);
       } else {
-        setVehicles(vehicles);
+        setVehicles(vehiclesCopy);
       }
     }
-  }, [searchValue, vehicles]);
+  }, [searchValue, vehiclesCopy]);
 
   const columns: any[] = [
     {
@@ -109,7 +111,11 @@ const Vehicles = () => {
         placeholderText={
           "Search by vehicle information (type, plate#, model, size & color)"
         }
-        showAddButton={false}
+        showAddButton={true}
+        addButtonTitle='Add new vehicle'
+        onAddButtonClicked={() => {
+          console.log("add new clicked");
+        }}
       />
 
       {openDrawer && (
