@@ -76,7 +76,7 @@ const ForgetPassword = () => {
           <Form.Item>
             <Button
               type='link'
-              onClick={() => navigate("/login")}
+              onClick={() => navigate("/auth/login")}
               className='w-full text-blue-500 hover:text-blue-700'
             >
               Back to Login

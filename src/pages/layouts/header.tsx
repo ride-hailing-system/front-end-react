@@ -45,7 +45,7 @@ const Header = ({ pageTitle, pageTitleDescription, bgColor }: HeaderProps) => {
   const handleLogout = () => {
     if (confirm("are you sure you want to logout?")) {
       localStorage.removeItem("user");
-      navigate("/login");
+      navigate("/auth/login");
     }
   };
 

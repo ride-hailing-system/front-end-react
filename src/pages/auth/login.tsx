@@ -25,7 +25,7 @@ const Login = () => {
           "admin dashboard is not available for this user role with " + tmp.role
         );
         setTimeout(() => {
-          navigate("/login");
+          navigate("/auth/login");
         }, 1000);
       }
     },
@@ -107,7 +107,7 @@ const Login = () => {
             <Button
               htmlType='button'
               className='w-full text-lg font-bold text-blue-500 hover:text-blue-700 items-right'
-              onClick={() => navigate("/forgot-password")}
+              onClick={() => navigate("/auth/forgot-password")}
               type='link'
               style={{ background: "none", border: "none" }}
             >
