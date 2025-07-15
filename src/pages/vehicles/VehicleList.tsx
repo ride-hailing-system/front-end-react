@@ -1,13 +1,14 @@
-import { Button } from "antd";
+import { Button, Form } from "antd";
 import { useEffect, useState } from "react";
-import { ApolloErrorFormatter } from "../graphql/apolloErrorFormatter";
+import { ApolloErrorFormatter } from "../../graphql/apolloErrorFormatter";
 import { useLazyQuery } from "@apollo/client";
 import toast from "react-hot-toast";
-import { LocalSearch } from "../utils/localSearch";
-import { Table } from "../components/table";
-import { GET_VEHICLES } from "../graphql/queries/vehicle";
-import { Drawer } from "../components/drawer";
-import UserProfile from "../components/userProfile";
+import { LocalSearch } from "../../utils/localSearch";
+import { Table } from "../../components/table";
+import { GET_VEHICLES } from "../../graphql/queries/vehicle";
+import { Drawer } from "../../components/drawer";
+import UserProfile from "../../components/userProfile";
+import VehicleForm from "./VehicleForm";
 
 const Vehicles = () => {
   const [vehicles, setVehicles] = useState<any[]>([]);
@@ -15,6 +16,9 @@ const Vehicles = () => {
   const [selectedVehicle, setSelectedVehicle] = useState<any>(null);
   const [searchValue, setSearchValue] = useState("");
   const [openDrawer, setOpenDrawer] = useState(false);
+  const [drawerContent, setDrawerContent] = useState<"form" | "detail" | null>(
+    null
+  );
 
   const [getVehicles, { loading }] = useLazyQuery(GET_VEHICLES, {
     fetchPolicy: "network-only",
@@ -88,6 +92,7 @@ const Vehicles = () => {
             onClick={() => {
               setSelectedVehicle(record);
               setOpenDrawer(true);
+              setDrawerContent("form");
             }}
             type='link'
           >
@@ -97,6 +102,8 @@ const Vehicles = () => {
       ),
     },
   ];
+
+  const [mainForm] = Form.useForm();
 
   return (
     <>
@@ -114,19 +121,44 @@ const Vehicles = () => {
         showAddButton={true}
         addButtonTitle='Add new vehicle'
         onAddButtonClicked={() => {
-          console.log("add new clicked");
+          setDrawerContent("form");
+          setOpenDrawer(true);
         }}
       />
 
-      {openDrawer && (
+      {openDrawer && drawerContent === "detail" && (
         <Drawer
           title={"Vehicle detail view"}
           open
           onClose={() => {
             setOpenDrawer(false);
+            setDrawerContent(null);
           }}
         >
           <p>Detail view</p>
+        </Drawer>
+      )}
+
+      {openDrawer && drawerContent === "form" && (
+        <Drawer
+          title={"New Vehicle Registration"}
+          open
+          onClose={() => {
+            setOpenDrawer(false);
+            setDrawerContent(null);
+          }}
+          width={600}
+          buttonTitle={selectedVehicle ? "Update" : "Save"}
+          form={mainForm}
+        >
+          <VehicleForm
+            data={selectedVehicle}
+            form={mainForm}
+            onComplete={() => {
+              setOpenDrawer(false);
+              setDrawerContent(null);
+            }}
+          />
         </Drawer>
       )}
     </>

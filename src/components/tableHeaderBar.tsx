@@ -43,7 +43,7 @@ const TableHeaderBar = ({
           />
         }
         className='text-lg'
-        size='large'
+        size="large"
         onKeyDown={handleEnter}
         allowClear
         onChange={handleChange}

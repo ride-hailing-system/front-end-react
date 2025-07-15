@@ -22,7 +22,7 @@ const Routes: React.FC = () => {
     () => import("../pages/users/registerdUserList")
   );
   const Rides = lazy(() => import("../pages/rides"));
-  const Vehicles = lazy(() => import("../pages/vehicles"));
+  const Vehicles = lazy(() => import("../pages/vehicles/VehicleList"));
   const Setting = lazy(() => import("../pages/setting"));
   const Notifications = lazy(() => import("../pages/notifications"));
   const ChangePassword = lazy(() => import("../pages/auth/changePassword"));
