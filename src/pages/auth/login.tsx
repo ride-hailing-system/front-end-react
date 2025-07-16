@@ -4,18 +4,24 @@ import { useLazyQuery } from "@apollo/client";
 import { LOGIN_USER } from "../../graphql/queries/auth";
 import toast from "react-hot-toast";
 import { ApolloErrorFormatter } from "../../graphql/apolloErrorFormatter";
+import PasswordInput from "../../components/passwordInput";
+import { UserContext, type AppData } from "../../context/userContext";
+import { use } from "react";
 
 const Login = () => {
   const navigate = useNavigate();
 
+  const { setUserData } = use(UserContext);
+
   const [login, { loading }] = useLazyQuery(LOGIN_USER, {
     onCompleted: (data) => {
       const tmp = data.login;
-      localStorage.setItem("user", JSON.stringify(tmp));
-      toast.success("Login successful! Redirecting...");
-      console.log(tmp);
+      const appData: AppData = { userData: tmp };
+      localStorage.setItem("appData", JSON.stringify(appData));
+      setUserData(tmp);
 
-      if (tmp.role === "admin") {
+      if (["admin", "user"].includes(tmp.role)) {
+        toast.success("Login successful! Redirecting...");
         setTimeout(() => {
           navigate("/admin/dashboard");
         }, 1000);
@@ -24,9 +30,6 @@ const Login = () => {
         toast.success(
           "admin dashboard is not available for this user role with " + tmp.role
         );
-        setTimeout(() => {
-          navigate("/auth/login");
-        }, 1000);
       }
     },
     onError: (error: any) => {
@@ -36,11 +39,11 @@ const Login = () => {
 
   const onFinish = async (values: any) => {
     await login({
-      variables: { phoneNumber: values.phone, password: values.password },
+      variables: { email: values.email, password: values.password },
     });
   };
 
-  const [form] = Form.useForm();
+  const [form] = Form.useForm(undefined);
 
   return (
     <div className='flex flex-col items-center justify-center h-screen bg-gray-100'>
@@ -64,34 +67,14 @@ const Login = () => {
               },
             ]}
           >
-            <Input
-              value={form.getFieldValue("email")}
-              onChange={(e) => {
-                form.setFieldValue("email", e.target.value);
-              }}
-              size='large'
-              placeholder='john@example.com'
-            />
+            <Input size='large' placeholder='john@example.com' />
           </Form.Item>
-          <Form.Item
-            label='Password'
-            name='password'
-            rules={[
-              {
-                required: true,
-                message: "Please enter your password",
-                len: 4,
-              },
-            ]}
-          >
-            <Input.Password
-              value={form.getFieldValue("password")}
-              onChange={(e) => {
-                form.setFieldValue("password", e.target.value);
-              }}
-              size='large'
-            />
-          </Form.Item>
+          <PasswordInput
+            value={form.getFieldValue("password")}
+            onChange={(value: any) => {
+              form.setFieldValue("password", value);
+            }}
+          />
           <Form.Item>
             <Button
               htmlType='submit'
