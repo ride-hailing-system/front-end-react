@@ -44,7 +44,7 @@ const Header = ({ pageTitle, pageTitleDescription, bgColor }: HeaderProps) => {
 
   const handleLogout = () => {
     if (confirm("are you sure you want to logout?")) {
-      localStorage.removeItem("user");
+      localStorage.removeItem("appData");
       navigate("/auth/login");
     }
   };
@@ -121,7 +121,11 @@ const Header = ({ pageTitle, pageTitleDescription, bgColor }: HeaderProps) => {
                   <p className='text-sm font-medium text-gray-800'>
                     My Account
                   </p>
-                  <p className='text-xs text-gray-500 mt-1'>{userData?.role}</p>
+                  <p className='mt-2 w-full'>
+                    <span className='text-xs text-gray-800 bg-gray-200 p-2 rounded uppercase font-bold'>
+                      {userData?.role === "user" ? "System User" : "Super Admin"}
+                    </span>
+                  </p>
                 </div>
 
                 <button
