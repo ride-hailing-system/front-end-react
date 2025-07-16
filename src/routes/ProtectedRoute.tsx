@@ -27,7 +27,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     } else {
       return (
         <Navigate
-          to='/login'
+          to='/auth/login'
           state={`You must have ${
             roleNames[extraProps?.role]
           } previlage to access this page`}
@@ -35,7 +35,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
       );
     }
   } else {
-    return <Navigate to='/login' />;
+    return <Navigate to='/auth/login' />;
   }
 };
 

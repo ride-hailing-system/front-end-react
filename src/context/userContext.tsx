@@ -13,6 +13,7 @@ export type UserDataType = {
   email?: string;
   photoUrl?: string;
   role?: string;
+  token?: string;
 };
 
 export type AppData = {
@@ -40,6 +41,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
     email: undefined,
     photoUrl: undefined,
     role: undefined,
+    token: undefined,
   });
 
   // Load from localStorage
@@ -57,16 +59,6 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
       console.error("Error loading user data:", error);
     }
   }, []);
-
-  // Save to localStorage
-  useEffect(() => {
-    try {
-      const appData: AppData = { userData };
-      localStorage.setItem("appData", JSON.stringify(appData));
-    } catch (error) {
-      console.error("Error saving user data:", error);
-    }
-  }, [userData]);
 
   return (
     <UserContext.Provider value={{ userData, setUserData }}>
