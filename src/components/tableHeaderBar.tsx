@@ -10,6 +10,7 @@ const TableHeaderBar = ({
   onAddButtonClicked,
   addButtonTitle,
   showAddButton,
+  showSearchInput,
 }: {
   onSearchInputChange: (value: string) => void;
   placeholder: string;
@@ -17,6 +18,7 @@ const TableHeaderBar = ({
   onAddButtonClicked: () => void;
   addButtonTitle: string;
   showAddButton: boolean;
+  showSearchInput: boolean;
 }) => {
   const handleEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter" && event.currentTarget.value) {
@@ -29,27 +31,36 @@ const TableHeaderBar = ({
   };
 
   return (
-    <div className='flex p-4 rounded-lg shadow-main bg-white mb-6'>
-      <Input
-        placeholder={placeholder}
-        prefix={
-          <SearchOutlined
-            style={{
-              color: "gray",
-              marginRight: 5,
-            }}
-            width={20}
-            height={20}
-          />
-        }
-        className='text-lg'
-        size="large"
-        onKeyDown={handleEnter}
-        allowClear
-        onChange={handleChange}
-        value={value}
-      />
-      {showAddButton && <AddButton onClick={() => onAddButtonClicked()} title={addButtonTitle} />}
+    <div className='flex items-center justify-between p-4 rounded-lg shadow-main bg-white mb-6'>
+      {showSearchInput ? (
+        <Input
+          placeholder={placeholder}
+          prefix={
+            <SearchOutlined
+              style={{
+                color: "gray",
+                marginRight: 5,
+              }}
+              width={20}
+              height={20}
+            />
+          }
+          className='text-lg'
+          size='large'
+          onKeyDown={handleEnter}
+          allowClear
+          onChange={handleChange}
+          value={value}
+        />
+      ) : (
+        <div></div>
+      )}
+      {showAddButton && (
+        <AddButton
+          onClick={() => onAddButtonClicked()}
+          title={addButtonTitle}
+        />
+      )}
     </div>
   );
 };

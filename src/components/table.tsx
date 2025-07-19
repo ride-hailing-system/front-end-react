@@ -12,6 +12,8 @@ export const Table = ({
   loading,
   showAddButton = true,
   showHeaderBar = true,
+  emptyComponent,
+  showSearchInput = true,
 }: {
   data: any[];
   columns: {
@@ -27,6 +29,8 @@ export const Table = ({
   loading: boolean;
   showAddButton?: boolean;
   showHeaderBar?: boolean;
+  emptyComponent?: any;
+  showSearchInput?: boolean;
 }) => {
   return (
     <>
@@ -41,6 +45,7 @@ export const Table = ({
           }}
           addButtonTitle={addButtonTitle ? addButtonTitle : ""}
           showAddButton={showAddButton}
+          showSearchInput={showSearchInput}
         />
       )}
       <MainTable
@@ -48,6 +53,9 @@ export const Table = ({
         columns={columns}
         rowKey={rowKey}
         loading={loading}
+        locale={{
+          emptyText: emptyComponent && emptyComponent,
+        }}
       />
     </>
   );
