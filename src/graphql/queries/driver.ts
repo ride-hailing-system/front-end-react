@@ -5,6 +5,7 @@ export const GET_DRIVER_DETAIL = gql`
     getDriverDetail(userId: $userId) {
         _id
         userInfo {
+            _id
             firstName
             lastName
             phoneNumber
