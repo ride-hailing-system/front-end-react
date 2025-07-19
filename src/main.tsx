@@ -8,6 +8,7 @@ import { ConfigProvider } from "antd";
 import { ApolloProvider } from "@apollo/client";
 import { UserProvider } from "./context/userContext.tsx";
 import { Toaster } from "react-hot-toast";
+import { ConfirmationModalProvider } from "./context/confirmationModalContext.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -25,8 +26,10 @@ createRoot(document.getElementById("root")!).render(
     >
       <ApolloProvider client={client}>
         <UserProvider>
-          <Toaster />
-          <App />
+          <ConfirmationModalProvider>
+            <Toaster />
+            <App />
+          </ConfirmationModalProvider>
         </UserProvider>
       </ApolloProvider>
     </ConfigProvider>
