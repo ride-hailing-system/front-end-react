@@ -7,5 +7,7 @@
 			"path": "../../ride-hailing-backend"
 		}
 	],
-	"settings": {}
+	"settings": {
+		"postman.settings.dotenv-detection-notification-visibility": false
+	}
 }
