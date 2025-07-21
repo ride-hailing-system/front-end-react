@@ -115,7 +115,6 @@ export const ActionMenus = ({
             </div>
           ),
           onClick: () => {
-            toast.success("View details action clicked");
             navigate(`/admin/driver-detail/${record?._id}`);
           },
           key: "3",

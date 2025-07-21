@@ -10,6 +10,7 @@ export const Drawer = ({
   width = 400,
   buttonTitle,
   buttonDanger = false,
+  loading,
 }: {
   title: string | React.ReactNode;
   isEdit?: boolean;
@@ -20,6 +21,7 @@ export const Drawer = ({
   width?: number;
   buttonTitle?: string;
   buttonDanger?: boolean;
+  loading?: boolean;
 }) => {
   return (
     <MainDrawer
@@ -36,7 +38,7 @@ export const Drawer = ({
           onClick={() => {
             form.submit();
           }}
-          loading={form && form.getFieldValue("loading") ? true : false}
+          loading={loading}
           size='large'
           danger={buttonDanger}
         >
@@ -50,4 +52,3 @@ export const Drawer = ({
     </MainDrawer>
   );
 };
-

@@ -1,9 +1,9 @@
 import { useLazyQuery } from "@apollo/client";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ApolloErrorFormatter } from "../../graphql/apolloErrorFormatter";
 import toast from "react-hot-toast";
-import { Avatar, Button } from "antd";
+import { Avatar, Button, Form, message, Modal } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { Table } from "../../components/table";
@@ -13,6 +13,11 @@ import RideStatus from "../../components/rideStatus";
 import dayjs from "dayjs";
 import { GET_DRIVER_DETAIL } from "../../graphql/queries/driver";
 import { Drawer } from "../../components/drawer";
+import VehicleForm from "../vehicles/VehicleForm";
+import {
+  ConfirmationModalContext,
+  type ConfirmationModalPropsType,
+} from "../../context/confirmationModalContext";
 
 const DriverDetails = () => {
   const { userId } = useParams();
@@ -51,7 +56,10 @@ const DriverDetails = () => {
       key: "2",
       label: "Vehicle Information",
       children: (
-        <Vehicles loading={loading} vehicles={userDetail?.vehicleInfo} />
+        <Vehicles
+          vehicles={userDetail?.vehicleInfo}
+          driverInfo={userDetail?.userInfo}
+        />
       ),
     },
   ];
@@ -196,14 +204,36 @@ const RidesRecords = ({
 };
 
 const Vehicles = ({
-  loading,
   vehicles,
+  driverInfo,
 }: {
-  loading: boolean;
   vehicles: any[];
+  driverInfo: any;
 }) => {
   const [selectedVehicle, setSelectedVehicle] = useState<any>(null);
   const [openDrawer, setOpenDrawer] = useState(false);
+  const [drawerContent, setDrawerContent] = useState<"form" | "detail" | null>(
+    null
+  );
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const [mainForm] = Form.useForm();
+
+  const { setConfirmationModalProps: setcmProps } = useContext(
+    ConfirmationModalContext
+  );
+
+  useEffect(() => {
+    setcmProps((prev: ConfirmationModalPropsType) => ({
+      ...prev,
+      onOk: () => {
+        console.log("Ok clicked");
+      },
+      onCancel: () => {
+        console.log("Cancel clicked");
+      },
+    }));
+  }, []);
 
   const columns: any[] = [
     {
@@ -247,9 +277,9 @@ const Vehicles = ({
       title: "More",
       key: "action",
       render: (record: any) => (
-        <>
+        <div className='flex items-center justify-between'>
           <Button
-            className='mr-3'
+            className=''
             onClick={() => {
               setSelectedVehicle(record);
               setOpenDrawer(true);
@@ -258,10 +288,53 @@ const Vehicles = ({
           >
             Show details
           </Button>
-        </>
+          <Button
+            className=''
+            onClick={() => {
+              setSelectedVehicle(record);
+              setOpenDrawer(true);
+              setDrawerContent("form");
+            }}
+            type='link'
+          >
+            Edit
+          </Button>
+          <Button
+            className=''
+            onClick={() => {
+              setcmProps((prev: ConfirmationModalPropsType) => ({
+                ...prev,
+                show: true,
+              }));
+            }}
+            type='link'
+            danger
+          >
+            Delete
+          </Button>
+        </div>
       ),
     },
   ];
+
+  const CustomEmptyComponent = () => (
+    <div className='flex flex-col items-center justify-center gap-2'>
+      <Icon icon='gg:add' width={40} height={40} className='text-gray-700' />
+      <p className='text-gray-700 text-lg'>
+        No vehicles found.{" "}
+        <span
+          onClick={() => {
+            selectedVehicle(undefined);
+            setDrawerContent("form");
+            setOpenDrawer(true);
+          }}
+          className='hover:underline hover:cursor-pointer font-semibold'
+        >
+          Add a new one to get started.
+        </span>
+      </p>
+    </div>
+  );
 
   return (
     <>
@@ -270,19 +343,60 @@ const Vehicles = ({
         columns={columns}
         rowKey='_id'
         loading={loading}
-        showAddButton={false}
-        showHeaderBar={false}
+        showAddButton={true}
+        showHeaderBar={true}
+        addButtonTitle='Add new Vehicle'
+        emptyComponent={vehicles.length > 0 ? undefined : CustomEmptyComponent}
+        showSearchInput={false}
+        onAddButtonClicked={() => {
+          setDrawerContent("form");
+          setOpenDrawer(true);
+        }}
       />
 
-      {openDrawer && (
+      {openDrawer && drawerContent === "detail" && (
         <Drawer
           title={"Vehicle detail view"}
           open
           onClose={() => {
             setOpenDrawer(false);
+            setDrawerContent(null);
           }}
         >
           <p>Detail view</p>
+        </Drawer>
+      )}
+
+      {openDrawer && drawerContent === "form" && (
+        <Drawer
+          title={
+            selectedVehicle
+              ? "Edit Vehicle Information"
+              : "New Vehicle Registration"
+          }
+          open
+          onClose={() => {
+            setOpenDrawer(false);
+            setDrawerContent(null);
+            setSelectedVehicle(undefined);
+          }}
+          width={700}
+          buttonTitle={selectedVehicle ? "Update" : "Create"}
+          form={mainForm}
+          loading={loading}
+        >
+          <VehicleForm
+            data={selectedVehicle}
+            form={mainForm}
+            onComplete={() => {
+              setOpenDrawer(false);
+              setDrawerContent(null);
+            }}
+            driverInfo={driverInfo}
+            onLoading={(value: boolean) => {
+              setLoading(value);
+            }}
+          />
         </Drawer>
       )}
     </>
