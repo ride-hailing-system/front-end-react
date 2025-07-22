@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useState, type JSX } from "react";
 import { Icon } from "@iconify/react";
+import logo from "@/assets/logo.png";
 
 // Define menu items type
 export type MenuItem = {
@@ -15,6 +16,7 @@ export type MenuItem = {
 type SidebarProps = {
   activeKey?: string;
   onSelect: (item: MenuItem) => void;
+  onCollapsed: (value: boolean) => void;
 };
 
 export const menuItems: MenuItem[] = [
@@ -72,34 +74,43 @@ export const menuItems: MenuItem[] = [
   },
 ];
 
-const Sidebar = ({ activeKey, onSelect }: SidebarProps) => {
+const Sidebar = ({ activeKey, onSelect, onCollapsed }: SidebarProps) => {
   const [collapsed, setCollapsed] = useState(false);
 
   return (
     <aside
-      className={`h-screen bg-white shadow-lg transition-all duration-300 ease-in-out fixed top-0 left-0 z-10 ${
+      className={`h-screen bg-gray-900 shadow-lg transition-all duration-300 ease-in-out fixed top-0 left-0 z-10 ${
         collapsed ? "w-20" : "w-64"
       }`}
     >
       {/* Logo */}
       <div className='flex justify-center items-center p-4 border-b border-gray-100'>
-        <p className='uppercase font-bold text-gray-900'>Smart ride hailig</p>
+        {collapsed ? (
+          <img
+            src={logo}
+            width={50}
+            height={50}
+            title='ride hailing system logo'
+          />
+        ) : (
+          <p className='uppercase font-bold text-white'>Smart ride hailig</p>
+        )}
       </div>
 
       {/* Menu Items */}
       <nav className='mt-4 px-4'>
         <ul className='space-y-2'>
           {menuItems.slice(0, -1).map((item: MenuItem) => (
-            <li key={item.key}>
+            <li key={item.key} title={item?.label}>
               <Link
                 to={{
                   pathname: item.path,
                   search: item.role ? `?role=${item.role}` : undefined,
                 }}
-                className={`flex text-lg items-center px-4 py-2 rounded-md text-gray-500 ${
+                className={`flex text-lg items-center px-2 py-2 rounded-md text-white ${
                   activeKey === item.key
-                    ? `font-semibold text-white bg-gray-600`
-                    : "hover:bg-gray-100 hover:font-bold"
+                    ? `font-semibold text-white bg-gray-700`
+                    : "hover:bg-gray-600 hover:font-bold"
                 }`}
                 onClick={() => {
                   onSelect(item);
@@ -119,14 +130,15 @@ const Sidebar = ({ activeKey, onSelect }: SidebarProps) => {
           <li className='absolute bottom-8 left-0 w-full'>
             <Link
               to={menuItems[menuItems.length - 1].path}
-              className={`flex text-lg items-center px-4 py-2 rounded-lg transition-all duration-200 text-gray-600 ${
+              className={`flex text-lg items-center px-4 py-2 rounded-lg transition-all duration-200 text-white ${
                 activeKey === menuItems[menuItems.length - 1].key
-                  ? `font-semibold text-white bg-gray-600`
-                  : "hover:bg-gray-100 hover:font-bold"
+                  ? `font-semibold text-white bg-gray-700`
+                  : "hover:bg-gray-600 hover:font-bold"
               }`}
               onClick={() => {
                 onSelect(menuItems[menuItems.length - 1]);
               }}
+              title={menuItems[menuItems.length - 1].label}
             >
               <span className='flex-shrink-0'>
                 {menuItems[menuItems.length - 1].icon}
@@ -145,25 +157,21 @@ const Sidebar = ({ activeKey, onSelect }: SidebarProps) => {
 
       {/* Collapse Button */}
       <button
-        onClick={() => setCollapsed(!collapsed)}
-        className='absolute bottom-8 right-0 transform translate-x-1/2 bg-white rounded-full p-2 shadow-md hover:shadow-lg border border-gray-100 text-gray-500 hover:text-primary transition-colors'
+        onClick={() => {
+          setCollapsed(!collapsed);
+          onCollapsed(!collapsed);
+        }}
+        className='absolute bottom-8 right-0 transform translate-x-1/2 bg-gray-900 rounded-full p-2 shadow-md hover:shadow-lg border border-gray-100 text-gray-500 hover:text-primary transition-colors'
       >
-        <svg
-          xmlns='http://www.w3.org/2000/svg'
-          className={`h-5 w-5 transition-transform duration-300 ${
+        <Icon
+          icon='ph:caret-left-light'
+          width={20}
+          height={20}
+          className={`hover:cursor-pointer transition-transform duration-300 ${
             collapsed ? "rotate-180" : ""
           }`}
-          fill='none'
-          viewBox='0 0 24 24'
-          stroke='currentColor'
-        >
-          <path
-            strokeLinecap='round'
-            strokeLinejoin='round'
-            strokeWidth={2}
-            d='M15 19l-7-7 7-7'
-          />
-        </svg>
+          color='white'
+        />
       </button>
     </aside>
   );
