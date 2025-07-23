@@ -11,12 +11,18 @@ import UserProfile from "../components/userProfile";
 import { GET_RIDES } from "../graphql/queries/ride";
 import RideStatus from "../components/rideStatus";
 
-const Rides = () => {
+export type RidesTableType = {
+  showHeader?: boolean;
+  limit?: number;
+};
+
+const Rides = ({ showHeader = true, limit = 10 }: RidesTableType) => {
   const [rides, setRides] = useState<any[]>([]);
   const [ridesCopy, setRidesCopy] = useState<any[]>([]);
   const [selectedRides, setSelectedRides] = useState<any>(null);
   const [searchValue, setSearchValue] = useState("");
   const [openDrawer, setOpenDrawer] = useState(false);
+  const [rowLimits, setRowLimits] = useState<number>(limit);
 
   const [getRides, { loading }] = useLazyQuery(GET_RIDES, {
     fetchPolicy: "network-only",
@@ -30,7 +36,11 @@ const Rides = () => {
   });
 
   useEffect(() => {
-    getRides();
+    getRides({
+      variables: {
+        limit: rowLimits,
+      },
+    });
   }, []);
 
   useEffect(() => {
@@ -150,6 +160,7 @@ const Rides = () => {
         onAddButtonClicked={() => {
           toast.error("This feature is not implemented yet.");
         }}
+        showHeaderBar={showHeader}
       />
 
       {openDrawer && (
