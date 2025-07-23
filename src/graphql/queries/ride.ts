@@ -37,8 +37,8 @@ export const GET_RIDES_BY_ID = gql`
 `;
 
 export const GET_RIDES = gql`
-  query getAllRides {
-    getAllRides {
+  query getAllRides($limit: Int!) {
+    getAllRides(limit: $limit) {
       ${RIDE_FIELDS}
     }
   }

@@ -23,6 +23,8 @@ const Index: React.FC<LayoutProps> = ({ children }) => {
     null
   );
 
+  const [collapsed, setCollapsed] = useState(false);
+
   const getActiveKey = () => {
     if (location.pathname.includes("dashboard")) return "1";
     if (location.pathname.includes("users")) return "2";
@@ -125,9 +127,19 @@ const Index: React.FC<LayoutProps> = ({ children }) => {
 
   return (
     <div className='flex h-screen bg-gray-50'>
-      <Sidebar activeKey={getActiveKey()} onSelect={handleSelect} />
+      <Sidebar
+        activeKey={getActiveKey()}
+        onSelect={handleSelect}
+        onCollapsed={(value: boolean) => {
+          setCollapsed(value);
+        }}
+      />
 
-      <div className='flex-1 flex flex-col ml-64 relative'>
+      <div
+        className={`flex-1 flex flex-col transition-all duration-300 ease-in-out ${
+          collapsed ? "ml-20" : "ml-64"
+        }  relative`}
+      >
         <Header
           pageTitle={getPageContent().pageTitle}
           pageTitleDescription={getPageContent().pageTitleDescription}
