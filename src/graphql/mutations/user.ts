@@ -40,7 +40,7 @@ export const UPDATE_USER = gql`
     $phoneNumber: String
     $email: String
     $role: String
-    
+    $status: String
   ) {
     updateUser(
       _id: $_id
@@ -49,6 +49,7 @@ export const UPDATE_USER = gql`
       phoneNumber: $phoneNumber
       email: $email
       role: $role
+      status: $status
     ) {
       ${USER_FIELDS}
     }
