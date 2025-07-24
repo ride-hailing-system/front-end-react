@@ -1,7 +1,7 @@
-import { Form } from "antd";
-import { useEffect, useState } from "react";
+import { Button, Form } from "antd";
+import { useContext, useEffect, useState } from "react";
 import { ApolloErrorFormatter } from "../../graphql/apolloErrorFormatter";
-import { useLazyQuery } from "@apollo/client";
+import { useLazyQuery, useMutation } from "@apollo/client";
 import toast from "react-hot-toast";
 import { LocalSearch } from "../../utils/localSearch";
 import { Table } from "../../components/table";
@@ -12,6 +12,13 @@ import UserProfile from "../../components/userProfile";
 import { Icon } from "@iconify/react/dist/iconify.js";
 
 import { ActionMenus } from "./actionMenus";
+import { Select } from "../../components/select";
+import AccountStatus from "../../components/accountStatus";
+import {
+  ConfirmationModalContext,
+  type ConfirmationModalPropsType,
+} from "../../context/confirmationModalContext";
+import { UPDATE_USER } from "../../graphql/mutations/user";
 
 const List = () => {
   const [users, setUsers] = useState<any[]>([]);
@@ -19,6 +26,7 @@ const List = () => {
   const [selectedUser, setSelectedUser] = useState<any>(null);
   const [searchValue, setSearchValue] = useState("");
   const [openDrawer, setOpenDrawer] = useState(false);
+  const [status, setStatus] = useState("none-deleted");
 
   const [form] = Form.useForm();
   const [searchParams] = useSearchParams();
@@ -41,10 +49,11 @@ const List = () => {
       getUsers({
         variables: {
           role,
+          status,
         },
       });
     }
-  }, [role]);
+  }, [role, status]);
 
   useEffect(() => {
     if (usersCopy.length > 0) {
@@ -61,6 +70,47 @@ const List = () => {
       }
     }
   }, [searchValue, usersCopy]);
+
+  const { setConfirmationModalProps: setcmProps } = useContext(
+    ConfirmationModalContext
+  );
+
+  const [updateUser, { loading: updating }] = useMutation(UPDATE_USER, {
+    onCompleted: () => {
+      toast.success("User restored successfully");
+      getUsers({
+        variables: {
+          role,
+          status,
+        },
+      });
+    },
+    onError: (error: any) => {
+      toast.error(ApolloErrorFormatter(error, true).toString());
+    },
+  });
+
+  useEffect(() => {
+    setcmProps((prev: ConfirmationModalPropsType) => ({
+      ...prev,
+      onCancel: () => {},
+      content: "Are you sure want to restore this account ?",
+      okButtonText: "Yes, restore",
+    }));
+  }, []);
+
+  const handleRestoreAccount = async (id: string) => {
+    try {
+      updateUser({
+        variables: {
+          _id: id,
+          status: "active",
+        },
+      });
+    } catch (error: any) {
+      toast.error(ApolloErrorFormatter(error, true).toString());
+    }
+  };
 
   const columns: any[] = [
     {
@@ -108,17 +158,46 @@ const List = () => {
       ),
     },
     {
+      title: "Account status",
+      dataIndex: "status",
+      key: "status",
+      render: (_: string, record: any) => {
+        return <AccountStatus status={record?.status} />;
+      },
+    },
+    {
       title: "More",
       key: "more",
       render: (record: any) => (
         <>
-          <ActionMenus
-            record={record}
-            onEdit={() => {
-              setSelectedUser(record);
-              setOpenDrawer(true);
-            }}
-          />
+          {record?.status === "deleted" ? (
+            <Button
+              type='default'
+              icon={
+                <Icon icon='hugeicons:restore-bin' width={20} height={20} />
+              }
+              danger
+              onClick={() => {
+                setcmProps((prev: ConfirmationModalPropsType) => ({
+                  ...prev,
+                  onOk: async () => {
+                    handleRestoreAccount(record?._id);
+                  },
+                  show: true,
+                }));
+              }}
+            >
+              Restore
+            </Button>
+          ) : (
+            <ActionMenus
+              record={record}
+              onEdit={() => {
+                setSelectedUser(record);
+                setOpenDrawer(true);
+              }}
+            />
+          )}
         </>
       ),
     },
@@ -148,7 +227,7 @@ const List = () => {
         data={users}
         columns={columns}
         rowKey='_id'
-        loading={loading}
+        loading={loading || updating}
         onSearchInputChange={(value: string) => {
           setSearchValue(value);
         }}
@@ -158,6 +237,25 @@ const List = () => {
         }}
         addButtonTitle={lableInfos[role ?? "user"]?.addButtonTitle}
         showAddButton={role === "user"}
+        FilterOption={
+          <Select
+            data={[
+              {
+                text: "Deleted users",
+                value: "deleted",
+              },
+              {
+                text: "Active users",
+                value: "none-deleted",
+              },
+            ]}
+            placeholderText='Apply user filter'
+            onChange={(value: any) => {
+              setStatus(value);
+            }}
+            classNames='shadow-none focus:shadow-none outline-none bg-transparent'
+          />
+        }
       />
       {openDrawer && (
         <RegisterNewUserForm
