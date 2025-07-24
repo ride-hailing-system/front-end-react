@@ -1,4 +1,4 @@
-import React from "react";
+import React, { type ReactElement } from "react";
 import { SearchOutlined } from "@ant-design/icons";
 import { Input } from "antd";
 import { AddButton } from "./addButton";
@@ -11,6 +11,7 @@ const TableHeaderBar = ({
   addButtonTitle,
   showAddButton,
   showSearchInput,
+  FilterOption,
 }: {
   onSearchInputChange: (value: string) => void;
   placeholder: string;
@@ -19,6 +20,7 @@ const TableHeaderBar = ({
   addButtonTitle: string;
   showAddButton: boolean;
   showSearchInput: boolean;
+  FilterOption?: ReactElement;
 }) => {
   const handleEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter" && event.currentTarget.value) {
@@ -31,7 +33,7 @@ const TableHeaderBar = ({
   };
 
   return (
-    <div className='flex items-center justify-between p-4 rounded-lg shadow-main bg-white mb-6'>
+    <div className='flex items-center justify-between p-4 rounded-lg shadow-main bg-white gap-2'>
       {showSearchInput ? (
         <Input
           placeholder={placeholder}
@@ -51,6 +53,7 @@ const TableHeaderBar = ({
           allowClear
           onChange={handleChange}
           value={value}
+          addonAfter={FilterOption && FilterOption}
         />
       ) : (
         <div></div>

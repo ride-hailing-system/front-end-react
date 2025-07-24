@@ -23,8 +23,8 @@ export const GET_USER_BY_ID = gql`
 `;
 
 export const GET_USERS = gql`
-  query getAllUsers($role: String!) {
-    getAllUsers(role: $role) {
+  query getAllUsers($role: String!,$status: String!) {
+    getAllUsers(role: $role,status: $status) {
       ${USER_FIELDS}
     }
   }

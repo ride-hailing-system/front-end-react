@@ -1,5 +1,6 @@
 import { Table as MainTable } from "antd";
 import TableHeaderBar from "./tableHeaderBar";
+import type { ReactElement } from "react";
 
 export const Table = ({
   data,
@@ -14,6 +15,7 @@ export const Table = ({
   showHeaderBar = true,
   emptyComponent,
   showSearchInput = true,
+  FilterOption,
 }: {
   data: any[];
   columns: {
@@ -31,23 +33,10 @@ export const Table = ({
   showHeaderBar?: boolean;
   emptyComponent?: any;
   showSearchInput?: boolean;
+  FilterOption?: ReactElement;
 }) => {
   return (
     <>
-      {showHeaderBar && (
-        <TableHeaderBar
-          onSearchInputChange={(value: string) => {
-            onSearchInputChange && onSearchInputChange(value);
-          }}
-          placeholder={placeholderText ? placeholderText : ""}
-          onAddButtonClicked={() => {
-            onAddButtonClicked && onAddButtonClicked();
-          }}
-          addButtonTitle={addButtonTitle ? addButtonTitle : ""}
-          showAddButton={showAddButton}
-          showSearchInput={showSearchInput}
-        />
-      )}
       <MainTable
         dataSource={data}
         columns={columns}
@@ -56,6 +45,23 @@ export const Table = ({
         locale={{
           emptyText: emptyComponent && emptyComponent,
         }}
+        title={() =>
+          showHeaderBar && (
+            <TableHeaderBar
+              onSearchInputChange={(value: string) => {
+                onSearchInputChange && onSearchInputChange(value);
+              }}
+              placeholder={placeholderText ? placeholderText : ""}
+              onAddButtonClicked={() => {
+                onAddButtonClicked && onAddButtonClicked();
+              }}
+              addButtonTitle={addButtonTitle ? addButtonTitle : ""}
+              showAddButton={showAddButton}
+              showSearchInput={showSearchInput}
+              FilterOption={FilterOption}
+            />
+          )
+        }
       />
     </>
   );
