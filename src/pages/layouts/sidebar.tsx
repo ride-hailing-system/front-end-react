@@ -107,10 +107,10 @@ const Sidebar = ({ activeKey, onSelect, onCollapsed }: SidebarProps) => {
                   pathname: item.path,
                   search: item.role ? `?role=${item.role}` : undefined,
                 }}
-                className={`flex text-lg items-center px-2 py-2 rounded-md text-white ${
+                className={`flex text-lg items-center px-2 py-2 rounded-md !text-white ${
                   activeKey === item.key
-                    ? `font-semibold text-white bg-gray-700`
-                    : "hover:bg-gray-600 hover:font-bold"
+                    ? `!font-semibold !text-white !bg-gray-700`
+                    : "hover:!bg-gray-600 hover:!font-bold"
                 }`}
                 onClick={() => {
                   onSelect(item);
@@ -130,10 +130,10 @@ const Sidebar = ({ activeKey, onSelect, onCollapsed }: SidebarProps) => {
           <li className='absolute bottom-8 left-0 w-full'>
             <Link
               to={menuItems[menuItems.length - 1].path}
-              className={`flex text-lg items-center px-4 py-2 rounded-lg transition-all duration-200 text-white ${
+              className={`flex text-lg items-center px-4 py-2 rounded-lg transition-all duration-200 !text-white ${
                 activeKey === menuItems[menuItems.length - 1].key
-                  ? `font-semibold text-white bg-gray-700`
-                  : "hover:bg-gray-600 hover:font-bold"
+                  ? `!font-semibold !text-white !bg-gray-700`
+                  : "hover:!bg-gray-600 hover:!font-bold"
               }`}
               onClick={() => {
                 onSelect(menuItems[menuItems.length - 1]);

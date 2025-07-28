@@ -5,19 +5,17 @@ import { LOGIN_USER } from "../../graphql/queries/auth";
 import toast from "react-hot-toast";
 import { ApolloErrorFormatter } from "../../graphql/apolloErrorFormatter";
 import PasswordInput from "../../components/passwordInput";
-import { UserContext, type AppData } from "../../context/userContext";
-import { use } from "react";
+import { UserContext } from "../../context/userContext";
+import { useContext } from "react";
 
 const Login = () => {
   const navigate = useNavigate();
 
-  const { setUserData } = use(UserContext);
+  const { setUserData } = useContext(UserContext);
 
   const [login, { loading }] = useLazyQuery(LOGIN_USER, {
     onCompleted: (data) => {
       const tmp = data.login;
-      const appData: AppData = { userData: tmp };
-      localStorage.setItem("appData", JSON.stringify(appData));
       setUserData(tmp);
 
       if (["admin", "user"].includes(tmp.role)) {

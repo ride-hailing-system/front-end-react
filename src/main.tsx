@@ -9,6 +9,7 @@ import { ApolloProvider } from "@apollo/client";
 import { UserProvider } from "./context/userContext.tsx";
 import { Toaster } from "react-hot-toast";
 import { ConfirmationModalProvider } from "./context/confirmationModalContext.tsx";
+import { LoadingProvider } from "./context/loadingContext.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -27,8 +28,10 @@ createRoot(document.getElementById("root")!).render(
       <ApolloProvider client={client}>
         <UserProvider>
           <ConfirmationModalProvider>
-            <Toaster />
-            <App />
+            <LoadingProvider>
+              <Toaster />
+              <App />
+            </LoadingProvider>
           </ConfirmationModalProvider>
         </UserProvider>
       </ApolloProvider>

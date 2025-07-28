@@ -1,10 +1,14 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { useState, useRef, useEffect, use } from "react";
+import { useState, useRef, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Drawer } from "../../components/drawer";
 import ChangePassword from "../auth/changePassword";
 import { Form } from "antd";
 import { UserContext } from "../../context/userContext";
+import {
+  ConfirmationModalContext,
+  type ConfirmationModalPropsType,
+} from "../../context/confirmationModalContext";
 
 type HeaderProps = {
   pageTitle?: string;
@@ -13,14 +17,17 @@ type HeaderProps = {
 };
 
 const Header = ({ pageTitle, pageTitleDescription, bgColor }: HeaderProps) => {
-  const navigate = useNavigate();
   const [showDropdown, setShowDropdown] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const notificationRef = useRef<HTMLDivElement>(null);
   const [openDrawer, setOpenDrawer] = useState(false);
 
-  const { userData } = use(UserContext);
+  const { userData } = useContext(UserContext);
+
+  const { setConfirmationModalProps: setcmProps } = useContext(
+    ConfirmationModalContext
+  );
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -42,14 +49,29 @@ const Header = ({ pageTitle, pageTitleDescription, bgColor }: HeaderProps) => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  const navigate = useNavigate();
+
   const handleLogout = () => {
-    if (confirm("are you sure you want to logout?")) {
-      localStorage.removeItem("appData");
-      navigate("/auth/login");
-    }
+    setcmProps((prev: ConfirmationModalPropsType) => ({
+      ...prev,
+      content: "Are you sure want to log out from system ?",
+      onOk: async () => {
+        navigate("/auth/logout");
+      },
+      show: true,
+    }));
   };
 
   const [changePasswordForm] = Form.useForm();
+
+  useEffect(() => {
+    setcmProps((prev: ConfirmationModalPropsType) => ({
+      ...prev,
+      onCancel: () => {},
+      okButtonText: "Yes, Proceed.",
+      cancelButtonText: "Nuh, Stay!",
+    }));
+  }, []);
 
   return (
     <>
@@ -123,7 +145,9 @@ const Header = ({ pageTitle, pageTitleDescription, bgColor }: HeaderProps) => {
                   </p>
                   <p className='mt-2 w-full'>
                     <span className='text-xs text-gray-800 bg-gray-200 p-2 rounded uppercase font-bold'>
-                      {userData?.role === "user" ? "System User" : "Super Admin"}
+                      {userData?.role === "user"
+                        ? "System User"
+                        : "Super Admin"}
                     </span>
                   </p>
                 </div>

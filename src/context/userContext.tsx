@@ -1,9 +1,4 @@
-import React, {
-  createContext,
-  useEffect,
-  useState,
-  type ReactNode,
-} from "react";
+import React, { createContext, useState, type ReactNode } from "react";
 
 export type UserDataType = {
   _id?: string;
@@ -43,22 +38,6 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
     role: undefined,
     token: undefined,
   });
-
-  // Load from localStorage
-  useEffect(() => {
-    try {
-      const storedData = localStorage.getItem("appData");
-      const appData: AppData | null = storedData
-        ? JSON.parse(storedData)
-        : null;
-
-      if (appData?.userData) {
-        setUserData(appData.userData);
-      }
-    } catch (error) {
-      console.error("Error loading user data:", error);
-    }
-  }, []);
 
   return (
     <UserContext.Provider value={{ userData, setUserData }}>
