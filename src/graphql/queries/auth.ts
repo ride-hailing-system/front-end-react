@@ -10,7 +10,6 @@ export const LOGIN_USER = gql`
       email
       role
       status
-      token
     }
   }
 `;
@@ -28,6 +27,34 @@ export const GET_CURRENT_DATE = gql`
     getCurrentDate {
       text
       value
+    }
+  }
+`;
+
+
+export const GET_SESSION_BY_ID = gql`
+  query getSessionById {
+    getSessionById {
+      _id
+      sessionId
+      user {
+        _id
+        firstName
+        lastName
+        email
+        role
+      }
+      token
+      createdAt
+    }
+  }
+`;
+
+
+export const LOGOUT = gql`
+  query logout {
+    logout {
+      _id
     }
   }
 `;

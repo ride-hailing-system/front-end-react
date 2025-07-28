@@ -1,14 +1,21 @@
 import "./App.css";
-import ConfirmModal  from "./components/modal";
+import ConfirmModal from "./components/modal";
 import Routes from "./routes";
+import { useContext } from "react";
+import { Spin } from "antd";
+import { LoadingContext } from "./context/loadingContext";
 
-function App() {
+const App = () => {
+  const { loadingData } = useContext(LoadingContext);
+
   return (
     <>
-      <ConfirmModal />
-      <Routes />;
+      <Spin spinning={loadingData?.isLoading}>
+        <ConfirmModal />
+        <Routes />;
+      </Spin>
     </>
   );
-}
+};
 
 export default App;
