@@ -55,6 +55,8 @@ const Header = ({ pageTitle, pageTitleDescription, bgColor }: HeaderProps) => {
     setcmProps((prev: ConfirmationModalPropsType) => ({
       ...prev,
       content: "Are you sure want to log out from system ?",
+      okButtonText: "Yes, Proceed.",
+      cancelButtonText: "Nuh, Stay!",
       onOk: async () => {
         navigate("/auth/logout");
       },
@@ -68,8 +70,6 @@ const Header = ({ pageTitle, pageTitleDescription, bgColor }: HeaderProps) => {
     setcmProps((prev: ConfirmationModalPropsType) => ({
       ...prev,
       onCancel: () => {},
-      okButtonText: "Yes, Proceed.",
-      cancelButtonText: "Nuh, Stay!",
     }));
   }, []);
 
