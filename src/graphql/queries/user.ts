@@ -30,5 +30,14 @@ export const GET_USERS = gql`
   }
 `;
 
-
+export const GET_USER_BY_PHONENUMBER = gql`
+  query getUserByPhoneNumber($phoneNumber: String!) {
+    getUserByPhoneNumber(phoneNumber: $phoneNumber) {
+      _id
+      firstName
+      lastName
+      status
+    }
+  }
+`;
 
