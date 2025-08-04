@@ -2,6 +2,7 @@ import { useContext, useEffect } from "react";
 import { Modal } from "antd";
 import {
   ConfirmationModalContext,
+  defaultConfirmationModalProps,
   type ConfirmationModalPropsType,
 } from "../context/confirmationModalContext";
 
@@ -22,14 +23,14 @@ const ConfirmationModal = () => {
       onOk() {
         setcmProps((prev: ConfirmationModalPropsType) => ({
           ...prev,
-          show: false,
+          ...defaultConfirmationModalProps,
         }));
         cmProps?.onOk && cmProps?.onOk();
       },
       onCancel() {
         setcmProps((prev: ConfirmationModalPropsType) => ({
           ...prev,
-          show: false,
+          ...defaultConfirmationModalProps,
         }));
         cmProps?.onCancel && cmProps?.onCancel();
       },
