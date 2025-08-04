@@ -1,15 +1,22 @@
-import { Button } from "antd";
 import dayjs from "dayjs";
-import { useEffect, useState } from "react";
-import { ApolloErrorFormatter } from "../graphql/apolloErrorFormatter";
-import { useLazyQuery } from "@apollo/client";
+import { useContext, useEffect, useState } from "react";
+import { ApolloErrorFormatter } from "../../graphql/apolloErrorFormatter";
+import { useLazyQuery, useMutation } from "@apollo/client";
 import toast from "react-hot-toast";
-import { LocalSearch } from "../utils/localSearch";
-import { Table } from "../components/table";
-import { Drawer } from "../components/drawer";
-import UserProfile from "../components/userProfile";
-import { GET_RIDES } from "../graphql/queries/ride";
-import RideStatus from "../components/rideStatus";
+import { LocalSearch } from "../../utils/localSearch";
+import { Table } from "../../components/table";
+import { Drawer } from "../../components/drawer";
+import UserProfile from "../../components/userProfile";
+import { GET_RIDES } from "../../graphql/queries/ride";
+import RideStatus from "../../components/rideStatus";
+import { useNavigate } from "react-router-dom";
+import { ActionMenus } from "../users/actionMenus";
+import { getActionMenus } from "./rideListDatas";
+import {
+  ConfirmationModalContext,
+  type ConfirmationModalPropsType,
+} from "../../context/confirmationModalContext";
+import { DELETE_RIDE } from "../../graphql/mutations/ride";
 
 export type RidesTableType = {
   showHeader?: boolean;
@@ -17,6 +24,7 @@ export type RidesTableType = {
 };
 
 const Rides = ({ showHeader = true, limit = 10 }: RidesTableType) => {
+  const navigate = useNavigate();
   const [rides, setRides] = useState<any[]>([]);
   const [ridesCopy, setRidesCopy] = useState<any[]>([]);
   const [selectedRides, setSelectedRides] = useState<any>(null);
@@ -29,6 +37,15 @@ const Rides = ({ showHeader = true, limit = 10 }: RidesTableType) => {
     onCompleted: (value: any) => {
       setRides(value?.getAllRides || []);
       setRidesCopy(value?.getAllRides || []);
+    },
+    onError: (error: any) => {
+      toast.error(ApolloErrorFormatter(error, true).toString());
+    },
+  });
+
+  const [deleteRequest, { loading: deleting }] = useMutation(DELETE_RIDE, {
+    onCompleted: () => {
+      toast.success("request deleted successfully");
     },
     onError: (error: any) => {
       toast.error(ApolloErrorFormatter(error, true).toString());
@@ -61,6 +78,24 @@ const Rides = ({ showHeader = true, limit = 10 }: RidesTableType) => {
       }
     }
   }, [searchValue, ridesCopy]);
+
+  const { setConfirmationModalProps: setcmProps } = useContext(
+    ConfirmationModalContext
+  );
+
+  const handleDelete = async (id: string) => {
+    try {
+      await deleteRequest({
+        variables: {
+          _id: id,
+        },
+      });
+    } catch (error: any) {
+      toast.error(
+        error.message || "An error occurred while deleting the request"
+      );
+    }
+  };
 
   const columns: any[] = [
     {
@@ -95,7 +130,6 @@ const Rides = ({ showHeader = true, limit = 10 }: RidesTableType) => {
         );
       },
     },
-
     {
       title: "Estimated Fare",
       dataIndex: "fare",
@@ -127,16 +161,30 @@ const Rides = ({ showHeader = true, limit = 10 }: RidesTableType) => {
       key: "action",
       render: (record: any) => (
         <>
-          <Button
-            className='mr-3'
-            onClick={() => {
-              setSelectedRides(record);
-              setOpenDrawer(true);
-            }}
-            type='link'
-          >
-            Show details
-          </Button>
+          <ActionMenus
+            menuItems={getActionMenus({
+              record,
+              onEdit: (record: any) => {
+                //  redirect to
+                console.log(record);
+              },
+              onDelete: (record: any) => {
+                setcmProps((prev: ConfirmationModalPropsType) => ({
+                  ...prev,
+                  content: "Are you sure want to delete this request ?",
+                  okButtonText: "Yes, delete",
+                  onOk: async () => {
+                    handleDelete(record?._id);
+                  },
+                  show: true,
+                }));
+              },
+              onViewDetail: (record: any) => {
+                setSelectedRides(record);
+                setOpenDrawer(true);
+              },
+            })}
+          />
         </>
       ),
     },
@@ -148,7 +196,7 @@ const Rides = ({ showHeader = true, limit = 10 }: RidesTableType) => {
         data={rides}
         columns={columns}
         rowKey='id'
-        loading={loading}
+        loading={loading || deleting}
         onSearchInputChange={(value: string) => {
           setSearchValue(value);
         }}
@@ -158,7 +206,7 @@ const Rides = ({ showHeader = true, limit = 10 }: RidesTableType) => {
         showAddButton={true}
         addButtonTitle='Start new Ride'
         onAddButtonClicked={() => {
-          toast.error("This feature is not implemented yet.");
+          navigate("/admin/rides/registration-form");
         }}
         showHeaderBar={showHeader}
       />

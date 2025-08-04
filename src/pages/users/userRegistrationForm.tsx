@@ -1,15 +1,14 @@
-import { Button, Form, Input, Modal } from "antd";
+import { Form, Input } from "antd";
 import ShortUniqueId from "short-unique-id";
 import { ApolloErrorFormatter } from "../../graphql/apolloErrorFormatter";
 import toast from "react-hot-toast";
 import { useEffect } from "react";
 import { useMutation } from "@apollo/client";
 import { GET_USERS } from "../../graphql/queries/user";
-import { ExclamationCircleFilled } from "@ant-design/icons";
 import { CREATE_USER, UPDATE_USER } from "../../graphql/mutations/user";
 import { Drawer } from "../../components/drawer";
 
-const RegisterNewUserForm = ({
+const UserRegistrationForm = ({
   data,
   onClose,
   onComplete,
@@ -27,35 +26,6 @@ const RegisterNewUserForm = ({
     dictionary: "number",
   });
 
-  const { confirm } = Modal;
-
-  const handlePasswordReset = () => {
-    confirm({
-      title: "Are you sure you want to reset the password?",
-      icon: <ExclamationCircleFilled />,
-      okText: "Ok",
-      okType: "danger",
-      cancelText: "Cancel",
-      onOk: async () => {
-        const Passcode: string = await randomUUID().toString();
-
-        try {
-          const values: any = form.getFieldsValue();
-
-          await updateUser({
-            variables: {
-              ...values,
-              password: Passcode,
-            },
-          });
-        } catch (error) {
-          toast.error(ApolloErrorFormatter(error, true).toString());
-        }
-      },
-      onCancel() {},
-    });
-  };
-
   useEffect(() => {
     form.resetFields();
     form.setFieldsValue(data);
@@ -71,6 +41,7 @@ const RegisterNewUserForm = ({
       toast.error(ApolloErrorFormatter(error, true).toString());
     },
   });
+
   const [updateUser] = useMutation(UPDATE_USER, {
     refetchQueries: [GET_USERS],
     onCompleted: () => {
@@ -100,28 +71,11 @@ const RegisterNewUserForm = ({
     }
   };
 
-  const ResetButton = () => {
-    return (
-      <div className='flex justify-between items-center'>
-        <span>Edit user</span>
-        <Button
-          type='primary'
-          danger
-          onClick={() => {
-            handlePasswordReset();
-          }}
-        >
-          Reset password
-        </Button>
-      </div>
-    );
-  };
-
   const [mainForm] = Form.useForm(form);
 
   return (
     <Drawer
-      title={data ? <ResetButton /> : `New ${role} Registration`}
+      title={data ? `Edit ${role}` : `New ${role} Registration`}
       open
       onClose={() => {
         onClose();
@@ -201,4 +155,4 @@ const RegisterNewUserForm = ({
   );
 };
 
-export default RegisterNewUserForm;
+export default UserRegistrationForm;

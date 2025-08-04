@@ -10,6 +10,7 @@ export const ADMIN_USERS = "/users";
 export const ADMIN_DRIVERS = "/drivers";
 export const ADMIN_RIDERS = "/riders";
 export const ADMIN_RIDES = "/rides";
+export const ADMIN_RIDE_FORM = "/rides/registration-form";
 export const ADMIN_VEHICLES = "/vehicles";
 export const ADMIN_SETTING = "/setting";
 export const ADMIN_NOTIFICATIONS = "/notifications";
@@ -19,9 +20,12 @@ export const ADMIN_DRIVER_DETAIL_PAGE = "/driver-detail/:userId";
 const Routes: React.FC = () => {
   const Dashboard = lazy(() => import("../pages/dashboard"));
   const RegisterdUserList = lazy(
-    () => import("../pages/users/registerdUserList")
+    () => import("../pages/users/registeredUserList")
   );
-  const Rides = lazy(() => import("../pages/rides"));
+  const Rides = lazy(() => import("../pages/rides/registerdRideList"));
+  const RideRegistrationForm = lazy(
+    () => import("../pages/rides/rideRegistrationForm")
+  );
   const Vehicles = lazy(() => import("../pages/vehicles/VehicleList"));
   const Setting = lazy(() => import("../pages/setting"));
   const Notifications = lazy(() => import("../pages/notifications"));
@@ -82,6 +86,15 @@ const Routes: React.FC = () => {
             path={ADMIN_RIDES}
             element={
               <ProtectedRoute extraProps={{ role: "admin" }} element={Rides} />
+            }
+          />
+          <Route
+            path={ADMIN_RIDE_FORM}
+            element={
+              <ProtectedRoute
+                extraProps={{ role: "admin" }}
+                element={RideRegistrationForm}
+              />
             }
           />
           <Route

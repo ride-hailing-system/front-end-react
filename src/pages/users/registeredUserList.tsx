@@ -1,4 +1,4 @@
-import { Button, Form } from "antd";
+import { Form } from "antd";
 import { useContext, useEffect, useState } from "react";
 import { ApolloErrorFormatter } from "../../graphql/apolloErrorFormatter";
 import { useLazyQuery, useMutation } from "@apollo/client";
@@ -6,27 +6,26 @@ import toast from "react-hot-toast";
 import { LocalSearch } from "../../utils/localSearch";
 import { Table } from "../../components/table";
 import { GET_USERS } from "../../graphql/queries/user";
-import RegisterNewUserForm from "./registerNewUserForm";
-import { useSearchParams } from "react-router-dom";
-import UserProfile from "../../components/userProfile";
-import { Icon } from "@iconify/react/dist/iconify.js";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
-import { ActionMenus } from "./actionMenus";
 import { Select } from "../../components/select";
-import AccountStatus from "../../components/accountStatus";
 import {
   ConfirmationModalContext,
   type ConfirmationModalPropsType,
 } from "../../context/confirmationModalContext";
 import { UPDATE_USER } from "../../graphql/mutations/user";
+import { HandleSuspendUser } from "./userMenuActions";
+import { getColumns, lableInfos } from "./usersListDatas";
+import UserRegistrationForm from "./userRegistrationForm";
 
-const List = () => {
+const RegisteredUserList = () => {
   const [users, setUsers] = useState<any[]>([]);
   const [usersCopy, setUsersCopy] = useState<any[]>([]);
   const [selectedUser, setSelectedUser] = useState<any>(null);
   const [searchValue, setSearchValue] = useState("");
   const [openDrawer, setOpenDrawer] = useState(false);
   const [status, setStatus] = useState("none-deleted");
+  const [isSuspendFormVisible, setIsSuspendFormVisible] = useState(false);
 
   const [form] = Form.useForm();
   const [searchParams] = useSearchParams();
@@ -94,8 +93,6 @@ const List = () => {
     setcmProps((prev: ConfirmationModalPropsType) => ({
       ...prev,
       onCancel: () => {},
-      content: "Are you sure want to restore this account ?",
-      okButtonText: "Yes, restore",
     }));
   }, []);
 
@@ -112,120 +109,60 @@ const List = () => {
     }
   };
 
-  const columns: any[] = [
-    {
-      title: "User",
-      dataIndex: "user",
-      key: "user",
-      render: (_: string, record: any) => (
-        <UserProfile
-          firstName={record?.firstName}
-          lastName={record?.lastName}
-          photoUrl={record?.photoUrl}
-        />
-      ),
-    },
-    {
-      title: "Phone #",
-      dataIndex: "phoneNumber",
-      key: "phoneNumber",
-      render: (_: string, record: any) => (
-        <div className='flex items-center gap-2'>
-          <Icon
-            icon='mdi:phone'
-            width={25}
-            height={25}
-            className='text-gray-700'
-          />
-          <span className='text-sm'>{record?.phoneNumber}</span>
-        </div>
-      ),
-    },
-    {
-      title: "Email",
-      dataIndex: "email",
-      key: "email",
-      render: (_: string, record: any) => (
-        <div className='flex items-center gap-2'>
-          <Icon
-            icon='mdi:email'
-            width={25}
-            height={25}
-            className='text-gray-700'
-          />
-          <span className='text-sm'>{record?.email}</span>
-        </div>
-      ),
-    },
-    {
-      title: "Account status",
-      dataIndex: "status",
-      key: "status",
-      render: (_: string, record: any) => {
-        return <AccountStatus status={record?.status} />;
-      },
-    },
-    {
-      title: "More",
-      key: "more",
-      render: (record: any) => (
-        <>
-          {record?.status === "deleted" ? (
-            <Button
-              type='default'
-              icon={
-                <Icon icon='hugeicons:restore-bin' width={20} height={20} />
-              }
-              danger
-              onClick={() => {
-                setcmProps((prev: ConfirmationModalPropsType) => ({
-                  ...prev,
-                  onOk: async () => {
-                    handleRestoreAccount(record?._id);
-                  },
-                  show: true,
-                }));
-              }}
-            >
-              Restore
-            </Button>
-          ) : (
-            <ActionMenus
-              record={record}
-              onEdit={() => {
-                setSelectedUser(record);
-                setOpenDrawer(true);
-              }}
-            />
-          )}
-        </>
-      ),
-    },
-  ];
-
-  const lableInfos = {
-    user: {
-      addButtonTitle: "Add new User",
-      placeholderText:
-        "Search by user information (first name, last name, email & phone number)",
-    },
-    driver: {
-      addButtonTitle: "Add new Driver",
-      placeholderText:
-        "Search by driver information (first name, last name, email & phone number)",
-    },
-    rider: {
-      addButtonTitle: "Add new Rider",
-      placeholderText:
-        "Search by rider information (first name, last name, email & phone number)",
-    },
+  const handleDelete = async (id: string) => {
+    try {
+      await updateUser({
+        variables: {
+          _id: id,
+          status: "deleted",
+        },
+      });
+    } catch (error: any) {
+      toast.error(error.message || "An error occurred while updating the user");
+    }
   };
+
+  const navigate = useNavigate();
 
   return (
     <>
       <Table
         data={users}
-        columns={columns}
+        columns={getColumns({
+          onEdit: (record: any) => {
+            setSelectedUser(record);
+            setOpenDrawer(true);
+          },
+          onSuspend: (record: any) => {
+            setSelectedUser(record);
+            setIsSuspendFormVisible(true);
+          },
+          onDelete: (record: any) => {
+            setcmProps((prev: ConfirmationModalPropsType) => ({
+              ...prev,
+              content: "Are you sure want to delete this user ?",
+              okButtonText: "Yes, delete",
+              onOk: async () => {
+                handleDelete(record?._id);
+              },
+              show: true,
+            }));
+          },
+          onViewDetail: (record: any) => {
+            navigate(`/admin/driver-detail/${record?._id}`);
+          },
+          onRestoreAccount: (record: any) => {
+            setcmProps((prev: ConfirmationModalPropsType) => ({
+              ...prev,
+              content: "Are you sure want to restore this account ?",
+              okButtonText: "Yes, restore",
+              onOk: async () => {
+                handleRestoreAccount(record?._id);
+              },
+              show: true,
+            }));
+          },
+        })}
         rowKey='_id'
         loading={loading || updating}
         onSearchInputChange={(value: string) => {
@@ -257,8 +194,15 @@ const List = () => {
           />
         }
       />
+      <HandleSuspendUser
+        record={selectedUser}
+        open={isSuspendFormVisible}
+        onClose={() => {
+          setIsSuspendFormVisible(false);
+        }}
+      />
       {openDrawer && (
-        <RegisterNewUserForm
+        <UserRegistrationForm
           data={selectedUser}
           onClose={() => {
             setOpenDrawer(false);
@@ -278,4 +222,4 @@ const List = () => {
   );
 };
 
-export default List;
+export default RegisteredUserList;

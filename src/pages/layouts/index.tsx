@@ -148,7 +148,7 @@ const Index: React.FC<LayoutProps> = ({ children }) => {
 
         <main
           className='flex-1 overflow-auto custom-scrollbar bg-white rounded-md
-     p-4 m-4'
+     p-4 mx-3'
         >
           {children}
         </main>

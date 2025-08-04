@@ -36,18 +36,22 @@ export const ConfirmationModalContext =
     setConfirmationModalProps: () => {},
   });
 
+export const defaultConfirmationModalProps: ConfirmationModalPropsType = {
+  title: "Confirmation",
+  content: "Are you sure want to delete this?",
+  okButtonText: "Yes, delete",
+  cancelButtonText: "No, leave it that.",
+  show: false,
+  onOk: () => {},
+  onCancel: () => {},
+};
+
 export const ConfirmationModalProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [confirmationModalProps, setConfirmationModalProps] =
     useState<ConfirmationModalPropsType>({
-      title: "Confirmation",
-      content: "Are you sure want to delete this ?",
-      okButtonText: "Yes, delete",
-      cancelButtonText: "No, leave it that.",
-      show: false,
-      onOk: () => {},
-      onCancel: () => {},
+      ...defaultConfirmationModalProps,
     });
 
   return (

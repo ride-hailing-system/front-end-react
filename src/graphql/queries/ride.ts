@@ -2,6 +2,8 @@ import { gql } from '@apollo/client';
 
 export const RIDE_FIELDS = `
   _id
+  phoneNumber
+  fullName
   riderInfo {
     _id
     firstName
@@ -24,6 +26,8 @@ export const RIDE_FIELDS = `
   }
   fare
   status
+  createdByAdmin
+  requestNumber
   requestedAt
   completedAt
 `;
