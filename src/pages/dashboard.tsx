@@ -1,5 +1,5 @@
 import { Icon } from "@iconify/react";
-import Rides from "./rides";
+import Rides from "./rides/registerdRideList";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { ApolloErrorFormatter } from "../graphql/apolloErrorFormatter";
