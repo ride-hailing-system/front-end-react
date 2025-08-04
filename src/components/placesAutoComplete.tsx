@@ -4,7 +4,11 @@ import usePlacesAutocomplete, {
   getLatLng,
 } from "use-places-autocomplete";
 
-export type LocationType = { latitude: number; longitude: number };
+export type LocationType = {
+  latitude: number;
+  longitude: number;
+  description: string;
+};
 
 const PlacesAutocomplete = ({
   placeHolderText,
@@ -31,7 +35,7 @@ const PlacesAutocomplete = ({
         east: 38.79,
         west: 38.69,
       },
-      radius: 15000, // 15 km radius (tighten if needed)
+      radius: 15000,
       componentRestrictions: { country: "ET" },
     },
   });
@@ -44,7 +48,7 @@ const PlacesAutocomplete = ({
 
       getGeocode({ address: description }).then((results: any[]) => {
         const { lat, lng } = getLatLng(results[0]);
-        onSelect({ latitude: lat, longitude: lng });
+        onSelect({ latitude: lat, longitude: lng, description });
       });
     };
 

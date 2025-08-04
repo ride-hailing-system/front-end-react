@@ -15,6 +15,7 @@ const containerStyle = {
 const center = {
   latitude: 9.03,
   longitude: 38.74,
+  description: "",
 };
 
 export type OnCalculateType = {
@@ -25,10 +26,12 @@ export type MapTypes = {
   from?: {
     latitude: number;
     longitude: number;
+    description: string;
   };
   to?: {
     latitude: number;
     longitude: number;
+    description: string;
   };
   onCalculate?: (value: OnCalculateType | undefined) => void;
 };
