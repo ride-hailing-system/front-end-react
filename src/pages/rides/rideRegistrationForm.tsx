@@ -29,10 +29,12 @@ type StartRideFormValues = {
   pickupLocation: {
     latitude: number;
     longitude: number;
+    description: string;
   };
   dropOffLocation: {
     latitude: number;
     longitude: number;
+    description: string;
   };
   createdByAdmin: boolean;
   fare: number;
@@ -249,17 +251,20 @@ const RegistrationForm = ({
               if (
                 value &&
                 typeof value.latitude === "number" &&
-                typeof value.longitude === "number"
+                typeof value.longitude === "number" &&
+                typeof value.description === "string"
               ) {
                 onLocationChange({
                   from: {
                     latitude: value.latitude,
                     longitude: value.longitude,
+                    description: value.description,
                   },
                 });
                 form.setFieldValue("pickupLocation", {
                   latitude: value.latitude,
                   longitude: value.longitude,
+                  description: value.description,
                 });
               } else {
                 setCalculatedValues(undefined);
@@ -288,14 +293,20 @@ const RegistrationForm = ({
               if (
                 value &&
                 typeof value.latitude === "number" &&
-                typeof value.longitude === "number"
+                typeof value.longitude === "number" &&
+                typeof value.description === "string"
               ) {
                 onLocationChange({
-                  to: { latitude: value.latitude, longitude: value.longitude },
+                  to: {
+                    latitude: value.latitude,
+                    longitude: value.longitude,
+                    description: value.description,
+                  },
                 });
                 form.setFieldValue("dropoffLocation", {
                   latitude: value.latitude,
                   longitude: value.longitude,
+                  description: value.description,
                 });
               } else {
                 setCalculatedValues(undefined);

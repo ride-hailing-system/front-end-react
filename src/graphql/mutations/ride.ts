@@ -29,8 +29,8 @@ export const CREATE_RIDE = gql`
     $rider: String
     $phoneNumber: String
     $fullName: String
-    $pickupLocation: LocationInput!
-    $dropoffLocation: LocationInput!
+    $pickupLocation: GeoLocationInput!
+    $dropoffLocation: GeoLocationInput!
     $fare: Float
     $createdByAdmin: Boolean
     $requestNumber: String!
@@ -58,8 +58,8 @@ export const UPDATE_RIDE = gql`
     $driver: String
     $phoneNumber: String
     $fullName: String
-    $pickupLocation: LocationInput
-    $dropoffLocation: LocationInput
+    $pickupLocation: GeoLocationInput
+    $dropoffLocation: GeoLocationInput
     $fare: Float
     $status: String
     $createdByAdmin: Boolean
