@@ -155,6 +155,11 @@ export const getColumns = ({
           firstName={record?.firstName}
           lastName={record?.lastName}
           photoUrl={record?.photoUrl}
+          link={
+            record?.role === "driver"
+              ? `/admin/driver-detail/${record?._id}`
+              : undefined
+          }
         />
       ),
     },
