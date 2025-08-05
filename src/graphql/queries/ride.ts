@@ -18,11 +18,19 @@ export const RIDE_FIELDS = `
   }
   pickupLocation {
     type
-    coordinates
+    coordinates {
+      latitude
+      longitude
+      description
+    }
   }
   dropoffLocation {
     type
-    coordinates
+    coordinates {
+      latitude
+      longitude
+      description
+    }
   }
   fare
   status
@@ -31,6 +39,7 @@ export const RIDE_FIELDS = `
   requestedAt
   completedAt
 `;
+
 
 export const GET_RIDES_BY_ID = gql`
   query GetRidesById($_id: String!) {

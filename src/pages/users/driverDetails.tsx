@@ -68,62 +68,30 @@ const DriverDetails = () => {
 
   return (
     <div className='flex flex-col items-center justify-between mb-4'>
-      <div className='flex items-center justify-between bg-gray-50 p-4 rounded-lg w-full'>
-        <div className='flex items-center gap-2'>
-          {/* user profile */}
-          <div>
-            {!userDetail?.userInfo?.photoUrl ? (
-              <Avatar
-                src={userDetail?.userInfo?.photoUrl}
-                size={80}
-                style={{ marginRight: 8 }}
-              />
-            ) : (
-              <Avatar
-                icon={<UserOutlined />}
-                size={80}
-                style={{ marginRight: 8 }}
-              />
-            )}
-          </div>
-          {/* user info */}
-          <div className='flex flex-col gap-1text-gray-600'>
-            <div className='flex flex-col'>
-              <span className='ml-3 font-bold text-2xl text-nowrap'>{`${userDetail?.userInfo?.firstName} ${userDetail?.userInfo?.lastName}`}</span>
-            </div>
-            <div className='ml-3 flex items-center gap-2'>
-              <Icon
-                icon='mdi:phone-outline'
-                width={20}
-                height={20}
-                className='text-gray-700'
-              />
-              <span className='text-sm'>
-                {userDetail?.userInfo?.phoneNumber}
-              </span>
-            </div>
-            <div className='ml-3 flex items-center gap-2'>
-              <Icon
-                icon='mdi:email-outline'
-                width={20}
-                height={20}
-                className='text-gray-700'
-              />
-              <span className='text-sm'>{userDetail?.userInfo?.email}</span>
-            </div>
-          </div>
-        </div>
-        <div>
-          <Button
-            type='primary'
-            className=''
+      <div className='flex items-center gap-4 p-4 rounded-lg w-full'>
+        {/* back button */}
+        <div className='flex justify-center items-center cursor-pointer'>
+          <Icon
+            icon='ion:arrow-back-outline'
+            className='text-gray-900 self-center'
+            width={30}
+            height={30}
             onClick={() => {
               navigate("/admin/drivers?role=driver");
             }}
-            icon={<Icon icon='mdi:arrow-left' />}
-          >
-            Return
-          </Button>
+          />
+        </div>
+        {/* user info */}
+        <div className='flex items-center gap-2'>
+          <UserProfile
+            firstName={userDetail?.userInfo?.firstName}
+            lastName={userDetail?.userInfo?.lastName}
+            photoUrl={userDetail?.userInfo?.photoUrl}
+            phoneNumber={userDetail?.userInfo?.phoneNumber}
+            email={userDetail?.userInfo?.email}
+            nameStyle='!ml-3 !font-bold !text-nowrap !text-2xl'
+            avatarSize={70}
+          />
         </div>
       </div>
       <div className='bg-gray-50 shadow-md rounded-lg mt-4 w-full p-4'>

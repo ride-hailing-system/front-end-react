@@ -124,7 +124,7 @@ const RegistrationForm = ({
   >();
   const { randomUUID } = new ShortUniqueId({
     length: 8,
-    dictionary: "number",
+    dictionary: "alphanum",
   });
 
   const { setConfirmationModalProps: setcmProps } = useContext(
