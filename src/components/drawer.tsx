@@ -11,6 +11,7 @@ export const Drawer = ({
   buttonTitle,
   buttonDanger = false,
   loading,
+  footer,
 }: {
   title: string | React.ReactNode;
   isEdit?: boolean;
@@ -22,6 +23,7 @@ export const Drawer = ({
   buttonTitle?: string;
   buttonDanger?: boolean;
   loading?: boolean;
+  footer?: React.ReactNode;
 }) => {
   return (
     <MainDrawer
@@ -31,19 +33,21 @@ export const Drawer = ({
         onClose();
       }}
       footer={
-        <Button
-          htmlType='button'
-          className='h-10 w-full'
-          type='primary'
-          onClick={() => {
-            form.submit();
-          }}
-          loading={loading}
-          size='large'
-          danger={buttonDanger}
-        >
-          {buttonTitle ? buttonTitle : isEdit ? "Save Changes" : "Create"}
-        </Button>
+        footer ?? (
+          <Button
+            htmlType='button'
+            className='h-10 w-full'
+            type='primary'
+            onClick={() => {
+              form.submit();
+            }}
+            loading={loading}
+            size='large'
+            danger={buttonDanger}
+          >
+            {buttonTitle ? buttonTitle : isEdit ? "Save Changes" : "Create"}
+          </Button>
+        )
       }
       maskClosable={false}
       width={width}
