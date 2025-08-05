@@ -17,6 +17,7 @@ import {
   type ConfirmationModalPropsType,
 } from "../../context/confirmationModalContext";
 import { DELETE_RIDE } from "../../graphql/mutations/ride";
+import RideDetail from "./rideDetail";
 
 export type RidesTableType = {
   showHeader?: boolean;
@@ -69,6 +70,7 @@ const Rides = ({ showHeader = true, limit = 10 }: RidesTableType) => {
           "driverInfo.firstName",
           "driverInfo.lastName",
           "status",
+          "requestNumber",
           "requestedAt",
         ]);
 
@@ -126,6 +128,7 @@ const Rides = ({ showHeader = true, limit = 10 }: RidesTableType) => {
             firstName={record?.driverInfo?.firstName}
             lastName={record?.driverInfo?.lastName}
             photoUrl={record?.driverInfo?.photoUrl}
+            link={`/admin/driver-detail/${record?.driverInfo?._id}`}
           />
         );
       },
@@ -201,7 +204,7 @@ const Rides = ({ showHeader = true, limit = 10 }: RidesTableType) => {
           setSearchValue(value);
         }}
         placeholderText={
-          "Search by ride information such as rider, driver,  status, and requested at."
+          "Search by name, status, request number or requested at."
         }
         showAddButton={true}
         addButtonTitle='Start new Ride'
@@ -213,14 +216,15 @@ const Rides = ({ showHeader = true, limit = 10 }: RidesTableType) => {
 
       {openDrawer && (
         <Drawer
-          title={"Ride detail view"}
+          title={"View complete ride information"}
           open
           onClose={() => {
             setOpenDrawer(false);
           }}
+          width={600}
+          footer={<div />}
         >
-          <p>Detail view</p>
-          <p>Selected Ride: {JSON.stringify(selectedRides)}</p>
+          <RideDetail data={selectedRides} />
         </Drawer>
       )}
     </>
