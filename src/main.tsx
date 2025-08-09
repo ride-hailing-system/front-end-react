@@ -10,6 +10,7 @@ import { UserProvider } from "./context/userContext.tsx";
 import { Toaster } from "react-hot-toast";
 import { ConfirmationModalProvider } from "./context/confirmationModalContext.tsx";
 import { LoadingProvider } from "./context/loadingContext.tsx";
+import { SettingProvider } from "./context/settingContext.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -28,10 +29,12 @@ createRoot(document.getElementById("root")!).render(
       <ApolloProvider client={client}>
         <UserProvider>
           <ConfirmationModalProvider>
-            <LoadingProvider>
-              <Toaster />
-              <App />
-            </LoadingProvider>
+            <SettingProvider>
+              <LoadingProvider>
+                <Toaster />
+                <App />
+              </LoadingProvider>
+            </SettingProvider>
           </ConfirmationModalProvider>
         </UserProvider>
       </ApolloProvider>

@@ -1,15 +1,23 @@
-import { Form, Input } from "antd";
+import { Form, Input, type FormInstance } from "antd";
+import { useContext, useEffect } from "react";
+import toast from "react-hot-toast";
+import { ApolloErrorFormatter } from "../graphql/apolloErrorFormatter";
+import { useLazyQuery } from "@apollo/client";
+import { CHECK_PASSWORD } from "../graphql/queries/auth";
+import { UserContext } from "../context/userContext";
 
 const PasswordInput = ({
   value,
   onChange,
+  label = "Password",
 }: {
-  value: any;
+  label?: string;
+  value?: any;
   onChange: (value: any) => void;
 }) => {
   return (
     <Form.Item
-      label='Password'
+      label={label}
       name='password'
       rules={[
         {
@@ -27,7 +35,7 @@ const PasswordInput = ({
             "Password must include letters, numbers, and special characters",
         },
       ]}
-      className="mb-4"
+      className='mb-4'
     >
       <Input.Password
         value={value}
@@ -35,6 +43,53 @@ const PasswordInput = ({
         size='large'
       />
     </Form.Item>
+  );
+};
+
+export const ConfirmationPassword = ({
+  onChange,
+  form,
+  onSuccess,
+  onLoading,
+}: {
+  onChange: (value: any) => void;
+  form: FormInstance;
+  onSuccess: (value: any) => void;
+  onLoading: (value: boolean) => void;
+}) => {
+  const { userData } = useContext(UserContext);
+
+  const [checkPassword, { loading }] = useLazyQuery(CHECK_PASSWORD, {
+    onCompleted: (data) => {
+      onSuccess(data.checkPassword);
+    },
+    onError: (error: any) => {
+      toast.error(ApolloErrorFormatter(error, true).toString());
+    },
+  });
+
+  const onFinish = async (values: any) => {
+    await checkPassword({
+      variables: { _id: userData._id, password: values.password },
+    });
+  };
+
+  useEffect(() => {
+    onLoading(loading);
+  }, [loading, onLoading]);
+
+  return (
+    <Form
+      form={form}
+      layout='vertical'
+      requiredMark={false}
+      onFinish={onFinish}
+    >
+      <PasswordInput
+        label='Please enter your password to make changes'
+        onChange={onChange}
+      />
+    </Form>
   );
 };
 
