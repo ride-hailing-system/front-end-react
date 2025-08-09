@@ -58,3 +58,13 @@ export const LOGOUT = gql`
     }
   }
 `;
+
+export const CHECK_PASSWORD = gql`
+  query checkPassword($_id: String!, $password: String!) {
+    checkPassword(_id: $_id, password: $password) {
+      _id
+      role
+      status
+    }
+  }
+`;
