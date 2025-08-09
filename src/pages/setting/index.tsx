@@ -17,6 +17,7 @@ import Payment from "./subComponents/payment";
 import User from "./subComponents/user";
 import Notification from "./subComponents/notification";
 import Templates from "./subComponents/template";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 const { Panel } = Collapse;
 
@@ -115,12 +116,19 @@ const SettingsForm = () => {
         requiredMark={false}
       >
         <Collapse
-          defaultActiveKey={["1","2", "3", "4", "5", "6", "7"]}
+          defaultActiveKey={["1", "2", "3", "4", "5", "6", "7"]}
           bordered={false}
           expandIconPosition='end'
           style={{
             backgroundColor: "transparent",
           }}
+          expandIcon={({ isActive }) =>
+            isActive ? (
+              <Icon icon='ph:caret-circle-down' width={30} height={30} />
+            ) : (
+              <Icon icon='ph:caret-circle-up' width={30} height={30} />
+            )
+          }
         >
           {/* general setting */}
           <Panel
