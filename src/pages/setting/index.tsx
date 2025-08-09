@@ -18,6 +18,7 @@ import User from "./subComponents/user";
 import Notification from "./subComponents/notification";
 import Templates from "./subComponents/template";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import { SettingContext } from "../../context/settingContext";
 
 const { Panel } = Collapse;
 
@@ -31,11 +32,13 @@ const SettingsForm = () => {
     ConfirmationModalContext
   );
 
+  const { setSetting: setSystemSetting } = useContext(SettingContext);
+
   const [getSetting, { loading: gettingSetting }] = useLazyQuery(GET_SETTING, {
     fetchPolicy: "network-only",
     onCompleted: (data: any) => {
-      console.log(data);
       form.setFieldsValue(data?.getSetting);
+      setSystemSetting(data?.getSetting);
     },
     onError: (error: any) => {
       toast.error(ApolloErrorFormatter(error, true).toString());
@@ -46,11 +49,7 @@ const SettingsForm = () => {
     getSetting();
   }, []);
 
-  useEffect(() => {
-    setLoading(gettingSetting);
-  }, [gettingSetting]);
-
-  const [saveSetting] = useMutation(SAVE_SETTING, {
+  const [saveSetting, { loading: savingSetting }] = useMutation(SAVE_SETTING, {
     onCompleted: () => {
       toast.success("Setting saved successfully.");
     },
@@ -58,6 +57,10 @@ const SettingsForm = () => {
       toast.error(ApolloErrorFormatter(error, true).toString());
     },
   });
+
+  useEffect(() => {
+    setLoading(gettingSetting || savingSetting);
+  }, [gettingSetting, savingSetting]);
 
   const onFinish = async (values: any) => {
     setcmProps((prev: ConfirmationModalPropsType) => ({
@@ -114,6 +117,7 @@ const SettingsForm = () => {
           },
         }}
         requiredMark={false}
+        disabled={gettingSetting}
       >
         <Collapse
           defaultActiveKey={["1", "2", "3", "4", "5", "6", "7"]}

@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
-import { useState, type JSX } from "react";
+import { useContext, useState, type JSX } from "react";
 import { Icon } from "@iconify/react";
 import logo from "@/assets/logo.png";
+import { SettingContext } from "../../context/settingContext";
 
 // Define menu items type
 export type MenuItem = {
@@ -77,6 +78,8 @@ export const menuItems: MenuItem[] = [
 const Sidebar = ({ activeKey, onSelect, onCollapsed }: SidebarProps) => {
   const [collapsed, setCollapsed] = useState(false);
 
+  const { setting: systemSetting } = useContext(SettingContext);
+
   return (
     <aside
       className={`h-screen bg-gray-900 shadow-lg transition-all duration-300 ease-in-out fixed top-0 left-0 z-10 ${
@@ -93,7 +96,9 @@ const Sidebar = ({ activeKey, onSelect, onCollapsed }: SidebarProps) => {
             title='ride hailing system logo'
           />
         ) : (
-          <p className='uppercase font-bold text-white'>Smart ride hailig</p>
+          <p className='uppercase font-bold text-white'>
+            {systemSetting?.general?.appName ?? "Smart ride hailig"}
+          </p>
         )}
       </div>
 
