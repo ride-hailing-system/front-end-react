@@ -123,6 +123,7 @@ const Index: React.FC<LayoutProps> = ({ children }) => {
 
   const handleSelect = (item: MenuItem): void => {
     setSelectedMenuItem(item);
+    console.log(selectedMenuItem);
   };
 
   return (
