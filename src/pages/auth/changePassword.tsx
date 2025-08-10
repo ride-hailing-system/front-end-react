@@ -3,8 +3,15 @@ import { useMutation } from "@apollo/client";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { UPDATE_USER_PASSWORD } from "../../graphql/mutations/user";
+import { useEffect } from "react";
 
-const ChangePassword = ({ form }: { form: any }) => {
+const ChangePassword = ({
+  form,
+  onLoading,
+}: {
+  form: any;
+  onLoading: (value: boolean) => void;
+}) => {
   const navigate = useNavigate();
 
   const [changePassword, { loading }] = useMutation(UPDATE_USER_PASSWORD, {
@@ -29,6 +36,10 @@ const ChangePassword = ({ form }: { form: any }) => {
       variables: { id: "", password: newPassword },
     });
   };
+
+  useEffect(() => {
+    onLoading(loading);
+  }, [loading]);
 
   return (
     <div className='flex flex-col  bg-white'>

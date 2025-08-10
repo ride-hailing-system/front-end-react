@@ -131,7 +131,7 @@ const Vehicles = () => {
             setOpenDrawer(false);
           }}
         >
-          <p>Detail view</p>
+          <p>{JSON.stringify(selectedVehicle)}</p>
         </Drawer>
       )}
     </>

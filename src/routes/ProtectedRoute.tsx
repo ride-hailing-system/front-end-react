@@ -20,12 +20,12 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
 }) => {
   const { userData, setUserData } = useContext(UserContext);
 
-  const roleNames: any = {
-    admin: "admin",
-    user: "user",
-  };
+  // const roleNames: any = {
+  //   admin: "admin",
+  //   user: "user",
+  // };
 
-  const [getSession, { loading, data }] = useLazyQuery(GET_SESSION_BY_ID, {
+  const [getSession, { data }] = useLazyQuery(GET_SESSION_BY_ID, {
     onCompleted: (data) => {
       const tmp: any = data?.getSessionById;
       if (tmp) {

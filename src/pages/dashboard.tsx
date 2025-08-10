@@ -31,7 +31,7 @@ export type DashboardTypes = {
 const Dashboard = () => {
   const [datas, setDatas] = useState<DashboardTypes>();
 
-  const [getDatas, { loading }] = useLazyQuery(GET_DASHBOARD_DATA, {
+  const [getDatas] = useLazyQuery(GET_DASHBOARD_DATA, {
     fetchPolicy: "network-only",
     onCompleted: (value: any) => {
       setDatas(value?.getDashboardDatas);
@@ -55,7 +55,7 @@ const Dashboard = () => {
   );
 };
 
-export const CardsCount = ({ data }: { data: CardsCountType }) => {
+export const CardsCount = ({ data }: { data?: CardsCountType }) => {
   return (
     <div className='flex justify-between items-center gap-4 mb-4'>
       <div className='bg-gray-50 border-2 border-gray-100 w-full rounded-md p-4 flex flex-col justify-between gap-2'>
