@@ -31,7 +31,7 @@ const Rides = ({ showHeader = true, limit = 10 }: RidesTableType) => {
   const [selectedRides, setSelectedRides] = useState<any>(null);
   const [searchValue, setSearchValue] = useState("");
   const [openDrawer, setOpenDrawer] = useState(false);
-  const [rowLimits, setRowLimits] = useState<number>(limit);
+  // const [rowLimits, setRowLimits] = useState<number>(limit);
 
   const [getRides, { loading }] = useLazyQuery(GET_RIDES, {
     fetchPolicy: "network-only",
@@ -56,7 +56,7 @@ const Rides = ({ showHeader = true, limit = 10 }: RidesTableType) => {
   useEffect(() => {
     getRides({
       variables: {
-        limit: rowLimits,
+        limit: limit,
       },
     });
   }, []);

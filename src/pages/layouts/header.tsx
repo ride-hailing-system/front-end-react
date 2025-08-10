@@ -16,12 +16,13 @@ type HeaderProps = {
   bgColor?: string;
 };
 
-const Header = ({ pageTitle, pageTitleDescription, bgColor }: HeaderProps) => {
+const Header = ({ pageTitle, pageTitleDescription }: HeaderProps) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const notificationRef = useRef<HTMLDivElement>(null);
   const [openDrawer, setOpenDrawer] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const { userData } = useContext(UserContext);
 
@@ -184,8 +185,9 @@ const Header = ({ pageTitle, pageTitleDescription, bgColor }: HeaderProps) => {
           form={changePasswordForm}
           buttonTitle={"Change Password"}
           buttonDanger={true}
+          loading={loading}
         >
-          <ChangePassword form={changePasswordForm} />
+          <ChangePassword form={changePasswordForm} onLoading={setLoading} />
         </Drawer>
       )}
     </>
