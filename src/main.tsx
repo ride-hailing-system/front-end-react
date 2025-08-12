@@ -6,11 +6,11 @@ import { client } from "./graphql/client";
 import App from "./App.tsx";
 import { ConfigProvider } from "antd";
 import { ApolloProvider } from "@apollo/client";
-import { UserProvider } from "./context/userContext.tsx";
 import { Toaster } from "react-hot-toast";
-import { ConfirmationModalProvider } from "./context/confirmationModalContext.tsx";
-import { LoadingProvider } from "./context/loadingContext.tsx";
-import { SettingProvider } from "./context/settingContext.tsx";
+import { UserProvider } from "./store/context/userContext.tsx";
+import { ConfirmationModalProvider } from "./store/context/confirmationModalContext.tsx";
+import { SettingProvider } from "./store/context/settingContext.tsx";
+import { LoadingProvider } from "./store/context/loadingContext.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

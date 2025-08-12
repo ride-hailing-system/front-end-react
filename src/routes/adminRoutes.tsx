@@ -1,8 +1,8 @@
 import React, { lazy, Suspense } from "react";
 import { Route, Routes as MainRoutes } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute";
-import AdminLayout from "../pages/layouts";
-import SuspensePage from "../pages/layouts/suspensePage";
+import Index from "../layouts/MainLayout/Index";
+import SuspensePage from "../Pages/SuspensePage";
 
 // admin Routes constants
 export const ADMIN_DASHBOARD = "/dashboard";
@@ -18,23 +18,33 @@ export const ADMIN_CHANGE_PASSWORD = "/change-password";
 export const ADMIN_DRIVER_DETAIL_PAGE = "/driver-detail/:userId";
 
 const Routes: React.FC = () => {
-  const Dashboard = lazy(() => import("../pages/dashboard"));
+  const Dashboard = lazy(
+    () => import("../features/dashboard/components/Index")
+  );
   const RegisterdUserList = lazy(
-    () => import("../pages/users/registeredUserList")
+    () => import("../features/users/components/UserList")
   );
-  const Rides = lazy(() => import("../pages/rides/registerdRideList"));
+  const Rides = lazy(() => import("../features/rides/components/RideList"));
   const RideRegistrationForm = lazy(
-    () => import("../pages/rides/rideRegistrationForm")
+    () => import("../features/rides/components/RideRegistrationForm")
   );
-  const Vehicles = lazy(() => import("../pages/vehicles/VehicleList"));
-  const Setting = lazy(() => import("../pages/setting"));
-  const Notifications = lazy(() => import("../pages/notifications"));
-  const ChangePassword = lazy(() => import("../pages/auth/changePassword"));
-  const PageNotFound = lazy(() => import("../pages/PageNotFound"));
-  const DriverDetailPage = lazy(() => import("../pages/users/driverDetails"));
+  const Vehicles = lazy(
+    () => import("../features/vehicles/components/VehicleList")
+  );
+  const Setting = lazy(() => import("../features/settings/components"));
+  const Notifications = lazy(
+    () => import("../features/notifications/components/Index")
+  );
+  const ChangePassword = lazy(
+    () => import("../features/auth/components/ChangePassword")
+  );
+  const PageNotFound = lazy(() => import("../Pages/PageNotFound"));
+  const DriverDetailPage = lazy(
+    () => import("../features/users/components/DriverDetail")
+  );
 
   return (
-    <AdminLayout>
+    <Index>
       <Suspense fallback={<SuspensePage />}>
         <MainRoutes>
           <Route
@@ -144,7 +154,7 @@ const Routes: React.FC = () => {
           />
         </MainRoutes>
       </Suspense>
-    </AdminLayout>
+    </Index>
   );
 };
 

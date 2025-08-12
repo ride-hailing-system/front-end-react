@@ -1,10 +1,10 @@
 import React, { useContext, useEffect } from "react";
 import { Navigate } from "react-router-dom";
-import { UserContext } from "../context/userContext";
 import { useLazyQuery } from "@apollo/client";
 import { GET_SESSION_BY_ID } from "../graphql/queries/auth";
 import { ApolloErrorFormatter } from "../graphql/apolloErrorFormatter";
 import toast from "react-hot-toast";
+import { UserContext } from "../store/context/userContext";
 
 export type userRole = "admin" | "user";
 
