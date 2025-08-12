@@ -7,11 +7,10 @@ import {
 } from "react-router-dom";
 import AdminRoutes from "./adminRoutes";
 import AuthRoutes from "./authRoutes";
-
-import SuspensePage from "../pages/layouts/suspensePage";
+import SuspensePage from "../Pages/SuspensePage";
 
 const AppRoutes: React.FC = () => {
-  const PageNotFound = lazy(() => import("../pages/PageNotFound"));
+  const PageNotFound = lazy(() => import("../Pages/PageNotFound"));
 
   return (
     <Router>
