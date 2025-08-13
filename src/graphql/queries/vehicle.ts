@@ -34,6 +34,3 @@ export const GET_VEHICLES = gql`
     }
   }
 `;
-
-
-

@@ -1,4 +1,4 @@
-import { Select as MainSelect } from "antd";
+import { Select as MainSelect } from 'antd';
 
 type selectType = { text: string; value: string };
 
@@ -16,10 +16,10 @@ export const Select = ({
   const { Option } = MainSelect;
 
   return (
-    <div className='flex justify-end'>
+    <div className="flex justify-end">
       <MainSelect
         placeholder={placeholderText}
-        size='large'
+        size="large"
         className={`${classNames}`}
         onChange={onChange}
       >

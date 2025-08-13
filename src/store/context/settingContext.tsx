@@ -4,7 +4,7 @@ import React, {
   type ReactNode,
   type Dispatch,
   type SetStateAction,
-} from "react";
+} from 'react';
 
 export type AfterNightHours = {
   start: string | undefined;

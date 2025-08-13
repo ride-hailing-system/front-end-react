@@ -1,15 +1,15 @@
-import { Form, Input, type FormInstance } from "antd";
-import { useContext, useEffect } from "react";
-import toast from "react-hot-toast";
-import { ApolloErrorFormatter } from "../graphql/apolloErrorFormatter";
-import { useLazyQuery } from "@apollo/client";
-import { CHECK_PASSWORD } from "../graphql/queries/auth";
-import { UserContext } from "../store/context/userContext";
+import { Form, Input, type FormInstance } from 'antd';
+import { useContext, useEffect } from 'react';
+import toast from 'react-hot-toast';
+import { ApolloErrorFormatter } from '../graphql/apolloErrorFormatter';
+import { useLazyQuery } from '@apollo/client';
+import { CHECK_PASSWORD } from '../graphql/queries/auth';
+import { UserContext } from '../store/context/userContext';
 
 const PasswordInput = ({
   value,
   onChange,
-  label = "Password",
+  label = 'Password',
 }: {
   label?: string;
   value?: any;
@@ -18,29 +18,29 @@ const PasswordInput = ({
   return (
     <Form.Item
       label={label}
-      name='password'
+      name="password"
       rules={[
         {
           required: true,
-          message: "Please enter your password",
+          message: 'Please enter your password',
         },
         {
           min: 8,
-          message: "Password must be at least 8 characters long",
+          message: 'Password must be at least 8 characters long',
         },
         {
           pattern:
             /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&^()[\]{}])[A-Za-z\d@$!%*#?&^()[\]{}]+$/,
           message:
-            "Password must include letters, numbers, and special characters",
+            'Password must include letters, numbers, and special characters',
         },
       ]}
-      className='mb-4'
+      className="mb-4"
     >
       <Input.Password
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        size='large'
+        size="large"
       />
     </Form.Item>
   );
@@ -81,12 +81,12 @@ export const ConfirmationPassword = ({
   return (
     <Form
       form={form}
-      layout='vertical'
+      layout="vertical"
       requiredMark={false}
       onFinish={onFinish}
     >
       <PasswordInput
-        label='Please enter your password to make changes'
+        label="Please enter your password to make changes"
         onChange={onChange}
       />
     </Form>

@@ -1,9 +1,9 @@
-import { Icon } from "@iconify/react/dist/iconify.js";
-import type { MenuProps } from "antd";
-import UserProfileInfo from "../../../components/UserProfileInfo";
-import StatusIndicator from "../../../components/StatusIndicator";
-import dayjs from "dayjs";
-import { ActionMenu } from "../../../components/ActionMenu";
+import { Icon } from '@iconify/react/dist/iconify.js';
+import type { MenuProps } from 'antd';
+import UserProfileInfo from '../../../components/UserProfileInfo';
+import StatusIndicator from '../../../components/StatusIndicator';
+import dayjs from 'dayjs';
+import { ActionMenu } from '../../../components/ActionMenu';
 
 const getActionMenus = ({
   record,
@@ -15,19 +15,19 @@ const getActionMenus = ({
   onEdit: (record: any) => void;
   onDelete: (record: any) => void;
   onViewDetail: (record: any) => void;
-}): MenuProps["items"] => {
+}): MenuProps['items'] => {
   return [
     record?.createdByAdmin
       ? {
           label: (
-            <div className='flex items-center gap-2'>
+            <div className="flex items-center gap-2">
               <Icon
-                icon='basil:edit-outline'
+                icon="basil:edit-outline"
                 width={20}
                 height={20}
-                className='text-gray-700'
+                className="text-gray-700"
               />
-              <span className='text-gray-700 font-semibold'>
+              <span className="text-gray-700 font-semibold">
                 Edit Information
               </span>
             </div>
@@ -35,57 +35,56 @@ const getActionMenus = ({
           onClick: () => {
             onEdit(record);
           },
-          key: "0",
+          key: '0',
         }
       : null,
     record?.createdByAdmin
       ? {
           label: (
-            <div className='flex items-center gap-2'>
+            <div className="flex items-center gap-2">
               <Icon
-                icon='mdi:delete-outline'
+                icon="mdi:delete-outline"
                 width={20}
                 height={20}
-                className='text-red-600'
+                className="text-red-600"
               />
-              <span className='text-red-700 font-light'>Delete request</span>
+              <span className="text-red-700 font-light">Delete request</span>
             </div>
           ),
           onClick: () => {
             onDelete(record);
           },
-          key: "1",
+          key: '1',
         }
       : null,
     record?.createdByAdmin
       ? {
-          type: "divider",
+          type: 'divider',
         }
       : null,
     {
       label: (
         <div>
-          <div className='flex items-center gap-2'>
+          <div className="flex items-center gap-2">
             <Icon
-              icon='mdi:information-outline'
+              icon="mdi:information-outline"
               width={20}
               height={20}
-              className='text-gray-700'
+              className="text-gray-700"
             />
-            <span className='text-gray-700 font-semibold'>View details</span>
+            <span className="text-gray-700 font-semibold">View details</span>
           </div>
         </div>
       ),
       onClick: () => {
         onViewDetail(record);
       },
-      key: "2",
+      key: '2',
     },
   ];
 };
 
 export const useRide = () => {
-  
   const getTableColumns = ({
     onEdit,
     onDelete,
@@ -97,9 +96,9 @@ export const useRide = () => {
   }): any[] => {
     return [
       {
-        title: "Rider",
-        dataIndex: "rider",
-        key: "rider",
+        title: 'Rider',
+        dataIndex: 'rider',
+        key: 'rider',
         render: (_: string, record: any) => (
           <UserProfileInfo
             firstName={record?.riderInfo?.firstName}
@@ -109,14 +108,14 @@ export const useRide = () => {
         ),
       },
       {
-        title: "Driver",
-        dataIndex: "driver",
-        key: "driver",
+        title: 'Driver',
+        dataIndex: 'driver',
+        key: 'driver',
         render: (_: string, record: any) => {
           if (!record?.driverInfo)
             return (
-              <p className='flex items-center justify-center font-light border-solid border-gray-300 rounded-lg p-2'>
-                <span className='text-red-500'>No driver assigned</span>
+              <p className="flex items-center justify-center font-light border-solid border-gray-300 rounded-lg p-2">
+                <span className="text-red-500">No driver assigned</span>
               </p>
             );
           return (
@@ -130,34 +129,34 @@ export const useRide = () => {
         },
       },
       {
-        title: "Estimated Fare",
-        dataIndex: "fare",
-        key: "fare",
+        title: 'Estimated Fare',
+        dataIndex: 'fare',
+        key: 'fare',
         render: (record: any) => {
-          return <p className='font-bold'>{`${record} ETB`}</p>;
+          return <p className="font-bold">{`${record} ETB`}</p>;
         },
       },
       {
-        title: "Status",
-        dataIndex: "status",
-        key: "status",
+        title: 'Status',
+        dataIndex: 'status',
+        key: 'status',
         render: (_: string, record: any) => {
           return <StatusIndicator status={record?.status} />;
         },
       },
       {
-        title: "Requested At",
-        dataIndex: "requestedAt",
-        key: "requestedAt",
+        title: 'Requested At',
+        dataIndex: 'requestedAt',
+        key: 'requestedAt',
         render: (record: any) => (
-          <p className=''>
-            {dayjs(record?.requestedAt).format("YYYY/MM/DD HH:mm")}
+          <p className="">
+            {dayjs(record?.requestedAt).format('YYYY/MM/DD HH:mm')}
           </p>
         ),
       },
       {
-        title: "More",
-        key: "action",
+        title: 'More',
+        key: 'action',
         render: (record: any) => (
           <>
             <ActionMenu
@@ -168,11 +167,9 @@ export const useRide = () => {
                 },
                 onDelete: (record: any) => {
                   onDelete(record);
-                  
                 },
                 onViewDetail: (record: any) => {
                   onViewDetail(record);
-               
                 },
               })}
             />

@@ -1,23 +1,23 @@
-import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
-import "./index.css";
-import { client } from "./graphql/client";
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import './index.css';
+import { client } from './graphql/client';
 
-import App from "./App.tsx";
-import { ConfigProvider } from "antd";
-import { ApolloProvider } from "@apollo/client";
-import { Toaster } from "react-hot-toast";
-import { UserProvider } from "./store/context/userContext.tsx";
-import { ConfirmationModalProvider } from "./store/context/confirmationModalContext.tsx";
-import { SettingProvider } from "./store/context/settingContext.tsx";
-import { LoadingProvider } from "./store/context/loadingContext.tsx";
+import App from './App.tsx';
+import { ConfigProvider } from 'antd';
+import { ApolloProvider } from '@apollo/client';
+import { Toaster } from 'react-hot-toast';
+import { UserProvider } from './store/context/userContext.tsx';
+import { ConfirmationModalProvider } from './store/context/confirmationModalContext.tsx';
+import { SettingProvider } from './store/context/settingContext.tsx';
+import { LoadingProvider } from './store/context/loadingContext.tsx';
 
-createRoot(document.getElementById("root")!).render(
+createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ConfigProvider
       theme={{
         token: {
-          colorPrimary: "#4a5565",
+          colorPrimary: '#4a5565',
           // colorPrimaryActive: "#77DD77",
           // colorPrimaryTextActive: "#77DD77",
           // colorPrimaryTextHover: "#77DD77",

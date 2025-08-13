@@ -1,21 +1,21 @@
-import { Form } from "antd";
-import { useContext, useEffect, useState } from "react";
-import { ApolloErrorFormatter } from "../../../graphql/apolloErrorFormatter";
-import toast from "react-hot-toast";
-import { Table } from "../../../components/Table";
-import { GET_USERS } from "../../../graphql/queries/user";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import { Select } from "../../../components/Select";
-import { UPDATE_USER } from "../../../graphql/mutations/user";
-import { UserSuspensionForm } from "./UserSuspensionForm";
-import { useUser } from "../hooks/useUser";
-import UserRegistrationForm from "./UserRegistrationForm";
+import { Form } from 'antd';
+import { useContext, useEffect, useState } from 'react';
+import { ApolloErrorFormatter } from '../../../graphql/apolloErrorFormatter';
+import toast from 'react-hot-toast';
+import { Table } from '../../../components/Table';
+import { GET_USERS } from '../../../graphql/queries/user';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { Select } from '../../../components/Select';
+import { UPDATE_USER } from '../../../graphql/mutations/user';
+import { UserSuspensionForm } from './UserSuspensionForm';
+import { useUser } from '../hooks/useUser';
+import UserRegistrationForm from './UserRegistrationForm';
 import {
   ConfirmationModalContext,
   type ConfirmationModalPropsType,
-} from "../../../store/context/confirmationModalContext";
-import { ArraySearch } from "../../../utils/arraySearch";
-import { useGraphQL } from "../../../hooks/useGraphQL";
+} from '../../../store/context/confirmationModalContext';
+import { ArraySearch } from '../../../utils/arraySearch';
+import { useGraphQLMutation, useGraphQLQuery } from '../../../hooks/useGraphQL';
 
 const UserList = () => {
   const { getTableColumns, lableInfos } = useUser();
@@ -23,31 +23,28 @@ const UserList = () => {
   const [users, setUsers] = useState<any[]>([]);
   const [usersCopy, setUsersCopy] = useState<any[]>([]);
   const [selectedUser, setSelectedUser] = useState<any>(null);
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValue, setSearchValue] = useState('');
   const [openDrawer, setOpenDrawer] = useState(false);
-  const [status, setStatus] = useState("none-deleted");
+  const [status, setStatus] = useState('none-deleted');
   const [isSuspendFormVisible, setIsSuspendFormVisible] = useState(false);
 
   const [form] = Form.useForm();
   const [searchParams] = useSearchParams();
-  const role: "user" | "driver" | "rider" | null =
-    (searchParams.get("role") as "user" | "driver" | "rider") || null;
+  const role: 'user' | 'driver' | 'rider' | null =
+    (searchParams.get('role') as 'user' | 'driver' | 'rider') || null;
 
-  const { query } = useGraphQL();
-  const { mutation } = useGraphQL();
-
-  const { runQuery: getUsers, loading } = query({
+  const { runQuery: getUsers, loading } = useGraphQLQuery({
     queryStr: GET_USERS,
-    onSuccess: (data) => {
+    onSuccess: (data: any) => {
       setUsers(data?.getAllUsers || []);
       setUsersCopy(data?.getAllUsers || []);
     },
   });
 
-  const { runMutation: updateUser, loading: updating } = mutation({
+  const { runMutation: updateUser, loading: updating } = useGraphQLMutation({
     mutationStr: UPDATE_USER,
     onSuccess: () => {
-      toast.success("User restored successfully");
+      toast.success('User restored successfully');
       getUsers({
         variables: {
           role,
@@ -72,10 +69,10 @@ const UserList = () => {
     if (usersCopy.length > 0) {
       if (searchValue) {
         const result = ArraySearch({ searchValue }, users, [
-          "firstName",
-          "lastName",
-          "email",
-          "phoneNumber",
+          'firstName',
+          'lastName',
+          'email',
+          'phoneNumber',
         ]);
         setUsers(result);
       } else {
@@ -100,7 +97,7 @@ const UserList = () => {
       updateUser({
         variables: {
           _id: id,
-          status: "active",
+          status: 'active',
         },
       });
     } catch (error: any) {
@@ -113,11 +110,11 @@ const UserList = () => {
       await updateUser({
         variables: {
           _id: id,
-          status: "deleted",
+          status: 'deleted',
         },
       });
     } catch (error: any) {
-      toast.error(error.message || "An error occurred while updating the user");
+      toast.error(error.message || 'An error occurred while updating the user');
     }
   };
 
@@ -139,8 +136,8 @@ const UserList = () => {
           onDelete: (record: any) => {
             setcmProps((prev: ConfirmationModalPropsType) => ({
               ...prev,
-              content: "Are you sure want to delete this user ?",
-              okButtonText: "Yes, delete",
+              content: 'Are you sure want to delete this user ?',
+              okButtonText: 'Yes, delete',
               onOk: async () => {
                 handleDelete(record?._id);
               },
@@ -153,8 +150,8 @@ const UserList = () => {
           onRestoreAccount: (record: any) => {
             setcmProps((prev: ConfirmationModalPropsType) => ({
               ...prev,
-              content: "Are you sure want to restore this account ?",
-              okButtonText: "Yes, restore",
+              content: 'Are you sure want to restore this account ?',
+              okButtonText: 'Yes, restore',
               onOk: async () => {
                 handleRestoreAccount(record?._id);
               },
@@ -162,34 +159,34 @@ const UserList = () => {
             }));
           },
         })}
-        rowKey='_id'
+        rowKey="_id"
         loading={loading || updating}
         onSearchInputChange={(value: string) => {
           setSearchValue(value);
         }}
-        placeholderText={lableInfos[role ?? "user"]?.placeholderText}
+        placeholderText={lableInfos[role ?? 'user']?.placeholderText}
         onAddButtonClicked={() => {
           setOpenDrawer(true);
         }}
-        addButtonTitle={lableInfos[role ?? "user"]?.addButtonTitle}
-        showAddButton={role === "user"}
+        addButtonTitle={lableInfos[role ?? 'user']?.addButtonTitle}
+        showAddButton={role === 'user'}
         FilterOption={
           <Select
             data={[
               {
-                text: "Deleted users",
-                value: "deleted",
+                text: 'Deleted users',
+                value: 'deleted',
               },
               {
-                text: "Active users",
-                value: "none-deleted",
+                text: 'Active users',
+                value: 'none-deleted',
               },
             ]}
-            placeholderText='Apply user filter'
+            placeholderText="Apply user filter"
             onChange={(value: any) => {
               setStatus(value);
             }}
-            classNames='shadow-none focus:shadow-none outline-none bg-transparent'
+            classNames="shadow-none focus:shadow-none outline-none bg-transparent"
           />
         }
       />

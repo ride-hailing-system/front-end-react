@@ -40,7 +40,6 @@ export const RIDE_FIELDS = `
   completedAt
 `;
 
-
 export const GET_RIDES_BY_ID = gql`
   query GetRidesById($_id: String!) {
     ride(_id: $_id) {
@@ -70,5 +69,3 @@ export const GET_RIDES_BY_RIDER_ID = gql`
     }
   }
 `;
-
-

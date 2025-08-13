@@ -1,10 +1,10 @@
 import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
 const uri: string = import.meta.env.DEV
-    ? 'http://localhost:4000/graphql'
-    : 'https://ride-hailing-backend.vercel.app/graphql'
+  ? 'http://localhost:4000/graphql'
+  : 'https://ride-hailing-backend.vercel.app/graphql';
 
 const httpLink = new HttpLink({
-  uri: uri, 
+  uri: uri,
   credentials: 'include',
 });
 

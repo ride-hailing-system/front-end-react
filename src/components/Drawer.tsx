@@ -1,4 +1,4 @@
-import { Button, Drawer as MainDrawer } from "antd";
+import { Button, Drawer as MainDrawer } from 'antd';
 
 export const Drawer = ({
   title,
@@ -35,17 +35,17 @@ export const Drawer = ({
       footer={
         footer ?? (
           <Button
-            htmlType='button'
-            className='h-10 w-full'
-            type='primary'
+            htmlType="button"
+            className="h-10 w-full"
+            type="primary"
             onClick={() => {
               form.submit();
             }}
             loading={loading}
-            size='large'
+            size="large"
             danger={buttonDanger}
           >
-            {buttonTitle ? buttonTitle : isEdit ? "Save Changes" : "Create"}
+            {buttonTitle ? buttonTitle : isEdit ? 'Save Changes' : 'Create'}
           </Button>
         )
       }

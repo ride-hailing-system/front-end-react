@@ -1,22 +1,22 @@
-import { useLazyQuery } from "@apollo/client";
-import { useContext, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { ApolloErrorFormatter } from "../../../graphql/apolloErrorFormatter";
-import toast from "react-hot-toast";
-import { Button, Form } from "antd";
-import { Icon } from "@iconify/react/dist/iconify.js";
-import { Table } from "../../../components/Table";
-import { Tabs } from "antd";
-import UserProfile from "../../../components/UserProfileInfo";
-import dayjs from "dayjs";
-import { GET_DRIVER_DETAIL } from "../../../graphql/queries/driver";
-import { Drawer } from "../../../components/Drawer";
-import VehicleForm from "../../vehicles/components/VehicleRegistrationForm";
+import { useLazyQuery } from '@apollo/client';
+import { useContext, useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { ApolloErrorFormatter } from '../../../graphql/apolloErrorFormatter';
+import toast from 'react-hot-toast';
+import { Button, Form } from 'antd';
+import { Icon } from '@iconify/react/dist/iconify.js';
+import { Table } from '../../../components/Table';
+import { Tabs } from 'antd';
+import UserProfile from '../../../components/UserProfileInfo';
+import dayjs from 'dayjs';
+import { GET_DRIVER_DETAIL } from '../../../graphql/queries/driver';
+import { Drawer } from '../../../components/Drawer';
+import VehicleForm from '../../vehicles/components/VehicleRegistrationForm';
 import {
   ConfirmationModalContext,
   type ConfirmationModalPropsType,
-} from "../../../store/context/confirmationModalContext";
-import StatusIndicator from "../../../components/StatusIndicator";
+} from '../../../store/context/confirmationModalContext';
+import StatusIndicator from '../../../components/StatusIndicator';
 
 const DriverDetail = () => {
   const { userId } = useParams();
@@ -24,7 +24,7 @@ const DriverDetail = () => {
   const [userDetail, setUserDetail] = useState<any>(null);
 
   const [getUserDetail, { loading }] = useLazyQuery(GET_DRIVER_DETAIL, {
-    fetchPolicy: "network-only",
+    fetchPolicy: 'network-only',
     onCompleted: (value: any) => {
       setUserDetail(value?.getDriverDetail);
     },
@@ -45,15 +45,15 @@ const DriverDetail = () => {
 
   const items = [
     {
-      key: "1",
-      label: "Ride records",
+      key: '1',
+      label: 'Ride records',
       children: (
         <RidesRecords loading={loading} rideRecords={userDetail?.rides} />
       ),
     },
     {
-      key: "2",
-      label: "Vehicle Information",
+      key: '2',
+      label: 'Vehicle Information',
       children: (
         <Vehicles
           vehicles={userDetail?.vehicleInfo}
@@ -66,41 +66,41 @@ const DriverDetail = () => {
   const navigate = useNavigate();
 
   return (
-    <div className='flex flex-col items-center justify-between mb-4'>
-      <div className='flex items-center gap-4 p-4 rounded-lg w-full'>
+    <div className="flex flex-col items-center justify-between mb-4">
+      <div className="flex items-center gap-4 p-4 rounded-lg w-full">
         {/* back button */}
-        <div className='flex justify-center items-center cursor-pointer'>
+        <div className="flex justify-center items-center cursor-pointer">
           <Icon
-            icon='ion:arrow-back-outline'
-            className='text-gray-900 self-center'
+            icon="ion:arrow-back-outline"
+            className="text-gray-900 self-center"
             width={30}
             height={30}
             onClick={() => {
-              navigate("/admin/drivers?role=driver");
+              navigate('/admin/drivers?role=driver');
             }}
           />
         </div>
         {/* user info */}
-        <div className='flex items-center gap-2'>
+        <div className="flex items-center gap-2">
           <UserProfile
             firstName={userDetail?.userInfo?.firstName}
             lastName={userDetail?.userInfo?.lastName}
             photoUrl={userDetail?.userInfo?.photoUrl}
             phoneNumber={userDetail?.userInfo?.phoneNumber}
             email={userDetail?.userInfo?.email}
-            nameStyle='!ml-3 !font-bold !text-nowrap !text-2xl'
+            nameStyle="!ml-3 !font-bold !text-nowrap !text-2xl"
             avatarSize={70}
           />
         </div>
       </div>
-      <div className='bg-gray-50 shadow-md rounded-lg mt-4 w-full p-4'>
+      <div className="bg-gray-50 shadow-md rounded-lg mt-4 w-full p-4">
         <Tabs
-          defaultActiveKey='1'
+          defaultActiveKey="1"
           items={items}
           tabBarStyle={{
             marginBottom: 0,
-            fontSize: "16px",
-            fontWeight: "bold",
+            fontSize: '16px',
+            fontWeight: 'bold',
           }}
         />
       </div>
@@ -117,9 +117,9 @@ const RidesRecords = ({
 }) => {
   const columns: any[] = [
     {
-      title: "Rider",
-      dataIndex: "rider",
-      key: "rider",
+      title: 'Rider',
+      dataIndex: 'rider',
+      key: 'rider',
       render: (_: string, record: any) => (
         <UserProfile
           firstName={record?.riderInfo?.firstName}
@@ -129,29 +129,29 @@ const RidesRecords = ({
       ),
     },
     {
-      title: "Requested At",
-      dataIndex: "requestedAt",
-      key: "requestedAt",
+      title: 'Requested At',
+      dataIndex: 'requestedAt',
+      key: 'requestedAt',
       render: (record: any) => (
-        <p className=''>
-          {dayjs(record?.requestedAt).format("YYYY/MM/DD HH:mm")}
+        <p className="">
+          {dayjs(record?.requestedAt).format('YYYY/MM/DD HH:mm')}
         </p>
       ),
     },
     {
-      title: "Completed At",
-      dataIndex: "completedAt",
-      key: "completedAt",
+      title: 'Completed At',
+      dataIndex: 'completedAt',
+      key: 'completedAt',
       render: (record: any) => (
-        <p className=''>
-          {dayjs(record?.completedAt).format("YYYY/MM/DD HH:mm")}
+        <p className="">
+          {dayjs(record?.completedAt).format('YYYY/MM/DD HH:mm')}
         </p>
       ),
     },
     {
-      title: "Status",
-      dataIndex: "status",
-      key: "status",
+      title: 'Status',
+      dataIndex: 'status',
+      key: 'status',
       render: (_: string, record: any) => {
         return <StatusIndicator status={record?.status} />;
       },
@@ -162,7 +162,7 @@ const RidesRecords = ({
     <Table
       data={rideRecords}
       columns={columns}
-      rowKey='_id'
+      rowKey="_id"
       loading={loading}
       showAddButton={false}
       showHeaderBar={false}
@@ -179,7 +179,7 @@ const Vehicles = ({
 }) => {
   const [selectedVehicle, setSelectedVehicle] = useState<any>(null);
   const [openDrawer, setOpenDrawer] = useState(false);
-  const [drawerContent, setDrawerContent] = useState<"form" | "detail" | null>(
+  const [drawerContent, setDrawerContent] = useState<'form' | 'detail' | null>(
     null
   );
   const [loading, setLoading] = useState<boolean>(false);
@@ -194,24 +194,24 @@ const Vehicles = ({
     setcmProps((prev: ConfirmationModalPropsType) => ({
       ...prev,
       onOk: () => {
-        console.log("Ok clicked");
+        console.log('Ok clicked');
       },
       onCancel: () => {
-        console.log("Cancel clicked");
+        console.log('Cancel clicked');
       },
     }));
   }, []);
 
   const columns: any[] = [
     {
-      title: "Owner",
-      dataIndex: "owner",
-      key: "owner",
+      title: 'Owner',
+      dataIndex: 'owner',
+      key: 'owner',
       render: (_: string, record: any) => {
         if (!record?.ownerInfo)
           return (
-            <p className='flex items-center justify-center font-light border-solid border-gray-300 rounded-lg p-2'>
-              <span className='text-red-500'>No owner assigned</span>
+            <p className="flex items-center justify-center font-light border-solid border-gray-300 rounded-lg p-2">
+              <span className="text-red-500">No owner assigned</span>
             </p>
           );
         return (
@@ -224,57 +224,57 @@ const Vehicles = ({
       },
     },
     {
-      title: "Plate #",
-      dataIndex: "plateNumber",
-      key: "plateNumber",
+      title: 'Plate #',
+      dataIndex: 'plateNumber',
+      key: 'plateNumber',
     },
     {
-      title: "Description",
-      dataIndex: "description",
-      key: "description",
+      title: 'Description',
+      dataIndex: 'description',
+      key: 'description',
       render: (_: string, record: any) => (
-        <div className='flex items-center'>
-          <span className='ml-3 text-nowrap font-bold'>{`
+        <div className="flex items-center">
+          <span className="ml-3 text-nowrap font-bold">{`
           ${record?.vehicleType},${record?.size} - ${record?.vehicleModel} - ${record?.color}
           `}</span>
         </div>
       ),
     },
     {
-      title: "More",
-      key: "action",
+      title: 'More',
+      key: 'action',
       render: (record: any) => (
-        <div className='flex items-center justify-between'>
+        <div className="flex items-center justify-between">
           <Button
-            className=''
+            className=""
             onClick={() => {
               setSelectedVehicle(record);
               setOpenDrawer(true);
             }}
-            type='link'
+            type="link"
           >
             Show details
           </Button>
           <Button
-            className=''
+            className=""
             onClick={() => {
               setSelectedVehicle(record);
               setOpenDrawer(true);
-              setDrawerContent("form");
+              setDrawerContent('form');
             }}
-            type='link'
+            type="link"
           >
             Edit
           </Button>
           <Button
-            className=''
+            className=""
             onClick={() => {
               setcmProps((prev: ConfirmationModalPropsType) => ({
                 ...prev,
                 show: true,
               }));
             }}
-            type='link'
+            type="link"
             danger
           >
             Delete
@@ -285,17 +285,17 @@ const Vehicles = ({
   ];
 
   const CustomEmptyComponent = () => (
-    <div className='flex flex-col items-center justify-center gap-2'>
-      <Icon icon='gg:add' width={40} height={40} className='text-gray-700' />
-      <p className='text-gray-700 text-lg'>
-        No vehicles found.{" "}
+    <div className="flex flex-col items-center justify-center gap-2">
+      <Icon icon="gg:add" width={40} height={40} className="text-gray-700" />
+      <p className="text-gray-700 text-lg">
+        No vehicles found.{' '}
         <span
           onClick={() => {
             selectedVehicle(undefined);
-            setDrawerContent("form");
+            setDrawerContent('form');
             setOpenDrawer(true);
           }}
-          className='hover:underline hover:cursor-pointer font-semibold'
+          className="hover:underline hover:cursor-pointer font-semibold"
         >
           Add a new one to get started.
         </span>
@@ -308,22 +308,22 @@ const Vehicles = ({
       <Table
         data={vehicles}
         columns={columns}
-        rowKey='_id'
+        rowKey="_id"
         loading={loading}
         showAddButton={true}
         showHeaderBar={true}
-        addButtonTitle='Add new Vehicle'
+        addButtonTitle="Add new Vehicle"
         emptyComponent={vehicles.length > 0 ? undefined : CustomEmptyComponent}
         showSearchInput={false}
         onAddButtonClicked={() => {
-          setDrawerContent("form");
+          setDrawerContent('form');
           setOpenDrawer(true);
         }}
       />
 
-      {openDrawer && drawerContent === "detail" && (
+      {openDrawer && drawerContent === 'detail' && (
         <Drawer
-          title={"Vehicle detail view"}
+          title={'Vehicle detail view'}
           open
           onClose={() => {
             setOpenDrawer(false);
@@ -334,12 +334,12 @@ const Vehicles = ({
         </Drawer>
       )}
 
-      {openDrawer && drawerContent === "form" && (
+      {openDrawer && drawerContent === 'form' && (
         <Drawer
           title={
             selectedVehicle
-              ? "Edit Vehicle Information"
-              : "New Vehicle Registration"
+              ? 'Edit Vehicle Information'
+              : 'New Vehicle Registration'
           }
           open
           onClose={() => {
@@ -348,7 +348,7 @@ const Vehicles = ({
             setSelectedVehicle(undefined);
           }}
           width={700}
-          buttonTitle={selectedVehicle ? "Update" : "Create"}
+          buttonTitle={selectedVehicle ? 'Update' : 'Create'}
           form={mainForm}
           loading={loading}
         >

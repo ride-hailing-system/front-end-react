@@ -1,12 +1,12 @@
-import React, { useContext, useEffect } from "react";
-import { Navigate } from "react-router-dom";
-import { useLazyQuery } from "@apollo/client";
-import { GET_SESSION_BY_ID } from "../graphql/queries/auth";
-import { ApolloErrorFormatter } from "../graphql/apolloErrorFormatter";
-import toast from "react-hot-toast";
-import { UserContext } from "../store/context/userContext";
+import React, { useContext, useEffect } from 'react';
+import { Navigate } from 'react-router-dom';
+import { useLazyQuery } from '@apollo/client';
+import { GET_SESSION_BY_ID } from '../graphql/queries/auth';
+import { ApolloErrorFormatter } from '../graphql/apolloErrorFormatter';
+import toast from 'react-hot-toast';
+import { UserContext } from '../store/context/userContext';
 
-export type userRole = "admin" | "user";
+export type userRole = 'admin' | 'user';
 
 interface ProtectedRouteProps {
   element: React.ComponentType<any>;
@@ -19,6 +19,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   ...rest
 }) => {
   const { userData, setUserData } = useContext(UserContext);
+  console.log(extraProps);
 
   // const roleNames: any = {
   //   admin: "admin",
@@ -35,7 +36,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     onError: (error: any) => {
       toast.error(ApolloErrorFormatter(error, true).toString());
     },
-    fetchPolicy: "network-only",
+    fetchPolicy: 'network-only',
   });
 
   useEffect(() => {
@@ -46,7 +47,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   const user = userData || data?.getSessionById?.user;
 
   if (!user) {
-    return <Navigate to='/auth/login' />;
+    return <Navigate to="/auth/login" />;
   } else {
     return <Component {...rest} />;
   }

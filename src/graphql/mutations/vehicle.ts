@@ -18,7 +18,7 @@ export const VEHICLE_FIELDS = `
   createdAt
   updatedAt`;
 
-  export const CREATE_VEHICLE = gql`
+export const CREATE_VEHICLE = gql`
   mutation CreateVehicle(
     $driver: String!
     $vehicleType: String!
@@ -45,7 +45,6 @@ export const VEHICLE_FIELDS = `
     }
   }
 `;
-
 
 export const UPDATE_VEHICLE = gql`
   mutation UpdateVehicle(
@@ -84,4 +83,3 @@ export const DELETE_VEHICLE = gql`
     }
   }
 `;
-

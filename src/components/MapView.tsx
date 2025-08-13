@@ -3,19 +3,19 @@ import {
   Marker,
   useJsApiLoader,
   DirectionsRenderer,
-} from "@react-google-maps/api";
-import { useEffect, useState } from "react";
-import { MAP_API_KEY } from "../utils/constants";
+} from '@react-google-maps/api';
+import { useEffect, useState } from 'react';
+import { MAP_API_KEY } from '../utils/constants';
 
 const containerStyle = {
-  width: "100%",
-  height: "100%",
+  width: '100%',
+  height: '100%',
 };
 
 const center = {
   latitude: 9.03,
   longitude: 38.74,
-  description: "",
+  description: '',
 };
 
 export type OnCalculateType = {

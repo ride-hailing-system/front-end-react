@@ -1,8 +1,8 @@
-import { Input } from "antd";
+import { Input } from 'antd';
 import usePlacesAutocomplete, {
   getGeocode,
   getLatLng,
-} from "use-places-autocomplete";
+} from 'use-places-autocomplete';
 
 export type LocationType = {
   latitude: number;
@@ -36,7 +36,7 @@ const PlaceSearchInput = ({
         west: 38.69,
       },
       radius: 15000,
-      componentRestrictions: { country: "ET" },
+      componentRestrictions: { country: 'ET' },
     },
   });
 
@@ -62,18 +62,18 @@ const PlaceSearchInput = ({
         }}
         disabled={!ready}
         placeholder={placeHolderText}
-        className='w-full'
-        size='large'
+        className="w-full"
+        size="large"
         allowClear
         prefix={prefix}
         suffix={suffix}
       />
-      {status === "OK" &&
+      {status === 'OK' &&
         data.map(({ place_id, description }) => (
           <p
             key={place_id}
             onClick={handleSelect({ description })}
-            className='p-2 cursor-pointer hover:bg-gray-500'
+            className="p-2 cursor-pointer hover:bg-gray-500"
           >
             {description}
           </p>

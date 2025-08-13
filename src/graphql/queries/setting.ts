@@ -1,6 +1,5 @@
 import { gql } from '@apollo/client';
 
-
 export const SETTING_FIELDS = `
     general {
       appName

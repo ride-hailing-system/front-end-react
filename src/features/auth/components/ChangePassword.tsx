@@ -1,9 +1,9 @@
-import { Form, Input } from "antd";
-import { useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
-import { UPDATE_USER_PASSWORD } from "../../../graphql/mutations/user";
-import { useEffect } from "react";
-import { useGraphQL } from "../../../hooks/useGraphQL";
+import { Form, Input } from 'antd';
+import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
+import { UPDATE_USER_PASSWORD } from '../../../graphql/mutations/user';
+import { useEffect } from 'react';
+import { useGraphQLMutation } from '../../../hooks/useGraphQL';
 
 const ChangePasswordForm = ({
   form,
@@ -13,13 +13,13 @@ const ChangePasswordForm = ({
   onLoading: (value: boolean) => void;
 }) => {
   const navigate = useNavigate();
-  const { mutation } = useGraphQL();
+  // const { mutation } = useGraphQLMutation();
 
-  const { runMutation: changePassword, loading } = mutation({
+  const { runMutation: changePassword, loading } = useGraphQLMutation({
     mutationStr: UPDATE_USER_PASSWORD,
     onSuccess: () => {
-      toast.success("Password updated successfully!");
-      navigate("/auth/login");
+      toast.success('Password updated successfully!');
+      navigate('/auth/login');
     },
   });
 
@@ -27,12 +27,12 @@ const ChangePasswordForm = ({
     const { newPassword, confirmNewPassword } = values;
 
     if (newPassword !== confirmNewPassword) {
-      toast.error("Passwords do not match!");
+      toast.error('Passwords do not match!');
       return;
     }
 
     await changePassword({
-      variables: { id: "", password: newPassword },
+      variables: { id: '', password: newPassword },
     });
   };
 
@@ -41,58 +41,58 @@ const ChangePasswordForm = ({
   }, [loading]);
 
   return (
-    <div className='flex flex-col  bg-white'>
-      <p className='text-gray-500 mb-4'>
+    <div className="flex flex-col  bg-white">
+      <p className="text-gray-500 mb-4">
         Kindly create a fresh password to enhance the security of your account.
       </p>
       <Form
         form={form}
         requiredMark={false}
-        className=''
+        className=""
         onFinish={onFinish}
-        layout='vertical'
+        layout="vertical"
       >
         <Form.Item
-          label='Your current password'
-          name='oldPassword'
+          label="Your current password"
+          name="oldPassword"
           rules={[
             {
               required: true,
-              message: "Please enter your current password!",
+              message: 'Please enter your current password!',
             },
-            { len: 4, message: "The password must be 4 digits long!" },
+            { len: 4, message: 'The password must be 4 digits long!' },
           ]}
-          className='mb-4'
+          className="mb-4"
         >
-          <Input type='password' size='large' />
+          <Input type="password" size="large" />
         </Form.Item>
         <Form.Item
-          label='New password'
-          name='newPassword'
+          label="New password"
+          name="newPassword"
           rules={[
             {
               required: true,
-              message: "Please enter a new password!",
+              message: 'Please enter a new password!',
             },
-            { len: 4, message: "The password must be 4 digits long!" },
+            { len: 4, message: 'The password must be 4 digits long!' },
           ]}
-          className='mb-4'
+          className="mb-4"
         >
-          <Input type='password' size='large' />
+          <Input type="password" size="large" />
         </Form.Item>
         <Form.Item
-          label='Confirm password'
-          name='confirmNewPassword'
+          label="Confirm password"
+          name="confirmNewPassword"
           rules={[
             {
               required: true,
-              message: "Please confirm your new password!",
+              message: 'Please confirm your new password!',
             },
-            { len: 4, message: "The password must be 4 digits long!" },
+            { len: 4, message: 'The password must be 4 digits long!' },
           ]}
-          className='mb-7'
+          className="mb-7"
         >
-          <Input type='password' size='large' />
+          <Input type="password" size="large" />
         </Form.Item>
       </Form>
     </div>
