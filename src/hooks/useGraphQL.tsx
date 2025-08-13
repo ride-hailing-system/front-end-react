@@ -26,7 +26,7 @@ export const useGraphQLQuery = ({
 
 type GraphQLMutationArgs = {
   mutationStr: DocumentNode;
-  refetchStr?: DocumentNode;
+  refetchStr?: DocumentNode | DocumentNode[];
   onSuccess?: (data: any) => void;
   onError?: () => void;
 };
@@ -38,7 +38,11 @@ export const useGraphQLMutation = ({
   onError,
 }: GraphQLMutationArgs) => {
   const [runMutation, { loading }] = useMutation(mutationStr, {
-    refetchQueries: refetchStr ? [refetchStr] : [],
+    refetchQueries: refetchStr
+      ? Array.isArray(refetchStr)
+        ? refetchStr
+        : [refetchStr]
+      : [],
     onCompleted: onSuccess,
     onError: (error: any) => {
       toast.error(ApolloErrorFormatter(error, true).toString());
