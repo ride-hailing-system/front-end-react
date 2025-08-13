@@ -1,12 +1,12 @@
-import { Form, Input } from "antd";
-import ShortUniqueId from "short-unique-id";
-import { ApolloErrorFormatter } from "../../../graphql/apolloErrorFormatter";
-import toast from "react-hot-toast";
-import { useEffect, useState } from "react";
-import { GET_USERS } from "../../../graphql/queries/user";
-import { CREATE_USER, UPDATE_USER } from "../../../graphql/mutations/user";
-import { Drawer } from "../../../components/Drawer";
-import { useGraphQL } from "../../../hooks/useGraphQL";
+import { Form, Input } from 'antd';
+import ShortUniqueId from 'short-unique-id';
+import { ApolloErrorFormatter } from '../../../graphql/apolloErrorFormatter';
+import toast from 'react-hot-toast';
+import { useEffect, useState } from 'react';
+import { GET_USERS } from '../../../graphql/queries/user';
+import { CREATE_USER, UPDATE_USER } from '../../../graphql/mutations/user';
+import { Drawer } from '../../../components/Drawer';
+import { useGraphQLMutation } from '../../../hooks/useGraphQL';
 
 const UserRegistrationForm = ({
   data,
@@ -19,29 +19,28 @@ const UserRegistrationForm = ({
   onClose: () => void;
   onComplete: () => void;
   form: any;
-  role: "user" | "driver" | "rider" | null;
+  role: 'user' | 'driver' | 'rider' | null;
 }) => {
   const [loading, setLoading] = useState(false);
 
   const { randomUUID } = new ShortUniqueId({
     length: 4,
-    dictionary: "number",
+    dictionary: 'number',
   });
-  const { mutation } = useGraphQL();
 
-  const { runMutation: createUser, loading: creating } = mutation({
+  const { runMutation: createUser, loading: creating } = useGraphQLMutation({
     mutationStr: CREATE_USER,
     onSuccess: () => {
-      toast.success("User created successfully");
+      toast.success('User created successfully');
       onComplete();
     },
     refetchStr: [GET_USERS],
   });
 
-  const { runMutation: updateUser, loading: updating } = mutation({
+  const { runMutation: updateUser, loading: updating } = useGraphQLMutation({
     mutationStr: UPDATE_USER,
     onSuccess: () => {
-      toast.success("User updated successfully");
+      toast.success('User updated successfully');
       onComplete();
     },
     refetchStr: [GET_USERS],
@@ -88,21 +87,21 @@ const UserRegistrationForm = ({
       loading={loading}
     >
       <Form
-        layout='vertical'
+        layout="vertical"
         onFinish={handleFinish}
         form={mainForm}
         requiredMark={false}
-        disabled={role === "user" ? false : true}
+        disabled={role === 'user' ? false : true}
       >
-        <Form.Item name='_id' hidden>
+        <Form.Item name="_id" hidden>
           <Input hidden />
         </Form.Item>
-        <Form.Item name='role' hidden>
+        <Form.Item name="role" hidden>
           <Input hidden value={role || undefined} />
         </Form.Item>
         <Form.Item
-          label='First Name'
-          name='firstName'
+          label="First Name"
+          name="firstName"
           rules={[
             {
               required: true,
@@ -110,11 +109,11 @@ const UserRegistrationForm = ({
             },
           ]}
         >
-          <Input size='large' />
+          <Input size="large" />
         </Form.Item>
         <Form.Item
-          label='Last Name'
-          name='lastName'
+          label="Last Name"
+          name="lastName"
           rules={[
             {
               required: true,
@@ -122,12 +121,12 @@ const UserRegistrationForm = ({
             },
           ]}
         >
-          <Input size='large' />
+          <Input size="large" />
         </Form.Item>
 
         <Form.Item
-          label='Phone Number'
-          name='phoneNumber'
+          label="Phone Number"
+          name="phoneNumber"
           rules={[
             {
               required: true,
@@ -135,16 +134,16 @@ const UserRegistrationForm = ({
             },
             {
               min: 8,
-              message: "The phone number must contain at least 8 digits",
+              message: 'The phone number must contain at least 8 digits',
             },
           ]}
         >
-          <Input size='large' />
+          <Input size="large" />
         </Form.Item>
 
         <Form.Item
-          label='Email'
-          name='email'
+          label="Email"
+          name="email"
           rules={[
             {
               required: true,
@@ -152,7 +151,7 @@ const UserRegistrationForm = ({
             },
           ]}
         >
-          <Input size='large' type='email' />
+          <Input size="large" type="email" />
         </Form.Item>
       </Form>
     </Drawer>

@@ -1,6 +1,6 @@
-import { Table as MainTable } from "antd";
-import TableHeaderBar from "./TableHeader";
-import type { ReactElement } from "react";
+import { Table as MainTable } from 'antd';
+import TableHeaderBar from './TableHeader';
+import type { ReactElement } from 'react';
 
 export const Table = ({
   data,
@@ -51,11 +51,11 @@ export const Table = ({
               onSearchInputChange={(value: string) => {
                 onSearchInputChange && onSearchInputChange(value);
               }}
-              placeholder={placeholderText ? placeholderText : ""}
+              placeholder={placeholderText ? placeholderText : ''}
               onAddButtonClicked={() => {
                 onAddButtonClicked && onAddButtonClicked();
               }}
-              addButtonTitle={addButtonTitle ? addButtonTitle : ""}
+              addButtonTitle={addButtonTitle ? addButtonTitle : ''}
               showAddButton={showAddButton}
               showSearchInput={showSearchInput}
               FilterOption={FilterOption}

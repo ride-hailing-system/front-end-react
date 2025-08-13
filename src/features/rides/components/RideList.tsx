@@ -1,18 +1,18 @@
-import { useContext, useEffect, useState } from "react";
-import toast from "react-hot-toast";
-import { Table } from "../../../components/Table";
-import { Drawer } from "../../../components/Drawer";
-import { GET_RIDES } from "../../../graphql/queries/ride";
-import { useNavigate } from "react-router-dom";
-import { DELETE_RIDE } from "../../../graphql/mutations/ride";
+import { useContext, useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
+import { Table } from '../../../components/Table';
+import { Drawer } from '../../../components/Drawer';
+import { GET_RIDES } from '../../../graphql/queries/ride';
+import { useNavigate } from 'react-router-dom';
+import { DELETE_RIDE } from '../../../graphql/mutations/ride';
 import {
   ConfirmationModalContext,
   type ConfirmationModalPropsType,
-} from "../../../store/context/confirmationModalContext";
-import { ArraySearch } from "../../../utils/arraySearch";
-import { useRide } from "../hooks/useRide";
-import { useGraphQL } from "../../../hooks/useGraphQL";
-import RideDetail from "./RideDetail";
+} from '../../../store/context/confirmationModalContext';
+import { ArraySearch } from '../../../utils/arraySearch';
+import { useRide } from '../hooks/useRide';
+import { useGraphQLMutation, useGraphQLQuery } from '../../../hooks/useGraphQL';
+import RideDetail from './RideDetail';
 
 export type RidesTableType = {
   showHeader?: boolean;
@@ -25,25 +25,22 @@ const RideList = ({ showHeader = true, limit = 10 }: RidesTableType) => {
   const [rides, setRides] = useState<any[]>([]);
   const [ridesCopy, setRidesCopy] = useState<any[]>([]);
   const [selectedRides, setSelectedRides] = useState<any>(null);
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValue, setSearchValue] = useState('');
   const [openDrawer, setOpenDrawer] = useState(false);
   // const [rowLimits, setRowLimits] = useState<number>(limit);
 
-  const { query } = useGraphQL();
-  const { mutation } = useGraphQL();
-
-  const { runQuery: getRides, loading } = query({
+  const { runQuery: getRides, loading } = useGraphQLQuery({
     queryStr: GET_RIDES,
-    onSuccess: (data) => {
+    onSuccess: (data: any) => {
       setRides(data?.getAllRides || []);
       setRidesCopy(data?.getAllRides || []);
     },
   });
 
-  const { runMutation: deleteRequest, loading: deleting } = mutation({
+  const { runMutation: deleteRequest, loading: deleting } = useGraphQLMutation({
     mutationStr: DELETE_RIDE,
     onSuccess: () => {
-      toast.success("request deleted successfully");
+      toast.success('request deleted successfully');
     },
   });
 
@@ -59,13 +56,13 @@ const RideList = ({ showHeader = true, limit = 10 }: RidesTableType) => {
     if (ridesCopy.length > 0) {
       if (searchValue) {
         const result = ArraySearch({ searchValue }, rides, [
-          "riderInfo.firstName",
-          "riderInfo.lastName",
-          "driverInfo.firstName",
-          "driverInfo.lastName",
-          "status",
-          "requestNumber",
-          "requestedAt",
+          'riderInfo.firstName',
+          'riderInfo.lastName',
+          'driverInfo.firstName',
+          'driverInfo.lastName',
+          'status',
+          'requestNumber',
+          'requestedAt',
         ]);
 
         setRides(result);
@@ -84,7 +81,7 @@ const RideList = ({ showHeader = true, limit = 10 }: RidesTableType) => {
       });
     } catch (error: any) {
       toast.error(
-        error.message || "An error occurred while deleting the request"
+        error.message || 'An error occurred while deleting the request'
       );
     }
   };
@@ -102,8 +99,8 @@ const RideList = ({ showHeader = true, limit = 10 }: RidesTableType) => {
           onDelete: (record: any) => {
             setcmProps((prev: ConfirmationModalPropsType) => ({
               ...prev,
-              content: "Are you sure want to delete this request ?",
-              okButtonText: "Yes, delete",
+              content: 'Are you sure want to delete this request ?',
+              okButtonText: 'Yes, delete',
               onOk: async () => {
                 handleDelete(record?._id);
               },
@@ -115,25 +112,25 @@ const RideList = ({ showHeader = true, limit = 10 }: RidesTableType) => {
             setOpenDrawer(true);
           },
         })}
-        rowKey='id'
+        rowKey="id"
         loading={loading || deleting}
         onSearchInputChange={(value: string) => {
           setSearchValue(value);
         }}
         placeholderText={
-          "Search by name, status, request number or requested at."
+          'Search by name, status, request number or requested at.'
         }
         showAddButton={true}
-        addButtonTitle='Start new Ride'
+        addButtonTitle="Start new Ride"
         onAddButtonClicked={() => {
-          navigate("/admin/rides/registration-form");
+          navigate('/admin/rides/registration-form');
         }}
         showHeaderBar={showHeader}
       />
 
       {openDrawer && (
         <Drawer
-          title={"View complete ride information"}
+          title={'View complete ride information'}
           open
           onClose={() => {
             setOpenDrawer(false);

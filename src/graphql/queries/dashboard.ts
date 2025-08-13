@@ -3,49 +3,48 @@ import { gql } from '@apollo/client';
 export const GET_DASHBOARD_DATA = gql`
   query getDashboardDatas {
     getDashboardDatas {
-     cardsCount {
+      cardsCount {
         drivers {
-            total
-            available
+          total
+          available
         }
         rideRequests {
-            completed
-            canceled
+          completed
+          canceled
         }
         weeklyRegistration {
-            drivers
-            riders
+          drivers
+          riders
         }
+      }
+      weeklyRideRequests {
+        completed
+        canceled
+        rejected
+        accepted
+      }
+      monthlyRideRequests {
+        completed
+        canceled
+        rejected
+        accepted
+      }
+      dailyRideRequests {
+        driverInfo {
+          firstName
+          lastName
+          photoUrl
         }
-        weeklyRideRequests {
-            completed
-            canceled
-            rejected
-            accepted
+        riderInfo {
+          firstName
+          lastName
+          photoUrl
         }
-        monthlyRideRequests {
-            completed
-            canceled
-            rejected
-            accepted
-        }
-        dailyRideRequests {
-            driverInfo {
-                firstName
-                lastName
-                photoUrl
-            }
-            riderInfo {
-                firstName
-                lastName
-                photoUrl
-            }
-            fare
-            requestedAt
-            status
-            completedAt
-        }
-
+        fare
+        requestedAt
+        status
+        completedAt
+      }
     }
   }
 `;

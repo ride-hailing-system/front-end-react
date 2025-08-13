@@ -81,7 +81,6 @@ export const UPDATE_RIDE = gql`
   }
 `;
 
-
 export const DELETE_RIDE = gql`
   mutation deleteRide($_id: String!) {
     deleteRide(_id: $_id) {
@@ -89,4 +88,3 @@ export const DELETE_RIDE = gql`
     }
   }
 `;
-

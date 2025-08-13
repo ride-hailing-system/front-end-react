@@ -1,14 +1,14 @@
-import { Icon } from "@iconify/react/dist/iconify.js";
-import { useState, useRef, useEffect, useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { Drawer } from "../../components/Drawer";
-import { Form } from "antd";
-import { UserContext } from "../../store/context/userContext";
+import { Icon } from '@iconify/react/dist/iconify.js';
+import { useState, useRef, useEffect, useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Drawer } from '../../components/Drawer';
+import { Form } from 'antd';
+import { UserContext } from '../../store/context/userContext';
 import {
   ConfirmationModalContext,
   type ConfirmationModalPropsType,
-} from "../../store/context/confirmationModalContext";
-import ChangePasswordForm from "../../features/auth/components/ChangePassword";
+} from '../../store/context/confirmationModalContext';
+import ChangePasswordForm from '../../features/auth/components/ChangePassword';
 
 type HeaderProps = {
   pageTitle?: string;
@@ -46,8 +46,8 @@ const Header = ({ pageTitle, pageTitleDescription }: HeaderProps) => {
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   const navigate = useNavigate();
@@ -55,11 +55,11 @@ const Header = ({ pageTitle, pageTitleDescription }: HeaderProps) => {
   const handleLogout = () => {
     setcmProps((prev: ConfirmationModalPropsType) => ({
       ...prev,
-      content: "Are you sure want to log out from system ?",
-      okButtonText: "Yes, Proceed.",
-      cancelButtonText: "Nuh, Stay!",
+      content: 'Are you sure want to log out from system ?',
+      okButtonText: 'Yes, Proceed.',
+      cancelButtonText: 'Nuh, Stay!',
       onOk: async () => {
-        navigate("/auth/logout");
+        navigate('/auth/logout');
       },
       show: true,
     }));
@@ -79,45 +79,45 @@ const Header = ({ pageTitle, pageTitleDescription }: HeaderProps) => {
       <header
         className={`flex justify-between items-center m-4 bg-gray-900 p-5 rounded-md`}
       >
-        <div className='flex flex-col'>
-          <div className='text-xl  text-white font-semibold text-left'>
+        <div className="flex flex-col">
+          <div className="text-xl  text-white font-semibold text-left">
             {pageTitle}
           </div>
-          <div className='text-lg text-white font-light'>
+          <div className="text-lg text-white font-light">
             {pageTitleDescription}
           </div>
         </div>
-        <div className='flex items-center space-x-6'>
+        <div className="flex items-center space-x-6">
           {/* Notification Bell */}
-          <div className='relative' ref={notificationRef}>
+          <div className="relative" ref={notificationRef}>
             <button
-              className='relative text-white hover:text-primary transition-colors duration-200 cursor-pointer'
+              className="relative text-white hover:text-primary transition-colors duration-200 cursor-pointer"
               onClick={() => setShowNotifications(!showNotifications)}
             >
-              <Icon icon='mdi:bell-outline' width={30} height={30} />
-              <span className='absolute top-0 right-0 h-2 w-2 bg-white rounded-full'></span>
+              <Icon icon="mdi:bell-outline" width={30} height={30} />
+              <span className="absolute top-0 right-0 h-2 w-2 bg-white rounded-full"></span>
             </button>
 
             {/* Notification Dropdown */}
             {showNotifications && (
-              <div className='absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg py-2 z-10 border border-gray-100'>
-                <div className='px-4 py-2 border-b border-gray-100'>
-                  <h3 className='font-semibold text-gray-800'>Notifications</h3>
+              <div className="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg py-2 z-10 border border-gray-100">
+                <div className="px-4 py-2 border-b border-gray-100">
+                  <h3 className="font-semibold text-gray-800">Notifications</h3>
                 </div>
-                <div className='max-h-64 overflow-y-auto'>
-                  <div className='px-4 py-3 hover:bg-gray-50 border-l-4 border-primary'>
-                    <p className='text-sm font-medium text-gray-800'>
+                <div className="max-h-64 overflow-y-auto">
+                  <div className="px-4 py-3 hover:bg-gray-50 border-l-4 border-primary">
+                    <p className="text-sm font-medium text-gray-800">
                       Nouveau rendez-vous
                     </p>
-                    <p className='text-xs text-gray-500 mt-1'>
+                    <p className="text-xs text-gray-500 mt-1">
                       Il y a 10 minutes
                     </p>
                   </div>
                 </div>
-                <div className='px-4 py-2 border-t border-gray-100'>
+                <div className="px-4 py-2 border-t border-gray-100">
                   <Link
-                    to='/admin/notifications'
-                    className='text-primary text-sm font-medium hover:underline '
+                    to="/admin/notifications"
+                    className="text-primary text-sm font-medium hover:underline "
                   >
                     Show all notifications
                   </Link>
@@ -127,28 +127,28 @@ const Header = ({ pageTitle, pageTitleDescription }: HeaderProps) => {
           </div>
 
           {/* User Profile */}
-          <div className='relative' ref={dropdownRef}>
+          <div className="relative" ref={dropdownRef}>
             <button
-              className='flex items-center space-x-3 focus:outline-none cursor-pointer'
+              className="flex items-center space-x-3 focus:outline-none cursor-pointer"
               onClick={() => setShowDropdown(!showDropdown)}
             >
-              <div className='flex items-center justify-center text-white'>
-                <Icon icon='ei:user' width={40} height={40} />
+              <div className="flex items-center justify-center text-white">
+                <Icon icon="ei:user" width={40} height={40} />
               </div>
             </button>
 
             {/* Dropdown Menu */}
             {showDropdown && (
-              <div className='absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-10 border border-gray-100'>
-                <div className='px-4 py-3 border-b border-gray-100'>
-                  <p className='text-sm font-medium text-gray-800'>
+              <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-10 border border-gray-100">
+                <div className="px-4 py-3 border-b border-gray-100">
+                  <p className="text-sm font-medium text-gray-800">
                     My Account
                   </p>
-                  <p className='mt-2 w-full'>
-                    <span className='text-xs text-gray-800 bg-gray-200 p-2 rounded uppercase font-bold'>
-                      {userData?.role === "user"
-                        ? "System User"
-                        : "Super Admin"}
+                  <p className="mt-2 w-full">
+                    <span className="text-xs text-gray-800 bg-gray-200 p-2 rounded uppercase font-bold">
+                      {userData?.role === 'user'
+                        ? 'System User'
+                        : 'Super Admin'}
                     </span>
                   </p>
                 </div>
@@ -157,14 +157,14 @@ const Header = ({ pageTitle, pageTitleDescription }: HeaderProps) => {
                   onClick={() => {
                     setOpenDrawer(true);
                   }}
-                  className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:underline cursor-pointer'
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:underline cursor-pointer"
                 >
                   Change password
                 </button>
-                <div className='border-t border-gray-100 mt-2 pt-2'>
+                <div className="border-t border-gray-100 mt-2 pt-2">
                   <button
                     onClick={handleLogout}
-                    className='w-full text-left block px-4 py-2 text-sm text-red-600 hover:bg-red-50 font-medium cursor-pointer'
+                    className="w-full text-left block px-4 py-2 text-sm text-red-600 hover:bg-red-50 font-medium cursor-pointer"
                   >
                     Logout
                   </button>
@@ -177,13 +177,13 @@ const Header = ({ pageTitle, pageTitleDescription }: HeaderProps) => {
       {/* change password form */}
       {openDrawer && (
         <Drawer
-          title={"Change your password"}
+          title={'Change your password'}
           open
           onClose={() => {
             setOpenDrawer(false);
           }}
           form={changePasswordForm}
-          buttonTitle={"Change Password"}
+          buttonTitle={'Change Password'}
           buttonDanger={true}
           loading={loading}
         >

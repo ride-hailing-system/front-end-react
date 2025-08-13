@@ -1,10 +1,10 @@
-import { Icon } from "@iconify/react/dist/iconify.js";
-import { Dropdown, Space, type MenuProps } from "antd";
+import { Icon } from '@iconify/react/dist/iconify.js';
+import { Dropdown, Space, type MenuProps } from 'antd';
 
 export const ActionMenu = ({
   menuItems,
 }: {
-  menuItems?: MenuProps["items"];
+  menuItems?: MenuProps['items'];
 }) => {
   return (
     <>
@@ -12,28 +12,28 @@ export const ActionMenu = ({
         menu={{
           items: [
             {
-              type: "group",
+              type: 'group',
               label: (
-                <span className='text-gray-700 font-light'>
+                <span className="text-gray-700 font-light">
                   Available actions
                 </span>
               ),
             },
             {
-              type: "divider",
+              type: 'divider',
             },
             ...(menuItems ?? []),
           ],
         }}
-        trigger={["click"]}
+        trigger={['click']}
       >
         <a onClick={(e) => e.preventDefault()}>
           <Space>
             <Icon
-              icon='mdi:dots-vertical-circle-outline'
+              icon="mdi:dots-vertical-circle-outline"
               width={30}
               height={30}
-              className='text-gray-700'
+              className="text-gray-700"
             />
           </Space>
         </a>

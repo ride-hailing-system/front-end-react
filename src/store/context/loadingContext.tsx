@@ -1,4 +1,4 @@
-import React, { createContext, useState, type ReactNode } from "react";
+import React, { createContext, useState, type ReactNode } from 'react';
 
 export type LoadingPropsType = {
   isLoading?: boolean;
@@ -13,7 +13,7 @@ export type LoadingContextPropsType = {
 export const LoadingContext = createContext<LoadingContextPropsType>({
   loadingData: {
     isLoading: false,
-    loadingText: "Loading",
+    loadingText: 'Loading',
   },
   setLoadingData: () => {},
 });
@@ -23,7 +23,7 @@ export const LoadingProvider: React.FC<{ children: ReactNode }> = ({
 }) => {
   const [loadingData, setLoadingData] = useState<LoadingPropsType>({
     isLoading: false,
-    loadingText: "Loading",
+    loadingText: 'Loading',
   });
 
   return (

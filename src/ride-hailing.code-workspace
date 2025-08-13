@@ -1,13 +1,13 @@
 {
-	"folders": [
-		{
-			"path": ".."
-		},
-		{
-			"path": "../../ride-hailing-backend"
-		}
-	],
-	"settings": {
-		"postman.settings.dotenv-detection-notification-visibility": false
-	}
+  "folders": [
+    {
+      "path": "..",
+    },
+    {
+      "path": "../../ride-hailing-backend",
+    },
+  ],
+  "settings": {
+    "postman.settings.dotenv-detection-notification-visibility": false,
+  },
 }

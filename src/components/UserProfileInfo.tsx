@@ -1,7 +1,7 @@
-import { Avatar } from "antd";
-import { UserOutlined } from "@ant-design/icons";
-import { Link } from "react-router-dom";
-import { Icon } from "@iconify/react/dist/iconify.js";
+import { Avatar } from 'antd';
+import { UserOutlined } from '@ant-design/icons';
+import { Link } from 'react-router-dom';
+import { Icon } from '@iconify/react/dist/iconify.js';
 
 const UserProfileInfo = ({
   firstName,
@@ -23,7 +23,7 @@ const UserProfileInfo = ({
   nameStyle?: string;
 }) => {
   return link ? (
-    <Link className='flex items-center !text-black' to={link}>
+    <Link className="flex items-center !text-black" to={link}>
       {photoUrl ? (
         <Avatar src={photoUrl} size={avatarSize} style={{ marginRight: 8 }} />
       ) : (
@@ -38,7 +38,7 @@ const UserProfileInfo = ({
       >{`${firstName} ${lastName}`}</span>
     </Link>
   ) : (
-    <span className='flex items-center !text-black'>
+    <span className="flex items-center !text-black">
       {photoUrl ? (
         <Avatar src={photoUrl} size={avatarSize} style={{ marginRight: 8 }} />
       ) : (
@@ -48,28 +48,28 @@ const UserProfileInfo = ({
           style={{ marginRight: 8 }}
         />
       )}
-      <span className='flex flex-col gap-1'>
+      <span className="flex flex-col gap-1">
         <span className={` ${nameStyle}`}>{`${firstName} ${lastName}`}</span>
         {phoneNumber && (
-          <span className='ml-3 flex items-center gap-2'>
+          <span className="ml-3 flex items-center gap-2">
             <Icon
-              icon='mdi:phone-outline'
+              icon="mdi:phone-outline"
               width={20}
               height={20}
-              className='text-gray-700'
+              className="text-gray-700"
             />
-            <span className='text-sm'>{phoneNumber}</span>
+            <span className="text-sm">{phoneNumber}</span>
           </span>
         )}
         {email && (
-          <span className='ml-3 flex items-center gap-2'>
+          <span className="ml-3 flex items-center gap-2">
             <Icon
-              icon='mdi:email-outline'
+              icon="mdi:email-outline"
               width={20}
               height={20}
-              className='text-gray-700'
+              className="text-gray-700"
             />
-            <span className='text-sm'>{email}</span>
+            <span className="text-sm">{email}</span>
           </span>
         )}
       </span>

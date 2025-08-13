@@ -31,7 +31,6 @@ export const GET_CURRENT_DATE = gql`
   }
 `;
 
-
 export const GET_SESSION_BY_ID = gql`
   query getSessionById {
     getSessionById {
@@ -49,7 +48,6 @@ export const GET_SESSION_BY_ID = gql`
     }
   }
 `;
-
 
 export const LOGOUT = gql`
   query logout {
