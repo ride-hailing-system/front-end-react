@@ -1,8 +1,9 @@
 import { use, useEffect, useState } from 'react';
 import Header from './Header';
-import Sidebar, { menuItems as SideBarMenus, type MenuItem } from './SideBar';
+import Sidebar from './SideBar';
 import { useLocation, useParams } from 'react-router-dom';
 import { UserContext } from '../../store/context/userContext';
+import { useMainLayout, type MenuItem } from './useMainLayout';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -24,6 +25,7 @@ const Index: React.FC<LayoutProps> = ({ children }) => {
   );
 
   const [collapsed, setCollapsed] = useState(false);
+  const { navItems: SideBarMenus } = useMainLayout();
 
   const getActiveKey = () => {
     if (location.pathname.includes('dashboard')) return '1';
